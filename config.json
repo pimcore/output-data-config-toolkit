@@ -1,0 +1,44 @@
+[{
+    "type": "operator",
+    "class": "Group",
+    "childs": [
+        {
+            "type": "value",
+            "class": "DefaultValue",
+            "attribute": "manufacturer",
+            "label": null
+        },{
+            "type": "value",
+            "class": "DefaultValue",
+            "attribute": "Tire~tireType",
+            "label": null
+        },{
+            "type": "value",
+            "class": "DefaultValue",
+            "attribute": "price",
+            "label": null
+        },{
+            "type": "operator",
+            "class": "Text",
+            "text": "Hallo, das ist ein Text",
+            "label": "Label for Text"
+        },{
+            "type": "operator",
+            "class": "Concatenator",
+            "glue": " ",
+            "label": "Label for Concat",
+            "childs": [
+                {
+                    "type": "value",
+                    "class": "DefaultValue",
+                    "attribute": "Tire~dimension"
+                },{
+                    "type": "operator",
+                    "class": "Text",
+                    "text": "mm"
+                }
+
+            ]
+        }
+    ]
+}]
