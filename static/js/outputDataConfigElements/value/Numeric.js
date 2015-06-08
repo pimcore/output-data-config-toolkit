@@ -76,7 +76,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.Numeric = 
             fieldLabel: t('format_number'),
             length: 255,
             width: 200,
-            value: this.node.attributes.configAttributes.formatNumber
+            checked: this.node.attributes.configAttributes.formatNumber
         });
 
 
