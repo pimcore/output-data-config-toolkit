@@ -41,8 +41,6 @@ class Concatenator extends AbstractOperator {
             if($value !== null) {
                 $valueArray[] = $value;
             }
-
-            $valueArray[] = $value;
         }
 
         if($hasValue) {
