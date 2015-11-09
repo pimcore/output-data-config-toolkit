@@ -35,6 +35,7 @@
                 <path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/operator/Table.js</path>
                 <path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/operator/TableRow.js</path>
                 <path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/operator/TableCol.js</path>
+				<path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/operator/TranslateValue.js</path>
 			</pluginJsPaths>
 			<!-- css files with path relative to plugin-directory -->
 			<pluginCssPaths>

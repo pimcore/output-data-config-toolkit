@@ -49,3 +49,7 @@ keyvalue_tag_col_group_description, Gruppenbeschreibung
 keyvalue_selected_keys, Ausgewählte Attribute
 format_number, Zahl formatieren
 precision, Nachkommastellen
+operator_translate_value,Operator Wert übersetzen
+operator_translate_value_settings,Operator Wert übersetzen Einstellungen
+operator_translate_value_prefix,Prefix
+

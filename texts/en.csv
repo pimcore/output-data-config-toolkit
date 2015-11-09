@@ -50,3 +50,6 @@ keyvalue_tag_col_group_description, Group Description
 keyvalue_selected_keys, Selected Keys
 format_number,Format number
 precision, Precision
+operator_translate_value,Operator Translate Value
+operator_translate_value_settings,Operator Translate Value Settings
+operator_translate_value_prefix,Prefix
