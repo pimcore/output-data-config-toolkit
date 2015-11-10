@@ -17,7 +17,9 @@ class TranslateValue extends AbstractOperator {
             $translate = new \Pimcore_Translate_Website(\Zend_Registry::get('Zend_Locale'));
 
             $value = $childs[0]->getLabeledValue($object);
-            $value->value = $translate->translate($this->prefix . $value->value);
+            if($value->value) {
+                $value->value = $translate->translate($this->prefix . $value->value);
+            }
 
             return $value;
         }
