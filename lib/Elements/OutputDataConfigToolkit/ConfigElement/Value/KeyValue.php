@@ -24,7 +24,7 @@ class KeyValue extends DefaultValue {
     }
 
 
-    public function getLabeledValue(\Object_Abstract $object) {
+    public function getLabeledValue($object) {
         if($this->index === null) {
             $this->index = 0;
         }

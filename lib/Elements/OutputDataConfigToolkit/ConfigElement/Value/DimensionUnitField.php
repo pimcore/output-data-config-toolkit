@@ -20,7 +20,7 @@ class DimensionUnitField extends DefaultValue {
     }
 
 
-    public function getLabeledValue(\Object_Abstract $object) {
+    public function getLabeledValue($object) {
         $rawResult = parent::getLabeledValue($object);
         if($this->mode == self::RAW_RESULT) {
             return $rawResult;

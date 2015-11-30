@@ -13,7 +13,7 @@ class TableCol extends AbstractOperator {
         $this->headline = $config->headline;
     }
 
-    public function getLabeledValue(\Object_Abstract $object) {
+    public function getLabeledValue($object) {
         $value = null;
 
         $childs = $this->getChilds();

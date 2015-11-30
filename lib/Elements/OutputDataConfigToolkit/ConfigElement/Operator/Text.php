@@ -12,7 +12,7 @@ class Text extends AbstractOperator {
         $this->context = $context;
     }
 
-    public function getLabeledValue(\Object_Abstract $object) {
+    public function getLabeledValue($object) {
         $result = new \stdClass();
         $result->label = $this->label;
         $result->value = $this->textValue;

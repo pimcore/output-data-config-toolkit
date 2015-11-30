@@ -3,7 +3,7 @@ namespace Elements\OutputDataConfigToolkit\ConfigElement\Operator;
  
 class Group extends AbstractOperator {
 
-    public function getLabeledValue(\Object_Abstract $object) {
+    public function getLabeledValue($object) {
         $valueArray = array();
 
         $childs = $this->getChilds();

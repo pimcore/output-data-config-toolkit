@@ -15,7 +15,7 @@ class Numeric extends DefaultValue {
         $this->precision = ($config->precision ? $config->precision : null);
     }
 
-    public function getLabeledValue(\Object_Abstract $object) {
+    public function getLabeledValue($object) {
 
         $labeledValue = parent::getLabeledValue($object);
 

@@ -5,7 +5,7 @@ use Elements\OutputDataConfigToolkit\ConfigElement as ConfigElement;
 
 class DefaultValue extends ConfigElement\AbstractConfigElement {
 
-    public function getLabeledValue(\Object_Abstract $object) {
+    public function getLabeledValue($object) {
 
         $attributeParts = explode("~", $this->attribute);
         $label = $this->label;
@@ -22,7 +22,7 @@ class DefaultValue extends ConfigElement\AbstractConfigElement {
             $brickTypeGetter = "get" . ucfirst($brickType);
             $brickGetter = "get" . ucfirst($brickKey);
         }
-        if(method_exists($object, $getter)) {
+        if(method_exists($object, $getter) || $object instanceof \OnlineShop_Framework_ProductList_DefaultMockup) {
             $value = $object->$getter();
 
             $def = $object->getClass()->getFieldDefinition($this->attribute);

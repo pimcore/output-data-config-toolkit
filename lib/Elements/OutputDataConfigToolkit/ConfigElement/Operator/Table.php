@@ -10,7 +10,7 @@ class Table extends AbstractOperator {
         $this->tooltip = $config->tooltip;
     }
 
-    public function getLabeledValue(\Object_Abstract $object) {
+    public function getLabeledValue($object) {
         $value = new \stdClass();
 
         $childs = $this->getChilds();

@@ -14,7 +14,7 @@ class Concatenator extends AbstractOperator {
         $this->formatNumbers = $config->formatNumbers;
     }
 
-    public function getLabeledValue(\Object_Abstract $object) {
+    public function getLabeledValue($object) {
         $result = new \stdClass();
         $result->label = $this->label;
 

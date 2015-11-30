@@ -18,7 +18,7 @@ class StructuredTable extends DefaultValue {
     }
 
 
-    public function getLabeledValue(\Object_Abstract $object) {
+    public function getLabeledValue($object) {
         if($this->wholeTable) {
             return parent::getLabeledValue($object);
         } else if(!empty($this->row) && !empty($this->col)) {

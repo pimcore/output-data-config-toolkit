@@ -11,7 +11,7 @@ class TableRow extends AbstractOperator {
         $this->headline = $config->headline;
     }
 
-    public function getLabeledValue(\Object_Abstract $object) {
+    public function getLabeledValue($object) {
         $value = new \stdClass();
 
         $isEmpty = true;
