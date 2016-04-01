@@ -2,7 +2,7 @@
 
 use Elements\OutputDataConfigToolkit as OutputDataConfigToolkit;
 
-class Elements_OutputDataConfigToolkit_AdminController extends Pimcore_Controller_Action_Admin {
+class Elements_OutputDataConfigToolkit_AdminController extends \Pimcore\Controller\Action\Admin {
 
     public function init() {
         parent::init();
@@ -14,9 +14,9 @@ class Elements_OutputDataConfigToolkit_AdminController extends Pimcore_Controlle
         $channels = OutputDataConfigToolkit\Plugin::getChannels();
 
         $objectId = $this->_getParam("object_id");
-        $object = Object_Abstract::getById($objectId);
+        $object = \Pimcore\Model\Object\AbstractObject::getById($objectId);
 
-        $classList = new \Object_Class_List();
+        $classList = new \Pimcore\Model\Object\ClassDefinition\Listing();
         if($this->_getParam("class_id")) {
             $classList->setCondition("id = ?", $this->_getParam("class_id"));
         }
@@ -66,7 +66,7 @@ class Elements_OutputDataConfigToolkit_AdminController extends Pimcore_Controlle
         try {
             $config = Elements_OutputDataConfigToolkit_OutputDefinition::getByID($this->_getParam("config_id"));
 
-            $objectClass = Object_Class::getById($config->getO_ClassId());
+            $objectClass = \Pimcore\Model\Object\ClassDefinition::getById($config->getO_ClassId());
             $configuration = json_decode($config->getConfiguration());
             $configuration = $this->doGetAttributeLabels($configuration, $objectClass);
 
@@ -84,9 +84,9 @@ class Elements_OutputDataConfigToolkit_AdminController extends Pimcore_Controlle
             if(!$config) {
 
                 if(is_numeric($this->getParam("class_id"))) {
-                    $class = Object_Class::getById($this->getParam("class_id"));
+                    $class = \Pimcore\Model\Object\ClassDefinition::getById($this->getParam("class_id"));
                 } else {
-                    $class = Object_Class::getByName($this->getParam("class_id"));
+                    $class = \Pimcore\Model\Object\ClassDefinition::getByName($this->getParam("class_id"));
                 }
                 if(!$class) {
                     throw new Exception("Class " . $this->getParam("class_id") . " not found.");
@@ -148,7 +148,7 @@ class Elements_OutputDataConfigToolkit_AdminController extends Pimcore_Controlle
 
     public function getAttributeLabelsAction() {
         $configration = json_decode($this->getParam("configuration"));
-        $class = Object_Class::getById($this->getParam("classId"));
+        $class = \Pimcore\Model\Object\ClassDefinition::getById($this->getParam("classId"));
 
         $configration = $this->doGetAttributeLabels($configration, $class);
         $this->_helper->json(array("configuration" => $configration));
@@ -170,7 +170,7 @@ class Elements_OutputDataConfigToolkit_AdminController extends Pimcore_Controlle
 
         if(!empty($brickType)) {
             try {
-                $def = Object_Objectbrick_Definition::getByKey($brickType);
+                $def = \Pimcore\Model\Object\Objectbrick\Definition::getByKey($brickType);
                 $def = $def->getFieldDefinition($brickKey);
             } catch(Exception $e) {
                 Logger::err($e);
@@ -188,7 +188,7 @@ class Elements_OutputDataConfigToolkit_AdminController extends Pimcore_Controlle
     public function getFieldDefinitionAction() {
 
         try {
-            $objectClass = Object_Class::getById($this->_getParam("class_id"));
+            $objectClass = \Pimcore\Model\Object\ClassDefinition::getById($this->_getParam("class_id"));
             $def = $this->getFieldDefinition($this->_getParam("key"), $objectClass);
             $this->_helper->json(array("success" => true, "fieldDefinition" => $def));
         } catch(Exception $e) {
@@ -202,7 +202,7 @@ class Elements_OutputDataConfigToolkit_AdminController extends Pimcore_Controlle
         try {
             $config = Elements_OutputDataConfigToolkit_OutputDefinition::getByID($this->_getParam("config_id"));
 
-            $object = Object_Abstract::getById($this->_getParam("object_id"));
+            $object = \Pimcore\Model\Object\AbstractObject::getById($this->_getParam("object_id"));
             if(empty($object)) {
                 throw new Exception("Object with ID" . $this->_getParam("object_id") . " not found.");
             }

@@ -27,7 +27,7 @@
                 <path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/value/DimensionUnitField.js</path>
                 <path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/value/StructuredTable.js</path>
                 <path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/value/KeyValue.js</path>
-                <path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/value/Numberic.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/value/Numeric.js</path>
 
                 <path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/operator/Text.js</path>
                 <path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/operator/Group.js</path>
@@ -37,10 +37,37 @@
                 <path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/operator/TableCol.js</path>
 				<path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/operator/TranslateValue.js</path>
 			</pluginJsPaths>
+
+            <pluginJsPaths-extjs6>
+                <path>/Elements_OutputDataConfigToolkit/static6/js/Plugin.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static6/js/OutputDataConfigTab.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static6/js/OutputDataConfigDialog.js</path>
+
+
+                <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/Abstract.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/value/DefaultValue.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/value/DimensionUnitField.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/value/StructuredTable.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/value/KeyValue.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/value/Numeric.js</path>
+
+                <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/operator/Text.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/operator/Group.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/operator/Concatenator.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/operator/Table.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/operator/TableRow.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/operator/TableCol.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/operator/TranslateValue.js</path>
+            </pluginJsPaths-extjs6>
+
 			<!-- css files with path relative to plugin-directory -->
 			<pluginCssPaths>
                 <path>/Elements_OutputDataConfigToolkit/static/css/admin.css</path>
-			</pluginCssPaths> 
-		</plugin>
+			</pluginCssPaths>
+
+            <pluginCssPaths-extjs6>
+                <path>/Elements_OutputDataConfigToolkit/static6/css/admin.css</path>
+            </pluginCssPaths-extjs6>
+        </plugin>
 </zend-config>
 
