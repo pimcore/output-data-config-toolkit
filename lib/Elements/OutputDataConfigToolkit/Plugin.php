@@ -2,8 +2,6 @@
 namespace Elements\OutputDataConfigToolkit;
 
 use Elements\OutputDataConfigToolkit\OutputDefinition\Dao;
-use \Pimcore_API_Plugin_Abstract;
-use \Pimcore_API_Plugin_Interface;
 use \Exception;
 
 class Plugin extends \Pimcore\API\Plugin\AbstractPlugin implements \Pimcore\API\Plugin\PluginInterface {
@@ -12,53 +10,37 @@ class Plugin extends \Pimcore\API\Plugin\AbstractPlugin implements \Pimcore\API\
 
     public static function initPlugin() {
 
-        define("OUTPUTDATACONFIG_WEBSITE_PATH", PIMCORE_WEBSITE_PATH . "/var/plugins/Elements_OutputDataConfigToolkit");
-        if (!@is_dir(OUTPUTDATACONFIG_WEBSITE_PATH) && !@is_link(OUTPUTDATACONFIG_WEBSITE_PATH)) {
-            mkdir(OUTPUTDATACONFIG_WEBSITE_PATH, 0755, true);
-        }
 
     }
 
-    /**
-     * @static
-     * @param bool $allowModifications
-     * @return \Zend_Config_Xml
-     */
-    public static function getConfig($allowModifications = false) {
-        Plugin::initPlugin();
-
-        if (!self::$config) {
-
-            if(!file_exists(OUTPUTDATACONFIG_WEBSITE_PATH . "/config.xml")) {
-                self::setConfig(new \Zend_Config(array()));
-            }
-
-            self::$config = new \Zend_Config_Xml(OUTPUTDATACONFIG_WEBSITE_PATH . "/config.xml", null, $allowModifications);
-        }
-
-        return self::$config;
+    private static function getConfigFile() {
+        return \Pimcore\Config::locateConfigFile("outputdataconfig/config.php");
     }
 
-    /**
-     * @static
-     * @param \Zend_Config_Xml $config
-     * @return void
-     */
+    public static function getConfig() {
+        $file = self::getConfigFile();
+        if(file_exists($file)) {
+            $config = include($file);
+        } else {
+            self::setConfig([]);
+            $config = [];
+        }
+        return $config;
+    }
+
     public static function setConfig($config) {
-        Plugin::initPlugin();
-        $writer = new \Zend_Config_Writer_Xml();
-        $writer->write(OUTPUTDATACONFIG_WEBSITE_PATH . "/config.xml", $config);
+        $configFile = $file = self::getConfigFile();
+        \Pimcore\File::put($configFile, to_php_data_file_format($config));
+        return $config;
     }
 
 
     public static function getChannels() {
-        $config = self::getConfig(true);
+        $config = self::getConfig();
 
-        $channelsConfig = $config->channels->channel;
-        if(is_string($channelsConfig)) {
-            $channels = array($channelsConfig);
-        } else {
-            $channels = array();
+        $channels = [];
+        $channelsConfig = $config['channels'];
+        if($channelsConfig) {
             foreach($channelsConfig as $c) {
                 $channels[] = (string)$c;
             }
@@ -73,6 +55,12 @@ class Plugin extends \Pimcore\API\Plugin\AbstractPlugin implements \Pimcore\API\
     * @return string $message statusmessage to display in frontend
     */
 	public static function install(){
+
+        if(!file_exists(PIMCORE_WEBSITE_PATH . "/config/outputdataconfig")) {
+            \Pimcore\File::mkdir(PIMCORE_WEBSITE_PATH . "/config/outputdataconfig");
+            copy(PIMCORE_PLUGINS_PATH . "/Elements_OutputDataConfigToolkit/install/config.php", PIMCORE_WEBSITE_PATH . "/config/outputdataconfig/config.php");
+        }
+
         $db = \Pimcore\Db::get();
         $db->query("CREATE TABLE `" . Dao::TABLE_NAME . "` (
               `id` int(11) NOT NULL AUTO_INCREMENT,
