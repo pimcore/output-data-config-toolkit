@@ -51,7 +51,6 @@ class Service {
     }
 
 
-
     private static function doBuildConfig($jsonConfig, $config, $context = null) {
 
         if(!empty($jsonConfig)) {
@@ -94,6 +93,9 @@ class Service {
     }
 
 
+    /**
+     * inits channels for root object
+     */
     public static function initChannelsForRootobject() {
         $channels = Plugin::getChannels();
 
