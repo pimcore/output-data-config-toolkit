@@ -25,4 +25,8 @@
     background: url("/pimcore/static/img/icon/table_column.png") no-repeat scroll left center transparent !important;
 }
 
+.pimcore_icon_operator_cell_formater {
+    background: url("/pimcore/static/img/icon/style_edit.png") no-repeat scroll left center transparent !important;
+}
+
 

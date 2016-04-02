@@ -37,4 +37,8 @@
     background: url("/pimcore/static6/img/flat-color-icons/table-column.svg") center center no-repeat !important;
 }
 
+.pimcore_icon_operator_cell_formater {
+    background: url("/pimcore/static/img/icon/style_edit.png") no-repeat scroll left center transparent !important;
+}
+
 
