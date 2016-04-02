@@ -10,7 +10,7 @@ class Group extends AbstractOperator {
         foreach($childs as $c) {
 
             $value = $c->getLabeledValue($object);
-            if(!empty($value) && !$value->empty) {
+            if(!empty($value) && !$value->empty && (!method_exists($value, "isEmpty") || !$value->isEmpty())) {
                 $valueArray[] = $value;
             }
 

@@ -1,6 +1,7 @@
 <?php
+namespace Elements\OutputDataConfigToolkit\OutputDefinition;
 
-class Elements_OutputDataConfigToolkit_OutputDefinition_List extends Pimcore_Model_List_Abstract {
+class Listing extends \Pimcore\Model\Listing\AbstractListing {
 
     /**
      * @var array

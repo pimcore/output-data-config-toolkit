@@ -41,7 +41,7 @@ class Elements_OutputDataConfigToolkit_AdminController extends \Pimcore\Controll
 
 
     private function getOutputDefinitionForObjectAndChannel($object, $classId, $channel) {
-        $outputDefinition = Elements_OutputDataConfigToolkit_OutputDefinition::getByO_IdClassIdChannel($object->getId(), $classId, $channel);
+        $outputDefinition = OutputDataConfigToolkit\OutputDefinition::getByO_IdClassIdChannel($object->getId(), $classId, $channel);
         if(empty($outputDefinition)) {
             $parent = $object->getParent();
             if(!empty($parent)) {
@@ -53,7 +53,7 @@ class Elements_OutputDataConfigToolkit_AdminController extends \Pimcore\Controll
 
     public function resetOutputConfigAction() {
         try {
-            $config = Elements_OutputDataConfigToolkit_OutputDefinition::getByID($this->_getParam("config_id"));
+            $config = OutputDataConfigToolkit\OutputDefinition::getByID($this->_getParam("config_id"));
             $config->delete();
             $this->_helper->json(array("success" => true));
         } catch(Exception $e) {
@@ -64,7 +64,7 @@ class Elements_OutputDataConfigToolkit_AdminController extends \Pimcore\Controll
 
     public function getOutputConfigAction() {
         try {
-            $config = Elements_OutputDataConfigToolkit_OutputDefinition::getByID($this->_getParam("config_id"));
+            $config = OutputDataConfigToolkit\OutputDefinition::getByID($this->_getParam("config_id"));
 
             $objectClass = \Pimcore\Model\Object\ClassDefinition::getById($config->getO_ClassId());
             $configuration = json_decode($config->getConfiguration());
@@ -80,7 +80,7 @@ class Elements_OutputDataConfigToolkit_AdminController extends \Pimcore\Controll
 
     public function getOrCreateOutputConfigAction() {
         try {
-            $config = Elements_OutputDataConfigToolkit_OutputDefinition::getByID($this->_getParam("config_id"));
+            $config = OutputDataConfigToolkit\OutputDefinition::getByID($this->_getParam("config_id"));
             if(!$config) {
 
                 if(is_numeric($this->getParam("class_id"))) {
@@ -92,17 +92,17 @@ class Elements_OutputDataConfigToolkit_AdminController extends \Pimcore\Controll
                     throw new Exception("Class " . $this->getParam("class_id") . " not found.");
                 }
 
-                $config = Elements_OutputDataConfigToolkit_OutputDefinition::getByO_IdClassIdChannel($this->getParam("o_id"), $class->getId(), $this->getParam("channel"));
+                $config = OutputDataConfigToolkit\OutputDefinition::getByO_IdClassIdChannel($this->getParam("o_id"), $class->getId(), $this->getParam("channel"));
             }
 
             if($config) {
-                $objectClass = Object_Class::getById($config->getO_ClassId());
+                $objectClass = \Pimcore\Model\Object\ClassDefinition::getById($config->getO_ClassId());
                 $configuration = json_decode($config->getConfiguration());
                 $configuration = $this->doGetAttributeLabels($configuration, $objectClass);
                 $config->setConfiguration($configuration);
                 $this->_helper->json(array("success" => true, "outputConfig" => $config));
             } else {
-                $config = new Elements_OutputDataConfigToolkit_OutputDefinition();
+                $config = new OutputDataConfigToolkit\OutputDefinition();
                 $config->setChannel($this->getParam("channel"));
                 $config->setO_ClassId($class->getId());
                 $config->setO_Id($this->getParam("o_id"));
@@ -200,7 +200,7 @@ class Elements_OutputDataConfigToolkit_AdminController extends \Pimcore\Controll
 
     public function saveOutputConfigAction() {
         try {
-            $config = Elements_OutputDataConfigToolkit_OutputDefinition::getByID($this->_getParam("config_id"));
+            $config = OutputDataConfigToolkit\OutputDefinition::getByID($this->_getParam("config_id"));
 
             $object = \Pimcore\Model\Object\AbstractObject::getById($this->_getParam("object_id"));
             if(empty($object)) {
@@ -210,7 +210,7 @@ class Elements_OutputDataConfigToolkit_AdminController extends \Pimcore\Controll
                 $config->setConfiguration($this->_getParam("config"));
                 $config->save();
             } else {
-                $newConfig = new Elements_OutputDataConfigToolkit_OutputDefinition();
+                $newConfig = new OutputDataConfigToolkit\OutputDefinition();
                 $newConfig->setChannel($config->getChannel());
                 $newConfig->setO_ClassId($config->getO_ClassId());
                 $newConfig->setO_Id($object->getId());

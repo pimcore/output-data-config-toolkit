@@ -18,7 +18,7 @@ class DefaultValue extends ConfigElement\AbstractConfigElement {
             $brickType = $attributeParts[0];
             $brickKey = $attributeParts[1];
 
-            $getter = "get" . ucfirst(\Object_Service::getFieldForBrickType($object->getClass(), $brickType));
+            $getter = "get" . ucfirst(\Pimcore\Model\Object\Service::getFieldForBrickType($object->getClass(), $brickType));
             $brickTypeGetter = "get" . ucfirst($brickType);
             $brickGetter = "get" . ucfirst($brickKey);
         }
@@ -33,7 +33,7 @@ class DefaultValue extends ConfigElement\AbstractConfigElement {
             }
 
             if(!empty($value) && !empty($brickGetter)) {
-                $def = \Object_Objectbrick_Definition::getByKey($brickType);
+                $def = \Pimcore\Model\Object\Objectbrick\Definition::getByKey($brickType);
                 $def = $def->getFieldDefinition($brickKey);
                 if(empty($label) && !empty($value)) {
                     if($def) {

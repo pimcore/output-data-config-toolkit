@@ -1,6 +1,10 @@
 <?php
 
-class Elements_OutputDataConfigToolkit_OutputDefinition extends Pimcore_Model_Abstract {
+namespace Elements\OutputDataConfigToolkit;
+
+use Elements\OutputDataConfigToolkit\OutputDefinition\Dao;
+
+class OutputDefinition extends \Pimcore\Model\AbstractModel {
     public $id;
     public $o_id;
     public $o_classId;
@@ -9,27 +13,27 @@ class Elements_OutputDataConfigToolkit_OutputDefinition extends Pimcore_Model_Ab
 
 
     /**
-     * @return Elements_OutputDataConfigToolkit_OutputDefinition
+     * @return OutputDefinition
      */
     public static function getByO_IdClassIdChannel($o_id, $classId, $channel) {
         $cacheKey = self::getCacheKey($o_id, $classId, $channel);
 
         try {
-            $config = Zend_Registry::get($cacheKey);
+            $config = \Zend_Registry::get($cacheKey);
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
 
             try {
                 $config = new self();
                 try {
-                    $config->getResource()->getByO_IdClassIdChannel($o_id, $classId, $channel);
-                } catch(Exception $e) {
-                    Logger::info($e->getMessage());
+                    $config->getDao()->getByO_IdClassIdChannel($o_id, $classId, $channel);
+                } catch(\Exception $e) {
+                    \Logger::info($e->getMessage());
                     $config = null;
                 }
-                Zend_Registry::set($cacheKey, $config);
-            } catch(Exception $ex) {
-                Logger::debug($ex->getMessage());
+                \Zend_Registry::set($cacheKey, $config);
+            } catch(\Exception $ex) {
+                \Logger::debug($ex->getMessage());
                 return null;
             }
 
@@ -41,21 +45,21 @@ class Elements_OutputDataConfigToolkit_OutputDefinition extends Pimcore_Model_Ab
     public static function getById($id) {
         try {
             $config = new self();
-            $config->getResource()->getById($id);
+            $config->getDao()->getById($id);
             return $config;
-        } catch(Exception $ex) {
-            Logger::debug($ex->getMessage());
+        } catch(\Exception $ex) {
+            \Logger::debug($ex->getMessage());
             return null;
         }        
     }
 
     private static function getCacheKey($o_id, $classId, $channel) {
-        return Elements_OutputDataConfigToolkit_OutputDefinition_Resource::TABLE_NAME . "_" . $o_id . "_" . $classId . "_" . $channel;
+        return Dao::TABLE_NAME . "_" . $o_id . "_" . $classId . "_" . $channel;
     }
 
     /**
      * @param array $values
-     * @return Elements_OutputDataConfigToolkit_OutputDefinition
+     * @return OutputDefinition
      */
     public static function create($values = array()) {
         $config = new self();
@@ -67,7 +71,7 @@ class Elements_OutputDataConfigToolkit_OutputDefinition extends Pimcore_Model_Ab
      * @return void
      */
     public function save() {
-        $this->getResource()->save();
+        $this->getDao()->save();
     }
 
     /**
@@ -75,9 +79,9 @@ class Elements_OutputDataConfigToolkit_OutputDefinition extends Pimcore_Model_Ab
      */
     public function delete() {
         $cacheKey = self::getCacheKey($this->getO_id(), $this->getO_ClassId(), $this->getChannel());
-        Zend_Registry::set($cacheKey, null);
+        \Zend_Registry::set($cacheKey, null);
 
-        $this->getResource()->delete();
+        $this->getDao()->delete();
     }
 
 

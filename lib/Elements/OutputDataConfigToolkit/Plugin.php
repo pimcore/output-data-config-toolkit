@@ -1,11 +1,12 @@
 <?php
 namespace Elements\OutputDataConfigToolkit;
 
+use Elements\OutputDataConfigToolkit\OutputDefinition\Dao;
 use \Pimcore_API_Plugin_Abstract;
 use \Pimcore_API_Plugin_Interface;
 use \Exception;
 
-class Plugin extends Pimcore_API_Plugin_Abstract implements Pimcore_API_Plugin_Interface{
+class Plugin extends \Pimcore\API\Plugin\AbstractPlugin implements \Pimcore\API\Plugin\PluginInterface {
 
     protected static $config;
 
@@ -72,8 +73,8 @@ class Plugin extends Pimcore_API_Plugin_Abstract implements Pimcore_API_Plugin_I
     * @return string $message statusmessage to display in frontend
     */
 	public static function install(){
-        $db = \Pimcore_Resource::get();
-        $db->query("CREATE TABLE `" . \Elements_OutputDataConfigToolkit_OutputDefinition_Resource::TABLE_NAME . "` (
+        $db = \Pimcore\Db::get();
+        $db->query("CREATE TABLE `" . Dao::TABLE_NAME . "` (
               `id` int(11) NOT NULL AUTO_INCREMENT,
               `o_id` int(11) NOT NULL,
               `o_classId` int(11) NOT NULL,
@@ -109,7 +110,7 @@ class Plugin extends Pimcore_API_Plugin_Abstract implements Pimcore_API_Plugin_I
 	public static function isInstalled(){
         $result = null;
 		try{
-			$result = Pimcore_API_Plugin_Abstract::getDb()->describeTable(\Elements_OutputDataConfigToolkit_OutputDefinition_Resource::TABLE_NAME);
+			$result = self::getDb()->describeTable(Dao::TABLE_NAME);
 		} catch(Exception $e){}
 		return !empty($result);
     }
@@ -119,8 +120,8 @@ class Plugin extends Pimcore_API_Plugin_Abstract implements Pimcore_API_Plugin_I
     * @return string $messaget status message to display in frontend
     */
 	public static function uninstall(){
-        $db = \Pimcore_Resource::get();
-        $db->query("DROP TABLE IF EXISTS `" . \Elements_OutputDataConfigToolkit_OutputDefinition_Resource::TABLE_NAME . "`;");
+        $db = \Pimcore\Db::get();
+        $db->query("DROP TABLE IF EXISTS `" . Dao::TABLE_NAME . "`;");
 
         $db->query("DELETE FROM users_permission_definitions WHERE `key` = 'plugin_outputDataConfigToolkit'");
 		if(!self::isInstalled()){

@@ -1,6 +1,8 @@
 <?php
+namespace Elements\OutputDataConfigToolkit\OutputDefinition;
 
-class Elements_OutputDataConfigToolkit_OutputDefinition_Resource extends Pimcore_Model_Resource_Abstract {
+
+class Dao extends \Pimcore\Model\Dao\AbstractDao {
 
     const TABLE_NAME = "plugin_outputdataconfigtoolkit_outputdefinition";
 
@@ -28,7 +30,7 @@ class Elements_OutputDataConfigToolkit_OutputDefinition_Resource extends Pimcore
 
         $outputDefinitionRaw = $this->db->fetchRow("SELECT * FROM " . self::TABLE_NAME . " WHERE o_id=? AND o_classId = ? AND channel = ?", array($o_id, $classId, $channel));
         if(empty($outputDefinitionRaw)) {
-            throw new Exception("OutputDefinition " . $o_id . " - " . $classId  . " - " . $channel . " not found.");
+            throw new \Exception("OutputDefinition " . $o_id . " - " . $classId  . " - " . $channel . " not found.");
         }
         $this->assignVariablesToModel($outputDefinitionRaw);
     }
@@ -39,7 +41,7 @@ class Elements_OutputDataConfigToolkit_OutputDefinition_Resource extends Pimcore
     public function getById($id) {
         $outputDefinitionRaw = $this->db->fetchRow("SELECT * FROM " . self::TABLE_NAME . " WHERE id=?", array($id));
         if(empty($outputDefinitionRaw)) {
-            throw new Exception("OutputDefinition-Id " . $id . " not found.");
+            throw new \Exception("OutputDefinition-Id " . $id . " not found.");
         }
         $this->assignVariablesToModel($outputDefinitionRaw);
     }
@@ -63,7 +65,7 @@ class Elements_OutputDataConfigToolkit_OutputDefinition_Resource extends Pimcore
      * @return void
      */
     public function save() {
-        $other = Elements_OutputDataConfigToolkit_OutputDefinition::getByO_IdClassIdChannel($this->model->getO_Id(), $this->model->getO_ClassId(), $this->model->getChannel());
+        $other = \Elements\OutputDataConfigToolkit\OutputDefinition::getByO_IdClassIdChannel($this->model->getO_Id(), $this->model->getO_ClassId(), $this->model->getChannel());
         if($other) {
             $this->model->setId($other->getId());
         }

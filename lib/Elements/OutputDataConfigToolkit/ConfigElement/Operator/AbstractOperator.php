@@ -5,6 +5,9 @@ use Elements\OutputDataConfigToolkit\ConfigElement as ConfigElement;
 
 abstract class AbstractOperator extends ConfigElement\AbstractConfigElement {
 
+    /**
+     * @var ConfigElement\IConfigElement
+     */
     protected $childs;
 
     public function __construct($config, $context = null) {
@@ -14,6 +17,9 @@ abstract class AbstractOperator extends ConfigElement\AbstractConfigElement {
         $this->context = $context;
     }
 
+    /**
+     * @return ConfigElement\IConfigElement
+     */
     public function getChilds() {
         return $this->childs;
     }

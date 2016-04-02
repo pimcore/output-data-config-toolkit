@@ -14,7 +14,7 @@ class TranslateValue extends AbstractOperator {
     public function getLabeledValue($object) {
         $childs = $this->getChilds();
         if($childs[0]) {
-            $translate = new \Pimcore_Translate_Website(\Zend_Registry::get('Zend_Locale'));
+            $translate = new \Pimcore\Translate\Website(\Zend_Registry::get('Zend_Locale'));
 
             $value = $childs[0]->getLabeledValue($object);
             if($value->value) {

@@ -9,17 +9,17 @@ class Service {
 
     /**
      * @static
-     * @return Elements\OutputDataConfigToolkit\ConfigElement\IConfigElement[]
+     * @return \Elements\OutputDataConfigToolkit\ConfigElement\IConfigElement[]
      */
     public static function getOutputDataConfig($object, $channel, $class = null, $context = null) {
 
         if($class) {
             if(is_string($class)) {
-                $objectClass = \Object_Class::getByName($class);
+                $objectClass = \Pimcore\Model\Object\ClassDefinition::getByName($class);
                 if(empty($objectClass)) {
                     throw new \Exception("Class $class not found.");
                 }
-            } else if($class instanceof \Object_Class) {
+            } else if($class instanceof \Pimcore\Model\Object\ClassDefinition) {
                 $objectClass = $class;
             } else {
                 throw new \Exception("Invalid Parameter class - needs to be string or Object_Class");
@@ -28,11 +28,11 @@ class Service {
             $objectClass = $object->getClass();
         }
 
-        $outputDataConfig = \Elements_OutputDataConfigToolkit_OutputDefinition::getByO_IdClassIdChannel($object->getId(), $objectClass->getId(), $channel);
+        $outputDataConfig = OutputDefinition::getByO_IdClassIdChannel($object->getId(), $objectClass->getId(), $channel);
         if(empty($outputDataConfig)) {
             while(empty($outputDataConfig) && !empty($object)) {
                 $object = $object->getParent();
-                $outputDataConfig = \Elements_OutputDataConfigToolkit_OutputDefinition::getByO_IdClassIdChannel($object->getId(), $objectClass->getId(), $channel);
+                $outputDataConfig = OutputDefinition::getByO_IdClassIdChannel($object->getId(), $objectClass->getId(), $channel);
             }
         }
 
@@ -41,7 +41,7 @@ class Service {
 
     /**
      * @param $outputDataConfig
-     * @return Elements\OutputDataConfigToolkit\ConfigElement\IConfigElement[]
+     * @return \Elements\OutputDataConfigToolkit\ConfigElement\IConfigElement[]
      */
     public static function buildOutputDataConfig($outputDataConfig, $context = null) {
         $config = array();
@@ -97,14 +97,14 @@ class Service {
     public static function initChannelsForRootobject() {
         $channels = Plugin::getChannels();
 
-        $classList = new \Object_Class_List();
+        $classList = new \Pimcore\Model\Object\ClassDefinition\Listing();
         $classList = $classList->load();
 
         foreach($classList as $class) {
             foreach($channels as $channel) {
-                $def = \Elements_OutputDataConfigToolkit_OutputDefinition::getByO_IdClassIdChannel(1, $class->getId(), $channel);
+                $def = OutputDefinition::getByO_IdClassIdChannel(1, $class->getId(), $channel);
                 if(empty($def)) {
-                    $def = new \Elements_OutputDataConfigToolkit_OutputDefinition();
+                    $def = new OutputDefinition();
                     $def->setO_Id(1);
                     $def->setO_ClassId($class->getId());
                     $def->setChannel($channel);
