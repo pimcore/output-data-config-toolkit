@@ -1,0 +1,7 @@
+{
+  "name": "pimcore-plugins/Elements_OutputDataConfigToolkit",
+  "type": "pimcore-plugin",
+  "require": {
+    "pimcore/installer-plugin": ">=1"
+  }
+}
