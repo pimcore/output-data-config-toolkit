@@ -28,7 +28,8 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.TableCo
                 allowedParents: this.allowedParents,
                 maxChildCount: this.maxChildCount,
                 expanded: true,
-                leaf: false
+                leaf: false,
+                expandable: false
             };
         } else {
 
@@ -55,8 +56,8 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.TableCo
         this.node = node;
 
         var value = 1;
-        if(this.node.attributes.configAttributes.colspan) {
-            value = this.node.attributes.configAttributes.colspan;
+        if(this.node.data.configAttributes.colspan) {
+            value = this.node.data.configAttributes.colspan;
         }
 
         this.numberfield = new Ext.form.NumberField({
@@ -68,7 +69,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.TableCo
 
         this.headline = new Ext.form.Checkbox({
             fieldLabel: t('headline'),
-            checked: this.node.attributes.configAttributes.headline
+            checked: this.node.data.configAttributes.headline
         });
 
         this.configPanel = new Ext.Panel({
@@ -94,12 +95,13 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.TableCo
         });
 
         this.window.show();
+        return this.window;
     },
 
     commitData: function() {
-        this.node.attributes.configAttributes.colspan = this.numberfield.getValue();
-        this.node.attributes.configAttributes.headline = this.headline.getValue();
-        this.node.setText( this.node.attributes.text + " (" + this.numberfield.getValue() + ")" );
+        this.node.data.configAttributes.colspan = this.numberfield.getValue();
+        this.node.data.configAttributes.headline = this.headline.getValue();
+        this.node.set('text', this.node.data.text + " (" + this.numberfield.getValue() + ")" );
         this.window.close();
     }
 

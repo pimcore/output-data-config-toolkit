@@ -1,9 +1,9 @@
 
 .pimcore_icon_operator_group {
-    background: url("/pimcore/static/img/icon/text_indent.png") no-repeat scroll left center transparent !important;
+    background: url("/pimcore/static6/img/flat-color-icons/multiple_inputs.svg") center center no-repeat !important;
 }
 .pimcore_icon_operator_concatenator {
-    background: url("/pimcore/static/img/icon/package_link.png") no-repeat scroll left center transparent !important;
+    background: url("/pimcore/static6/img/flat-color-icons/capacitor.svg") center center no-repeat !important;
 }
 .plugin_outputdataconfig_icon {
     background: url("/pimcore/static6/img/flat-color-icons/grid.svg") center center no-repeat !important;
@@ -22,19 +22,19 @@
 
 
 .pimcore_icon_operator_text {
-    background: url("/pimcore/static/img/icon/text_ab.png") no-repeat scroll left center transparent !important;
+    background: url("/pimcore/static6/img/flat-color-icons/text.svg") center center no-repeat !important;
 }
 
 .pimcore_icon_operator_table {
-    background: url("/pimcore/static/img/icon/table.png") no-repeat scroll left center transparent !important;
+    background: url("/pimcore/static6/img/flat-color-icons/data_sheet.svg") center center no-repeat !important;
 }
 
 .pimcore_icon_operator_tablerow {
-    background: url("/pimcore/static/img/icon/table_row.png") no-repeat scroll left center transparent !important;
+    background: url("/pimcore/static6/img/flat-color-icons/table-row.svg") center center no-repeat !important;
 }
 
 .pimcore_icon_operator_tablecol {
-    background: url("/pimcore/static/img/icon/table_column.png") no-repeat scroll left center transparent !important;
+    background: url("/pimcore/static6/img/flat-color-icons/table-column.svg") center center no-repeat !important;
 }
 
 

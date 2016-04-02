@@ -20,7 +20,8 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Group =
                 allowedParents: this.allowedParents,
                 maxChildCount: this.maxChildCount,
                 expanded: true,
-                leaf: false
+                leaf: false,
+                expandable: false
             };
         } else {
 
@@ -44,17 +45,17 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Group =
 
 
     getCopyNode: function(source) {
-        var copy = new Ext.tree.TreeNode({
+        var copy = source.createNode({
             iconCls: this.iconCls,
-            text: source.attributes.text,
+            text: source.data.text,
             isTarget: true,
             leaf: false,
-            expanded: true,
+            expandable: false,
             allowedTypes: this.allowedTypes,
             allowedParents: this.allowedParents,
             maxChildCount: this.maxChildCount,
             configAttributes: {
-                label: source.attributes.text,
+                label: source.data.text,
                 type: this.type,
                 class: this.class
             }
@@ -70,7 +71,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Group =
             fieldLabel: t('text'),
             length: 255,
             width: 200,
-            value: this.node.attributes.configAttributes.label
+            value: this.node.data.configAttributes.label
         });
 
         this.configPanel = new Ext.Panel({
@@ -96,11 +97,12 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Group =
         });
 
         this.window.show();
+        return this.window;
     },
 
     commitData: function() {
-        this.node.attributes.configAttributes.label = this.textfield.getValue();
-        this.node.setText( this.textfield.getValue() );
+        this.node.data.configAttributes.label = this.textfield.getValue();
+        this.node.set('text', this.textfield.getValue());
         this.window.close();
     }
 });

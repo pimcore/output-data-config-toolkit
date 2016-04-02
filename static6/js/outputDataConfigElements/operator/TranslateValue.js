@@ -17,7 +17,8 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Transla
                 isTarget: true,
                 maxChildCount: 1,
                 expanded: true,
-                leaf: false
+                leaf: false,
+                expandable: false
             };
         } else {
 
@@ -39,13 +40,14 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Transla
 
 
     getCopyNode: function(source) {
-        var copy = new Ext.tree.TreeNode({
+        var copy = source.createNode({
             iconCls: this.iconCls,
-            text: source.attributes.cssClass,
+            text: source.data.cssClass,
             isTarget: true,
             leaf: false,
             maxChildCount: 1,
             expanded: true,
+            expandable: false,
             configAttributes: {
                 label: null,
                 type: this.type,
@@ -63,7 +65,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Transla
             fieldLabel: t('operator_translate_value_prefix'),
             length: 255,
             width: 200,
-            value: this.node.attributes.configAttributes.prefix
+            value: this.node.data.configAttributes.prefix
         });
 
 
@@ -91,11 +93,12 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Transla
         });
 
         this.window.show();
+        return this.window;
     },
 
     commitData: function() {
-        this.node.attributes.configAttributes.prefix = this.prefix.getValue();
-        this.node.setText( t("operator_translate_value") );
+        this.node.data.configAttributes.prefix = this.prefix.getValue();
+        this.node.set('text', t("operator_translate_value") );
         this.window.close();
     }
 });

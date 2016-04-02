@@ -19,7 +19,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.Abstract = Class
 
     getCopyNode: function(source) {
         var copy = new Ext.tree.TreeNode({
-            text: source.attributes.text,
+            text: source.data.text,
             isTarget: true,
             leaf: true,
             configAttributes: {

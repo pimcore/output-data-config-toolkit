@@ -102,7 +102,6 @@ pimcore.plugin.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
                     expanded: true,
                     children: childs
                 },
-                id:'tree',
                 region:'east',
                 title: t('output_channel_definition'),
                 layout:'fit',
@@ -135,10 +134,12 @@ pimcore.plugin.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
                                 data.records = [copy]; // assign the copy as the new dropNode
                                 var window = element.getConfigDialog(copy);
 
-                                //this is needed because of new focus management of extjs6
-                                setTimeout(function() {
-                                    window.focus();
-                                }, 250);
+                                if(window) {
+                                    //this is needed because of new focus management of extjs6
+                                    setTimeout(function() {
+                                        window.focus();
+                                    }, 250);
+                                }
                             }
                         }.bind(this),
                         drop: function(node, data, overModel) {
@@ -201,7 +202,6 @@ pimcore.plugin.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
                                 text: t('delete'),
                                 iconCls: "pimcore_icon_delete",
                                 handler: function (node) {
-                                    console.log(node.parentNode.childNodes.length);
                                     if(node.parentNode.childNodes.length == 1) {
                                         node.parentNode.set('expandable', false);
                                     }
@@ -218,9 +218,6 @@ pimcore.plugin.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
                         }
 
                         menu.showAt(e.pageX, e.pageY);
-                    }.bind(this),
-                    itemdblclick: function( tree, record, item, index, e, eOpts ) {
-                        this.getConfigElement(record.data.configAttributes).getConfigDialog(record);
                     }.bind(this)
                 },
                 buttons: [{
@@ -307,14 +304,15 @@ pimcore.plugin.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
         var classTreeHelper = new pimcore.object.helpers.classTree(false);
         var tree = classTreeHelper.getClassTree(url, id);
 
-        tree.addListener("dblclick", function(node) {
-            if(!node.data.root && node.data.type != "layout" && node.data.dataType != 'localizedfields') {
-                var attr = node.data;
-                if(node.data.configAttributes) {
-                    attr = node.data.configAttributes;
+        tree.addListener("itemdblclick", function( tree, record, item, index, e, eOpts ) {
+
+            if(!record.data.root && record.data.type != "layout" && record.data.dataType != 'localizedfields') {
+                var attr = record.data;
+                if(record.data.configAttributes) {
+                    attr = record.data.configAttributes;
                 }
                 var element = this.getConfigElement(attr);
-                var copy = element.getCopyNode(node);
+                var copy = element.getCopyNode(record);
                 element.getConfigDialog(copy);
 
                 if(this.selectionPanel) {
@@ -331,8 +329,8 @@ pimcore.plugin.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
         var childs = [];
         for(var i = 0; i < operators.length; i++) {
             if(!this.availableOperators || this.availableOperators.indexOf(operators[i]) >= 0) {
-            childs.push(pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator[operators[i]].prototype.getConfigTreeNode());
-        }
+                childs.push(pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator[operators[i]].prototype.getConfigTreeNode());
+            }
         }
 
         var tree = new Ext.tree.TreePanel({

@@ -19,7 +19,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.TableRo
 
         this.headline = new Ext.form.Checkbox({
             fieldLabel: t('headline'),
-            checked: this.node.attributes.configAttributes.headline
+            checked: this.node.data.configAttributes.headline
         });
 
         this.configPanel = new Ext.Panel({
@@ -45,10 +45,11 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.TableRo
         });
 
         this.window.show();
+        return this.window;
     },
 
     commitData: function() {
-        this.node.attributes.configAttributes.headline = this.headline.getValue();
+        this.node.data.configAttributes.headline = this.headline.getValue();
         this.window.close();
     }
 

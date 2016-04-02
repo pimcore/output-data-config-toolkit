@@ -19,7 +19,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Table =
             fieldLabel: t('text'),
             length: 255,
             width: 200,
-            value: this.node.attributes.configAttributes.label
+            value: this.node.data.configAttributes.label
         });
 
         this.tooltip = new Ext.form.TextArea({
@@ -27,7 +27,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Table =
             length: 255,
             width: 200,
             height: 100,
-            value: this.node.attributes.configAttributes.tooltip
+            value: this.node.data.configAttributes.tooltip
         });
 
         this.configPanel = new Ext.Panel({
@@ -53,12 +53,13 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Table =
         });
 
         this.window.show();
+        return this.window;
     },
 
     commitData: function() {
-        this.node.attributes.configAttributes.label = this.textfield.getValue();
-        this.node.attributes.configAttributes.tooltip = this.tooltip.getValue();
-        this.node.setText( this.textfield.getValue() );
+        this.node.data.configAttributes.label = this.textfield.getValue();
+        this.node.data.configAttributes.tooltip = this.tooltip.getValue();
+        this.node.set('text', this.textfield.getValue());
         this.window.close();
     }
 

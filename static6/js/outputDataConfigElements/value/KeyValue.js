@@ -9,7 +9,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.KeyValue =
         var node = {
             draggable: true,
             iconCls: "pimcore_icon_" + configAttributes.dataType,
-            text: this.getText(configAttributes, configAttributes.text),
+            text: this.getText(configAttributes, t("keyValue")),
             configAttributes: configAttributes,
             isTarget: true,
             leaf: true
@@ -19,18 +19,18 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.KeyValue =
     },
 
     getCopyNode: function(source) {
-        var copy = new Ext.tree.TreeNode({
-            iconCls: source.attributes.iconCls,
-            text: source.attributes.text,
+        var copy = source.createNode({
+            iconCls: source.data.iconCls,
+            text: source.data.text,
             isTarget: true,
             leaf: true,
-            dataType: source.attributes.dataType,
+            dataType: source.data.dataType,
             configAttributes: {
                 label: null,
                 type: this.type,
                 class: this.class,
-                attribute: source.attributes.key,
-                dataType: source.attributes.dataType
+                attribute: source.data.key,
+                dataType: source.data.dataType
             }
         });
         return copy;
@@ -40,13 +40,12 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.KeyValue =
         this.node = node;
 
         var data = {records: []};
-        if(this.node.attributes.configAttributes && this.node.attributes.configAttributes.records) {
-            data = this.node.attributes.configAttributes;
+        if(this.node.data.configAttributes && this.node.data.configAttributes.records) {
+            data = this.node.data.configAttributes;
         }
 
         this.store = new Ext.data.JsonStore({
-            data: data,
-            root: 'records',
+            data: data.records,
             autoDestroy: true,
             idProperty: 'id',
             fields: [
@@ -59,71 +58,71 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.KeyValue =
             ]
         });
 
-        this.grid = new Ext.grid.EditorGridPanel({
+        this.cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
+            clicksToEdit: 1
+        });
+
+        this.grid = Ext.create('Ext.grid.Panel', {
             store: this.store,
-            sm: new Ext.grid.RowSelectionModel({singleSelect:true}),
-            colModel: new Ext.grid.ColumnModel({
-                defaults: {
-                    sortable: false
-                },
-                columns: [
-                    {header: 'ID', dataIndex: 'id', width: 50},
-                    {id: "group", header: t("keyvalue_tag_col_group"), dataIndex: 'group', width: 150},
-                    {id: "groupdescription", header: t("keyvalue_tag_col_group_description"), dataIndex: 'groupdescription', width: 150},
-                    {id: "name", header: t("name"), dataIndex: 'name', width: 150},
-                    {id: "description", header: t("description"), dataIndex: 'description', width: 150},
-                    {id: "label", header: t("label"), dataIndex: 'label', width: 150, editor: new Ext.form.TextField()},
-                    {
-                        xtype:'actioncolumn',
-                        width:30,
-                        items:[
-                            {
-                                tooltip:t('up'),
-                                icon:"/pimcore/static/img/icon/arrow_up.png",
-                                handler:function (grid, rowIndex) {
-                                    if (rowIndex > 0) {
-                                        var rec = grid.getStore().getAt(rowIndex);
-                                        grid.getStore().removeAt(rowIndex);
-                                        grid.getStore().insert(rowIndex - 1, [rec]);
-                                    }
-                                }.bind(this)
-                            }
-                        ]
-                    },
-                    {
-                        xtype:'actioncolumn',
-                        width:30,
-                        items:[
-                            {
-                                tooltip:t('down'),
-                                icon:"/pimcore/static/img/icon/arrow_down.png",
-                                handler:function (grid, rowIndex) {
-                                    if (rowIndex < (grid.getStore().getCount() - 1)) {
-                                        var rec = grid.getStore().getAt(rowIndex);
-                                        grid.getStore().removeAt(rowIndex);
-                                        grid.getStore().insert(rowIndex + 1, [rec]);
-                                    }
-                                }.bind(this)
-                            }
-                        ]
-                    },
-                    {
-                        xtype: 'actioncolumn',
-                        width: 30,
-                        items: [
-                            {
-                                tooltip: t('remove'),
-                                icon: "/pimcore/static/img/icon/cross.png",
-                                handler: function (grid, rowIndex) {
+            plugins: [
+                this.cellEditing
+            ],
+            columns: [
+                {header: 'ID', dataIndex: 'id', width: 50},
+                {id: "group", header: t("keyvalue_tag_col_group"), dataIndex: 'group', width: 150, sortable: false},
+                {id: "groupdescription", header: t("keyvalue_tag_col_group_description"), dataIndex: 'groupdescription', width: 150, sortable: false},
+                {id: "name", header: t("name"), dataIndex: 'name', width: 150, sortable: false},
+                {id: "description", header: t("description"), dataIndex: 'description', width: 150, sortable: false},
+                {id: "label", header: t("label"), dataIndex: 'label', flex: 150, sortable: false, editable: true, editor: new Ext.form.TextField()},
+                {
+                    xtype:'actioncolumn',
+                    width:30,
+                    items:[
+                        {
+                            tooltip:t('up'),
+                            icon:"/pimcore/static6/img/flat-color-icons/up.svg",
+                            handler:function (grid, rowIndex) {
+                                if (rowIndex > 0) {
+                                    var rec = grid.getStore().getAt(rowIndex);
                                     grid.getStore().removeAt(rowIndex);
-                                }.bind(this)
-                            }
-                        ]
-                    }
-                ]
-            }),
+                                    grid.getStore().insert(rowIndex - 1, [rec]);
+                                }
+                            }.bind(this)
+                        }
+                    ]
+                },
+                {
+                    xtype:'actioncolumn',
+                    width:30,
+                    items:[
+                        {
+                            tooltip:t('down'),
+                            icon:"/pimcore/static6/img/flat-color-icons/down.svg",
+                            handler:function (grid, rowIndex) {
+                                if (rowIndex < (grid.getStore().getCount() - 1)) {
+                                    var rec = grid.getStore().getAt(rowIndex);
+                                    grid.getStore().removeAt(rowIndex);
+                                    grid.getStore().insert(rowIndex + 1, [rec]);
+                                }
+                            }.bind(this)
+                        }
+                    ]
+                },
+                {
+                    xtype: 'actioncolumn',
+                    width: 30,
+                    items: [
+                        {
+                            tooltip: t('remove'),
+                            icon: "/pimcore/static6/img/flat-color-icons/delete.svg",
+                            handler: function (grid, rowIndex) {
+                                grid.getStore().removeAt(rowIndex);
+                            }.bind(this)
+                        }
+                    ]
+                }
+            ],
             cls: 'object_field',
-            autoExpandColumn: 'label',
             tbar: {
                 items: [
                     {
@@ -151,7 +150,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.KeyValue =
                 cls: "pimcore_force_auto_width"
             },
             autoHeight: true,
-            bodyCssClass: "pimcore_object_tag_objects"
+            bodyCls: "pimcore_editable_grid"
         });
 
         this.configPanel = new Ext.Panel({
@@ -177,6 +176,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.KeyValue =
         });
 
         this.window.show();
+        return this.window;
     },
 
 
@@ -214,7 +214,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.KeyValue =
                     colData.description = keyDef.description;
                     colData.group = keyDef.groupName;
                     colData.groupdescription = keyDef.groupdescription;
-                    this.store.add(new this.store.recordType(colData));
+                    this.store.add(colData);
                 }
             }
         }
@@ -229,8 +229,8 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.KeyValue =
             records.push(record.data);
         });
 
-        this.node.attributes.configAttributes.records = records;
-        this.node.setText( this.getText(this.node.attributes.configAttributes, this.node.text) );
+        this.node.data.configAttributes.records = records;
+        this.node.set('text', this.getText(this.node.data.configAttributes, this.node.text) );
 
         this.window.close();
     },

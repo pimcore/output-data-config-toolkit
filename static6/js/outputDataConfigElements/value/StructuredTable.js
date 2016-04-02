@@ -19,18 +19,18 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.Structured
     },
 
     getCopyNode: function(source) {
-        var copy = new Ext.tree.TreeNode({
-            iconCls: source.attributes.iconCls,
-            text: source.attributes.text,
+        var copy = source.createNode({
+            iconCls: source.data.iconCls,
+            text: source.data.text,
             isTarget: true,
             leaf: true,
-            dataType: source.attributes.dataType,
+            dataType: source.data.dataType,
             configAttributes: {
                 label: null,
                 type: this.type,
                 class: this.class,
-                attribute: source.attributes.key,
-                dataType: source.attributes.dataType
+                attribute: source.data.key,
+                dataType: source.data.dataType
             }
         });
         return copy;
@@ -43,7 +43,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.Structured
             url: '/plugin/Elements_OutputDataConfigToolkit/admin/get-field-definition',
             params: {
                 class_id: this.objectClassId,
-                key: node.attributes.configAttributes.attribute
+                key: node.data.configAttributes.attribute
             },
             success: function(response) {
                 var data = Ext.decode(response.responseText);
@@ -60,14 +60,23 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.Structured
 
 
         var value = "original";
-        if(this.node.attributes.configAttributes.label) {
+        if(this.node.data.configAttributes.label) {
             value = "custom";
         }
+
+        this.textfield = new Ext.form.TextField({
+            fieldLabel: t('custom_title'),
+            disabled: true,
+            length: 255,
+            width: 200,
+            value: this.node.data.configAttributes.label
+        });
+
         this.radiogroup = new Ext.form.RadioGroup({
             fieldLabel: t('config_title'),
             vertical: false,
             columns: 1,
-            value: value,
+            value: {rb: value},
             items: [
                 {boxLabel: t('config_title_original'), name: 'rb', inputValue: "original", checked: true},
                 {
@@ -75,47 +84,15 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.Structured
                     name: 'rb',
                     inputValue: "custom",
                     listeners: {
-                        check: function(element, checked) {
-                            this.textfield.setDisabled(!checked);
+                        change: function(element, newValue) {
+                            this.textfield.setDisabled(!newValue);
                         }.bind(this)
                     }
                 }
             ]
         });
 
-        this.textfield = new Ext.form.TextField({
-            fieldLabel: t('custom_title'),
-            disabled: true,
-            length: 255,
-            width: 200,
-            value: this.node.attributes.configAttributes.label
-        });
 
-
-        var value = "specific_field";
-        if(this.node.attributes.configAttributes.wholeTable) {
-            value = "whole_table";
-        }
-        this.radiogroupTable = new Ext.form.RadioGroup({
-            fieldLabel: t('config_table'),
-            value: value,
-            vertical: false,
-            columns: 1,
-            items: [
-                {boxLabel: t('config_whole_table'), name: 'rbTable', inputValue: "whole_table", checked: true},
-                {
-                    boxLabel: t('config_specific_field'),
-                    name: 'rbTable',
-                    inputValue: "specific_field",
-                    listeners: {
-                        check: function(element, checked) {
-                            this.comboRow.setDisabled(!checked);
-                            this.comboCol.setDisabled(!checked);
-                        }.bind(this)
-                    }
-                }
-            ]
-        });
 
         var rows = [];
         for(var j = 0; j < def.rows.length; j++) {
@@ -143,7 +120,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.Structured
             }),
             valueField: 'id',
             displayField: 'displayText',
-            value: this.node.attributes.configAttributes.row
+            value: this.node.data.configAttributes.row
         });
         this.comboCol = new Ext.form.ComboBox({
             fieldLabel: t('column'),
@@ -161,7 +138,32 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.Structured
             }),
             valueField: 'id',
             displayField: 'displayText',
-            value: this.node.attributes.configAttributes.col
+            value: this.node.data.configAttributes.col
+        });
+
+        var value = "specific_field";
+        if(this.node.data.configAttributes.wholeTable) {
+            value = "whole_table";
+        }
+        this.radiogroupTable = new Ext.form.RadioGroup({
+            fieldLabel: t('config_table'),
+            value: {rbTable: value},
+            vertical: false,
+            columns: 1,
+            items: [
+                {boxLabel: t('config_whole_table'), name: 'rbTable', inputValue: "whole_table", checked: true},
+                {
+                    boxLabel: t('config_specific_field'),
+                    name: 'rbTable',
+                    inputValue: "specific_field",
+                    listeners: {
+                        change: function(element, newValue) {
+                            this.comboRow.setDisabled(!newValue);
+                            this.comboCol.setDisabled(!newValue);
+                        }.bind(this)
+                    }
+                }
+            ]
         });
 
         this.configPanel = new Ext.Panel({
@@ -179,7 +181,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.Structured
 
         this.window = new Ext.Window({
             width: 400,
-            height: 280,
+            height: 410,
             modal: true,
             title: t('attribute_settings'),
             layout: "fit",
@@ -187,24 +189,31 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.Structured
         });
 
         this.window.show();
+
+        //this is needed because of new focus management of extjs6
+        setTimeout(function() {
+            this.window.focus();
+        }.bind(this), 250);
+
     },
 
     commitData: function() {
-        if(this.radiogroupTable.getValue().getGroupValue() == "whole_table") {
-            this.node.attributes.configAttributes.wholeTable = true;
-            this.node.attributes.configAttributes.col = null;
-            this.node.attributes.configAttributes.row = null;
+        if(this.radiogroupTable.getValue().rbTable == "whole_table") {
+            this.node.data.configAttributes.wholeTable = true;
+            this.node.data.configAttributes.col = null;
+            this.node.data.configAttributes.row = null;
         } else {
-            this.node.attributes.configAttributes.wholeTable = false;
-            this.node.attributes.configAttributes.col = this.comboCol.getValue();
-            this.node.attributes.configAttributes.row = this.comboRow.getValue();
+            this.node.data.configAttributes.wholeTable = false;
+            this.node.data.configAttributes.col = this.comboCol.getValue();
+            this.node.data.configAttributes.row = this.comboRow.getValue();
         }
 
-        if(this.radiogroup.getValue().getGroupValue() == "custom") {
-            this.node.attributes.configAttributes.label = this.textfield.getValue();
-            this.node.setText( this.getText(this.node.attributes.configAttributes, this.textfield.getValue()) );
+        if(this.radiogroup.getValue().rb == "custom") {
+            this.node.data.configAttributes.label = this.textfield.getValue();
+            this.node.set('text', this.getText(this.node.data.configAttributes, this.textfield.getValue()) );
         } else {
-            this.node.setText( this.getText(this.node.attributes.configAttributes, this.node.text) );
+            this.node.data.configAttributes.label = null;
+            this.node.set('text', this.getText(this.node.data.configAttributes, this.node.text));
         }
 
         this.window.close();
