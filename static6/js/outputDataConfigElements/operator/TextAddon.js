@@ -17,7 +17,8 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.TextAdd
                 isTarget: true,
                 maxChildCount: 1,
                 expanded: true,
-                leaf: false
+                leaf: false,
+                expandable: false
             };
         } else {
 
@@ -39,13 +40,14 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.TextAdd
 
 
     getCopyNode: function(source) {
-        var copy = new Ext.tree.TreeNode({
+        var copy = new source.createNode({
             iconCls: this.iconCls,
-            text: source.attributes.cssClass,
+            text: source.data.cssClass,
             isTarget: true,
             leaf: false,
             maxChildCount: 1,
             expanded: true,
+            expandable: false,
             configAttributes: {
                 label: null,
                 type: this.type,
@@ -91,11 +93,12 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.TextAdd
         });
 
         this.window.show();
+        return this.window;
     },
 
     commitData: function() {
-        this.node.attributes.configAttributes.addon = this.addon.getValue();
-        this.node.setText( t("operator_textaddon")  + (this.addon.getValue() ? ': ' + this.addon.getValue() : ''));
+        this.node.data.configAttributes.addon = this.addon.getValue();
+        this.node.set('text', t("operator_textaddon")  + (this.addon.getValue() ? ': ' + this.addon.getValue() : ''));
         this.window.close();
     }
 });
