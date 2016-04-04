@@ -57,3 +57,5 @@ operator_cell_formater, "Operator Cell Formater"
 operator_cell_formater_settings, "Operator 'Cell Formater' Settings"
 operator_cell_formater_css_class, "CSS Class"
 operator_cell_formater_css_styles, "CSS Style"
+operator_textaddon,Operator Text Addon
+operator_textaddon_addon,Text Addon

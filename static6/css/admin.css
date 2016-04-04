@@ -41,4 +41,6 @@
     background: url("/pimcore/static/img/icon/style_edit.png") no-repeat scroll left center transparent !important;
 }
 
-
+.pimcore_icon_operator_textaddon {
+    background: url("/pimcore/static/img/icon/font_add.png") no-repeat scroll left center transparent !important;
+}

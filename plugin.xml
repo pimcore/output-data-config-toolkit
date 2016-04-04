@@ -37,6 +37,7 @@
                 <path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/operator/TableCol.js</path>
 				<path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/operator/TranslateValue.js</path>
                 <path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/operator/CellFormater.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static/js/outputDataConfigElements/operator/TextAddon.js</path>
 			</pluginJsPaths>
 
             <pluginJsPaths-extjs6>
