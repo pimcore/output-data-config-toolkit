@@ -61,6 +61,7 @@
                 <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/operator/TableCol.js</path>
                 <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/operator/TranslateValue.js</path>
                 <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/operator/CellFormater.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/operator/TextAddon.js</path>
             </pluginJsPaths-extjs6>
 
 			<!-- css files with path relative to plugin-directory -->
