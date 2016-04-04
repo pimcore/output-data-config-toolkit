@@ -40,7 +40,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.TextAdd
 
 
     getCopyNode: function(source) {
-        var copy = new source.createNode({
+        var copy = source.createNode({
             iconCls: this.iconCls,
             text: source.data.cssClass,
             isTarget: true,
@@ -65,7 +65,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.TextAdd
             fieldLabel: t('operator_textaddon_addon'),
             length: 255,
             width: 200,
-            value: this.node.attributes.configAttributes.addon
+            value: this.node.data.configAttributes.addon
         });
 
 
