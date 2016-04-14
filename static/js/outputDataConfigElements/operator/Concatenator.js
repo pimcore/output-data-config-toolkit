@@ -1,3 +1,19 @@
+/**
+ * Pimcore
+ *
+ * This source file is available under two different licenses:
+ * - GNU General Public License version 3 (GPLv3)
+ * - Pimcore Enterprise License (PEL)
+ * Full copyright and license information is available in
+ * LICENSE.md which is distributed with this source code.
+ *
+ * @category   Pimcore
+ * @package    EcommerceFramework
+ * @copyright  Copyright (c) 2009-2016 pimcore GmbH (http://www.pimcore.org)
+ * @license    http://www.pimcore.org/license     GPLv3 and PEL
+ */
+
+
 pimcore.registerNS("pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Concatenator");
 
 pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Concatenator = Class.create(pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Text, {
@@ -75,17 +91,11 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Concate
             width: 200,
             checked: this.node.attributes.configAttributes.forceValue
         });
-        this.formatNumbers = new Ext.form.Checkbox({
-            fieldLabel: t('format_numbers'),
-            length: 255,
-            width: 200,
-            checked: this.node.attributes.configAttributes.formatNumbers
-        });
 
         this.configPanel = new Ext.Panel({
             layout: "form",
             bodyStyle: "padding: 10px;",
-            items: [this.textfield, this.glue, this.forceValue, this.formatNumbers],
+            items: [this.textfield, this.glue, this.forceValue],
             buttons: [{
                 text: t("apply"),
                 iconCls: "pimcore_icon_apply",
@@ -97,7 +107,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Concate
 
         this.window = new Ext.Window({
             width: 400,
-            height: 200,
+            height: 180,
             modal: true,
             title: t('concatenator_operator_settings'),
             layout: "fit",
@@ -108,11 +118,11 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Concate
     },
 
     commitData: function() {
+        console.log(this.forceValue.getValue());
         this.node.attributes.configAttributes.label = this.textfield.getValue();
         this.node.setText( this.textfield.getValue() );
         this.node.attributes.configAttributes.glue = this.glue.getValue();
         this.node.attributes.configAttributes.forceValue = this.forceValue.getValue();
-        this.node.attributes.configAttributes.formatNumbers = this.formatNumbers.getValue();
         this.window.close();
     }
 });

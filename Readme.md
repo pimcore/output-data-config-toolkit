@@ -57,11 +57,7 @@ The plugin provides a service class, with converts an pimcore object to an outpu
 A sample view helper see readme/ProductListSpecification.php
 
 ### used by projects for example
-- Eberspaecher (http://eberspaecher.dev.elements.pm)
-- Frischeis (http://frischeis-shop.dev.elements.pm)
-- Bösch (http://boesch.dev.elements.pm)
-- IIC-PIM (http://eb-datacenter.dev.elements.pm)
-
+- E-Commerce-Demo (http://ecommercedemo.pimcore.org)
 
 ## Adding new operators
 Create a pimcore plugin and add following files:
