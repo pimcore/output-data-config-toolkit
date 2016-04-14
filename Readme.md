@@ -46,12 +46,10 @@ The plugin provides a service class, with converts an pimcore object to an outpu
     // returns the output data structure for the given product and the output channel productdetail_specification
     $specificationOutputChannel =  Elements\OutputDataConfigToolkit\Service::getOutputDataConfig($product, "productdetail_specification");
 
-
     //printing output channel in view script with view-helper
     foreach($specificationOutputChannel as $property) {
         $this->productListSpecification($property, $this->product);
     }
-
 ```
 
 A sample view helper see readme/ProductListSpecification.php
