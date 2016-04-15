@@ -1,6 +1,3 @@
-# MOVED TO GIHUB - SEE https://github.com/pimcore-partner/Elements_OutputDataConfigToolkit
-
-
 # OutputDataConfigToolkit
 
 This toolkit provides an user interface to create output formats for objects based on different output channels.
