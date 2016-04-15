@@ -19,6 +19,7 @@ namespace Elements\OutputDataConfigToolkit;
 
 use Elements\OutputDataConfigToolkit\OutputDefinition\Dao;
 use \Exception;
+use Pimcore\Config;
 
 class Plugin extends \Pimcore\API\Plugin\AbstractPlugin implements \Pimcore\API\Plugin\PluginInterface {
 
@@ -114,8 +115,10 @@ class Plugin extends \Pimcore\API\Plugin\AbstractPlugin implements \Pimcore\API\
 	public static function isInstalled(){
         $result = null;
 		try{
-			$result = self::getDb()->describeTable(Dao::TABLE_NAME);
-		} catch(Exception $e){}
+            if(Config::getSystemConfig()) {
+                $result = self::getDb()->describeTable(Dao::TABLE_NAME);
+            }
+		} catch(\Exception $e){}
 		return !empty($result);
     }
 
