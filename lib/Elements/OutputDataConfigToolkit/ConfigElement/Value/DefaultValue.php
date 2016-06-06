@@ -41,34 +41,36 @@ class DefaultValue extends ConfigElement\AbstractConfigElement {
         if(method_exists($object, $getter) || $object instanceof \OnlineShop_Framework_ProductList_DefaultMockup) {
             $value = $object->$getter();
 
-            $def = $object->getClass()->getFieldDefinition($this->attribute);
-            if(empty($label)) {
-                if($def) {
-                    $label =  $def->getTitle();
-                }
-            }
-
-            if(!empty($value) && !empty($brickGetter)) {
-                $def = \Pimcore\Model\Object\Objectbrick\Definition::getByKey($brickType);
-                $def = $def->getFieldDefinition($brickKey);
-                if(empty($label) && !empty($value)) {
+            if($object instanceof \OnlineShop_Framework_ProductList_DefaultMockup || $object instanceof AbstractObject) {
+                $def = $object->getClass()->getFieldDefinition($this->attribute);
+                if(empty($label)) {
                     if($def) {
-                        $label = $def->getTitle();
+                        $label =  $def->getTitle();
                     }
                 }
 
+                if(!empty($value) && !empty($brickGetter)) {
+                    $def = \Pimcore\Model\Object\Objectbrick\Definition::getByKey($brickType);
+                    $def = $def->getFieldDefinition($brickKey);
+                    if(empty($label) && !empty($value)) {
+                        if($def) {
+                            $label = $def->getTitle();
+                        }
+                    }
 
-                if(is_object($value) && method_exists($value, $brickTypeGetter)) {
-                    $value = $value->$brickTypeGetter();
 
-                    if(is_object($value) && method_exists($value, $brickGetter)) {
-                        $value = $value->$brickGetter();
+                    if(is_object($value) && method_exists($value, $brickTypeGetter)) {
+                        $value = $value->$brickTypeGetter();
+
+                        if(is_object($value) && method_exists($value, $brickGetter)) {
+                            $value = $value->$brickGetter();
+                        } else {
+                            $value = null;
+                        }
+
                     } else {
                         $value = null;
                     }
-
-                } else {
-                    $value = null;
                 }
             }
 
