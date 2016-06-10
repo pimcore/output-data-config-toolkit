@@ -18,6 +18,7 @@
 namespace Elements\OutputDataConfigToolkit\ConfigElement\Value;
 
 use Elements\OutputDataConfigToolkit\ConfigElement as ConfigElement;
+use Pimcore\Model\Object\AbstractObject;
 
 class DefaultValue extends ConfigElement\AbstractConfigElement {
 
