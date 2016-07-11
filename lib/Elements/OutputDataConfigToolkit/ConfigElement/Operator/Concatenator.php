@@ -41,6 +41,8 @@ class Concatenator extends AbstractOperator {
 
 
         $childs = $this->getChilds();
+        $valueArray = [];
+        
         foreach($childs as $c) {
             $value = $c->getLabeledValue($object)->value;
 
