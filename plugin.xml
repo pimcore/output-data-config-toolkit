@@ -49,6 +49,7 @@
                 <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/Abstract.js</path>
                 <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/value/DefaultValue.js</path>
                 <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/value/DimensionUnitField.js</path>
+                <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/value/DimensionUnitFieldText.js</path>
                 <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/value/StructuredTable.js</path>
                 <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/value/KeyValue.js</path>
                 <path>/Elements_OutputDataConfigToolkit/static6/js/outputDataConfigElements/value/Numeric.js</path>
