@@ -16,11 +16,12 @@
 
 
 namespace Elements\OutputDataConfigToolkit\ConfigElement\Operator;
- 
+
 class CellFormater extends AbstractOperator {
 
     private $cssClass;
     private $styles;
+    private $labelStyles;
 
     public function __construct($config, $context = null) {
         parent::__construct($config, $context);
@@ -28,6 +29,7 @@ class CellFormater extends AbstractOperator {
         $this->cssClass = $config->cssClass;
         $this->styles = $config->styles;
         $this->label = $config->cssClass;
+        $this->labelStyles = $config->labelStyles;
     }
 
     public function getLabeledValue($object) {
@@ -50,6 +52,12 @@ class CellFormater extends AbstractOperator {
         return $this->styles;
     }
 
+    public function setLabelStyles($styles) {
+        $this->labelStyles = $styles;
+    }
 
+    public function getLabelStyles() {
+        return $this->labelStyles;
+    }
 
 }

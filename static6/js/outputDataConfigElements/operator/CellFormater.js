@@ -91,11 +91,19 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.CellFor
             value: this.node.data.configAttributes.styles
         });
 
+        this.labelStyles = new Ext.form.TextArea({
+            fieldLabel: t('operator_cell_formater_css_label_styles'),
+            length: 255,
+            width: 200,
+            height: 100,
+            value: this.node.data.configAttributes.labelStyles
+        });
+
 
         this.configPanel = new Ext.Panel({
             layout: "form",
             bodyStyle: "padding: 10px;",
-            items: [this.cssClass, this.styles],
+            items: [this.cssClass, this.styles, this.labelStyles],
             buttons: [{
                 text: t("apply"),
                 iconCls: "pimcore_icon_apply",
@@ -115,12 +123,12 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.CellFor
         });
 
         this.window.show();
-        return this.window;
     },
 
     commitData: function() {
         this.node.data.configAttributes.cssClass = this.cssClass.getValue();
         this.node.data.configAttributes.styles = this.styles.getValue();
+        this.node.data.configAttributes.labelStyles = this.labelStyles.getValue();
         this.node.data.configAttributes.label = this.cssClass.getValue();
         this.node.set('text', this.cssClass.getValue());
         this.window.close();
