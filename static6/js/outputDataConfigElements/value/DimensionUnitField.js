@@ -124,7 +124,6 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.DimensionU
 
         this.window = new Ext.Window({
             width: 400,
-            height: 220,
             modal: true,
             title: t('attribute_settings'),
             layout: "fit",
