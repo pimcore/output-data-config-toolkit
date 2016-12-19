@@ -44,6 +44,16 @@ class DefaultValue extends ConfigElement\AbstractConfigElement {
 
             if($object instanceof \OnlineShop_Framework_ProductList_DefaultMockup || $object instanceof AbstractObject) {
                 $def = $object->getClass()->getFieldDefinition($this->attribute);
+                if(!$def){
+                    /**
+                     * @var \Pimcore\Model\Object\ClassDefinition\Data\Localizedfields $lf
+                     */
+                    $lf = $object->getClass()->getFieldDefinition("localizedfields");
+                    if($lf) {
+                        $def = $lf->getFieldDefinition($this->attribute);
+                    }
+                }
+
                 if(empty($label)) {
                     if($def) {
                         $label =  $def->getTitle();
