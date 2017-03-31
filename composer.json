@@ -1,7 +1,16 @@
 {
-  "name": "pimcore-partner/Elements_OutputDataConfigToolkit",
-  "type": "pimcore-plugin",
-  "require": {
-    "pimcore/installer-plugin": ">=1"
-  }
+  "name": "pimcore/OutputDataConfigToolkitBundle",
+  "type": "pimcore-bundle",
+   "autoload": {
+        "psr-4": {
+            "OutputDataConfigToolkitBundle\\": ""
+        }
+    },
+    "extra": {
+        "pimcore": {
+            "bundles": [
+                "OutputDataConfigToolkitBundle\\OutputDataConfigToolkitBundle"
+            ]
+        }
+    }
 }
