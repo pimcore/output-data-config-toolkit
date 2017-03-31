@@ -1,5 +1,5 @@
 {
-  "name": "pimcore-partner/ElementsOutputDataConfigToolkit",
+  "name": "pimcore-partner/Elements_OutputDataConfigToolkit",
   "type": "pimcore-plugin",
   "require": {
     "pimcore/installer-plugin": ">=1"
