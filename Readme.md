@@ -8,7 +8,7 @@ An output data configuration consists of
 
 ## Configuration
 
-After installing the plugin, a config file is located at `/website/config/outputdataconfig/config.php`. In this config file available output channels can be configured as follows:
+After installing the plugin, a config file is located at `/var/config/outputdataconfig/config.php`. In this config file available output channels can be configured as follows:
 
 ```php
 <?php
@@ -44,7 +44,7 @@ The plugin provides a service class, with converts an pimcore object to an outpu
 <?php
 
     // returns the output data structure for the given product and the output channel productdetail_specification
-    $specificationOutputChannel =  Elements\OutputDataConfigToolkit\Service::getOutputDataConfig($product, "productdetail_specification");
+    $specificationOutputChannel =  OutputDataConfigToolkitBundle\Service::getOutputDataConfig($product, "productdetail_specification");
 
     //printing output channel in view script with view-helper
     foreach($specificationOutputChannel as $property) {
@@ -52,22 +52,30 @@ The plugin provides a service class, with converts an pimcore object to an outpu
     }
 ```
 
-A sample view helper see readme/ProductListSpecification.php
+A sample template helper see `readme/ProductListSpecification.php`, the needed service configuration: 
+```yml
+# Product Detail Specification Template Helper
+app.templating.helper.productDetailSpecification:
+    class: AppBundle\Templating\Helper\ProductDetailSpecification
+    arguments: ['@translator', '@pimcore.locale.intl_formatter']
+    tags:
+        - { name: templating.helper, alias: productDetailSpecification }
+```
 
 ### used by projects for example
 - E-Commerce-Demo (http://ecommercedemo.pimcore.org)
 
 ## Adding new operators
-Create a pimcore plugin and add following files:
+Create a Pimcore bundle and add following files:
 
 ### php implementation of operator
-- must be in namespace `Elements\OutputDataConfigToolkit\ConfigElement\Operator`
+- must be in namespace `OutputDataConfigToolkitBundle\ConfigElement\Operator`
 - must implement `AbstractOperator`
 
 
 ```php
 <?php
-namespace Elements\OutputDataConfigToolkit\ConfigElement\Operator;
+namespace OutputDataConfigToolkitBundle\ConfigElement\Operator;
 
 class RemoveZero extends AbstractOperator {
 
@@ -164,7 +172,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.RemoveZ
 ```
 
 ## Migration from Pimcore 4
-- Change table name from `plugin_outputdataconfigtoolkit_outputdefinition`to 
+- Change table name from `plugin_outputdataconfigtoolkit_outputdefinition` to 
 `bundle_outputdataconfigtoolkit_outputdefinition`. 
 - Change namespace from `Elements\OutputDataConfigToolkit` to `OutputDataConfigToolkitBundle`.
 - Removed key value support.

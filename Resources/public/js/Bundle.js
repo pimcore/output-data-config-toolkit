@@ -12,9 +12,9 @@
  */
 
 
-pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.Bundle");
+pimcore.registerNS("pimcore.plugin.outputDataConfigToolkit.Bundle");
 
-pimcore.bundle.outputDataConfigToolkit.Bundle = Class.create(pimcore.plugin.admin, {
+pimcore.plugin.outputDataConfigToolkit.Bundle = Class.create(pimcore.plugin.admin, {
 
 
     getClassName: function () {
@@ -39,4 +39,4 @@ pimcore.bundle.outputDataConfigToolkit.Bundle = Class.create(pimcore.plugin.admi
     }
 });
 
-new pimcore.bundle.outputDataConfigToolkit.Bundle();
+new pimcore.plugin.outputDataConfigToolkit.Bundle();
