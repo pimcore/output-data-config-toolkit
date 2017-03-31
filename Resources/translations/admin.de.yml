@@ -41,7 +41,7 @@ operator_tablerow: Operator Tabelle Zeile
 operator_tablecol: Operator Tablle Spalte
 tablecol_operator_settings: Operator Tabelle Spalte Einstellungen
 colspan: Column span
-permissions_plugin_outputDataConfigToolkit: Ausgabedateneinstellungen
+permissions_bundle_outputDataConfigToolkit: Ausgabedateneinstellungen
 headline: "Überschrift"
 tablerow_operator_settings: Operator Table Zeile Einstellungen
 force_value: immer Wert anzeigen

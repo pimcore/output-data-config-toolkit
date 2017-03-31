@@ -1,49 +1,94 @@
 <?php
-/**
- * Pimcore
- *
- * This source file is available under two different licenses:
- * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Enterprise License (PEL)
- * Full copyright and license information is available in
- * LICENSE.md which is distributed with this source code.
- *
- * @category   Pimcore
- * @package    EcommerceFramework
- * @copyright  Copyright (c) 2009-2016 pimcore GmbH (http://www.pimcore.org)
- * @license    http://www.pimcore.org/license     GPLv3 and PEL
- */
+
+namespace AppBundle\Templating\Helper;
 
 
-class Website_View_Helper_ProductListSpecification extends Zend_View_Helper_Abstract {
+use OutputDataConfigToolkitBundle\ConfigElement\Operator\Concatenator;
+use OutputDataConfigToolkitBundle\ConfigElement\Operator\Group;
+use OutputDataConfigToolkitBundle\ConfigElement\Value\DefaultValue;
+use Pimcore\Model\Object\AbstractObject;
+use Pimcore\Model\Object\ClassDefinition\Data\Checkbox;
+use Pimcore\Model\Object\ClassDefinition\Data\Image;
+use Pimcore\Model\Object\ClassDefinition\Data\Multiselect;
+use Pimcore\Model\Object\ClassDefinition\Data\Objects;
+use Pimcore\Model\Object\ClassDefinition\Data\Select;
+use Pimcore\Service\IntlFormatterService;
+use Pimcore\Translation\Translator;
+use Symfony\Component\Templating\Helper\Helper;
 
-    public function productListSpecification($property, $product) {
+class ProductDetailSpecification extends Helper {
 
-        if($property instanceof Elements\OutputDataConfigToolkit\ConfigElement\Operator\Group) {
-            return "NOT SUPPORTED";
-        } else if($property instanceof Elements\OutputDataConfigToolkit\ConfigElement\Value\DefaultValue ||
-            $property instanceof Elements\OutputDataConfigToolkit\ConfigElement\Operator\Concatenator) {
+    /**
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
+     * @var IntlFormatterService
+     */
+    protected $formatter;
+
+
+    public function __construct(Translator $translator, IntlFormatterService $formatter)
+    {
+        $this->translator = $translator;
+        $this->formatter = $formatter;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getName()
+    {
+        return 'productDetailSpecification';
+    }
+
+
+    public function __invoke($property, $product) {
+        if($property instanceof Group) {
             $labeledValue = $property->getLabeledValue($product);
-            if($labeledValue->def instanceof \Pimcore\Model\Object\ClassDefinition\Data\Select) {
-                $value = $this->getSelectValue($labeledValue->def, $labeledValue->value);
+            if($labeledValue) {
+                $result = "
+                            <tr class='groupheading' >
+                                <th colspan='2'>" . $this->translator->trans("attr." . $property->getLabel()) . "</th>
+                            </tr>
+                ";
 
-            } else if($labeledValue->def instanceof \Pimcore\Model\Object\ClassDefinition\Data\Multiselect) {
+                foreach($property->getChilds() as $child) {
+
+                    $result .= $this->__invoke($child, $product);
+
+                }
+
+                return $result;
+            }
+
+        } else if($property instanceof DefaultValue ||
+            $property instanceof Concatenator) {
+            $labeledValue = $property->getLabeledValue($product);
+            if($labeledValue->def instanceof Select) {
+                $value = $this->getSelectValue($labeledValue->def, $labeledValue->value);
+            } else if($labeledValue->def instanceof Multiselect) {
 
                 $values = $labeledValue->value;
                 $translatedValues = array();
-                foreach($values as $value) {
-                    $translatedValues[] = $this->getSelectValue($labeledValue->def, $value);
+                if(is_array($values)) {
+                    foreach($values as $value) {
+                        $translatedValues[] = $this->getSelectValue($labeledValue->def, $value);
+                    }
+
+                    $value = "<div class='optionvalue'>" . implode("</div><div class='optionvalue'>", $translatedValues) . "</div>";
+                } else {
+                    $value = '';
                 }
 
-                $value = implode(", ", $translatedValues);
 
-
-            } else if($labeledValue->def instanceof \Pimcore\Model\Object\ClassDefinition\Data\Objects) {
+            } else if($labeledValue->def instanceof Objects) {
 
                 $names = array();
                 if(is_array($labeledValue->value)) {
                     foreach($labeledValue->value as $entry) {
-                        if($entry instanceof \Pimcore\Model\Object\AbstractObject && method_exists($entry, "getName")) {
+                        if($entry instanceof AbstractObject && method_exists($entry, "getName")) {
                             $names[] = $entry->getName();
                         }
                     }
@@ -51,18 +96,35 @@ class Website_View_Helper_ProductListSpecification extends Zend_View_Helper_Abst
 
                 $value = implode(", ", $names);
 
-            } else if($labeledValue->value instanceof \Pimcore\Model\Object\AbstractObject && method_exists($labeledValue->value, "getName")) {
-                    $value = $labeledValue->value->getName();
+            } else if($labeledValue->value instanceof AbstractObject && method_exists($labeledValue->value, "getName")) {
+                $value = $labeledValue->value->getName();
+            } else if($labeledValue->def instanceof Checkbox) {
+                $value = $this->translator->trans("optionvalue." . ($labeledValue->value ? "true" : "false"));
+            } else if($labeledValue->def instanceof Image) {
+                $value = '<img src="' . $labeledValue->value . '" />';
             } else {
                 $value = $labeledValue->value;
+                if(is_object($value)) {
+                    p_r($labeledValue);
+                    p_r($property);
+                    die();
+                }
             }
 
 
             if(is_numeric($value)) {
-                $value = Zend_Locale_Format::toNumber($value, array('locale'=>Zend_Registry::get('Zend_Locale')));
+                $value = $this->formatter->formatNumber($value);
             }
 
-            return $value;
+            if($labeledValue->value) {
+                $result = "
+                            <tr>
+                                <td class=\"firstcol\">" . $this->translator->trans("attr." . $labeledValue->label) . "</td>
+                                <td class=\"secondcol\">" . $value . "</td>
+                            </tr>
+                ";
+                return $result;
+            }
 
         } else {
             p_r($property);
@@ -72,8 +134,6 @@ class Website_View_Helper_ProductListSpecification extends Zend_View_Helper_Abst
 
 
     private function getSelectValue($def, $value) {
-        if($value) {
-            return $this->view->translate("optionvalue." . $value);
-        }
+        return $this->translator->trans("optionvalue." . $value);
     }
 }

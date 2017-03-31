@@ -33,7 +33,7 @@ class OutputDataConfigToolkitBundle extends AbstractPimcoreBundle
     public function getJsPaths()
     {
         return [
-            '/bundles/outputdataconfigtoolkit/js/Plugin.js',
+            '/bundles/outputdataconfigtoolkit/js/Bundle.js',
             '/bundles/outputdataconfigtoolkit/js/OutputDataConfigTab.js',
             '/bundles/outputdataconfigtoolkit/js/OutputDataConfigDialog.js',
             '/bundles/outputdataconfigtoolkit/js/outputDataConfigElements/Abstract.js',

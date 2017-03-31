@@ -162,3 +162,10 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.RemoveZ
     }
 });
 ```
+
+## Migration from Pimcore 4
+- Change table name from `plugin_outputdataconfigtoolkit_outputdefinition`to 
+`bundle_outputdataconfigtoolkit_outputdefinition`. 
+- Change namespace from `Elements\OutputDataConfigToolkit` to `OutputDataConfigToolkitBundle`.
+- Removed key value support.
+- Changed permission key to `bundle_outputDataConfigToolkit`

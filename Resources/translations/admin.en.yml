@@ -41,8 +41,8 @@ operator_tablerow: Operator Table Row
 operator_tablecol: Operator Table Column
 tablecol_operator_settings: Operator Table Column Settings
 colspan: Column span
-permissions_plugin_outputDataConfigToolkit: Output Data Configurations
-plugin_outputDataConfigToolkit: Output Data Configurations
+permissions_bundle_outputDataConfigToolkit: Output Data Configurations
+bundle_outputDataConfigToolkit: Output Data Configurations
 headline: Headline
 tablerow_operator_settings: Operator Table Row Settings
 force_value: Force Value

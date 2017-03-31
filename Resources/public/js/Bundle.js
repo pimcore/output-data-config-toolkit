@@ -12,13 +12,13 @@
  */
 
 
-pimcore.registerNS("pimcore.plugin.outputDataConfigToolkit.Plugin");
+pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.Bundle");
 
-pimcore.plugin.outputDataConfigToolkit.Plugin = Class.create(pimcore.plugin.admin, {
+pimcore.bundle.outputDataConfigToolkit.Bundle = Class.create(pimcore.plugin.admin, {
 
 
     getClassName: function () {
-        return "pimcore.plugin.outputDataConfigToolkit.Plugin";
+        return "pimcore.bundle.outputDataConfigToolkit.Bundle";
     },
 
     initialize: function() {
@@ -31,7 +31,7 @@ pimcore.plugin.outputDataConfigToolkit.Plugin = Class.create(pimcore.plugin.admi
     },
 
     postOpenObject: function(object, type) {
-        if(pimcore.globalmanager.get("user").isAllowed("plugin_outputDataConfigToolkit")) {
+        if(pimcore.globalmanager.get("user").isAllowed("bundle_outputDataConfigToolkit")) {
             var configTab = new pimcore.plugin.outputDataConfigToolkit.Tab(object, type);
             object.tab.items.items[1].insert(object.tab.items.items[1].items.length, configTab.getLayout());
             pimcore.layout.refresh();
@@ -39,4 +39,4 @@ pimcore.plugin.outputDataConfigToolkit.Plugin = Class.create(pimcore.plugin.admi
     }
 });
 
-new pimcore.plugin.outputDataConfigToolkit.Plugin();
+new pimcore.bundle.outputDataConfigToolkit.Bundle();
