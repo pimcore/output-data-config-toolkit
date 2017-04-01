@@ -1,5 +1,5 @@
 {
-  "name": "pimcore/OutputDataConfigToolkitBundle",
+  "name": "pimcore/output-data-config-toolkit-bundle",
   "type": "pimcore-bundle",
    "autoload": {
         "psr-4": {
