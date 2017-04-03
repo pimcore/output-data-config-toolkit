@@ -184,7 +184,7 @@ class AdminController extends \Pimcore\Bundle\PimcoreAdminBundle\Controller\Admi
 
     /**
      * @param Request $request
-     * @Route("/get-attributes-labels")
+     * @Route("/get-attribute-labels")
      */
     public function getAttributeLabelsAction(Request $request) {
         $configration = json_decode($request->get("configuration"));
