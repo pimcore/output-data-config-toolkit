@@ -1,5 +1,6 @@
 {
   "name": "pimcore/output-data-config-toolkit-bundle",
+  "license": "GPL-3.0+",
   "type": "pimcore-bundle",
    "autoload": {
         "psr-4": {
