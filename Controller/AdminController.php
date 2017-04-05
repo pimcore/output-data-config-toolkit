@@ -26,7 +26,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class AdminController
  * @Route("/admin")
  */
-class AdminController extends \Pimcore\Bundle\PimcoreAdminBundle\Controller\AdminController {
+class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminController {
 
     /**
      * @param Request $request
