@@ -15,7 +15,7 @@
 
 namespace OutputDataConfigToolkitBundle\Controller;
 
-use Pimcore\Bundle\PimcoreAdminBundle\Controller\Rest\AbstractRestController;
+use Pimcore\Bundle\AdminBundle\Controller\Rest\AbstractRestController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
