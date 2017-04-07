@@ -12,9 +12,9 @@
  */
 
 
-pimcore.registerNS("pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Group");
+pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.Group");
 
-pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Group = Class.create(pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Text, {
+pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.Group = Class.create(pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.Text, {
     type: "operator",
     class: "Group",
     iconCls: "pimcore_icon_operator_group",

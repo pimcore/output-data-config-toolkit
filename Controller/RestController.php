@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class RestController extends AbstractRestController {
 
-    private static $_OUTPUTDATA_CONFIG_TABLE_NAME = "plugin_outputdataconfigtoolkit_outputdefinition";
+    private static $_OUTPUTDATA_CONFIG_TABLE_NAME = "bundle_outputdataconfigtoolkit_outputdefinition";
 
 
     /**

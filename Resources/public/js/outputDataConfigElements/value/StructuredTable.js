@@ -12,9 +12,9 @@
  */
 
 
-pimcore.registerNS("pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.StructuredTable");
+pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.StructuredTable");
 
-pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.StructuredTable = Class.create(pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.Abstract, {
+pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.StructuredTable = Class.create(pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.Abstract, {
 
     type: "value",
     class: "StructuredTable",

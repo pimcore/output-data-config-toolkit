@@ -12,9 +12,9 @@
  */
 
 
-pimcore.registerNS("pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Text");
+pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.Text");
 
-pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Text = Class.create(pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.Abstract, {
+pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.Text = Class.create(pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.Abstract, {
     type: "operator",
     class: "Text",
     iconCls: "pimcore_icon_operator_text",

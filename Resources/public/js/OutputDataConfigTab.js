@@ -12,9 +12,9 @@
  */
 
 
-pimcore.registerNS("pimcore.plugin.outputDataConfigToolkit.Tab");
+pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.Tab");
 
-pimcore.plugin.outputDataConfigToolkit.Tab = Class.create({
+pimcore.bundle.outputDataConfigToolkit.Tab = Class.create({
 
     initialize: function(object, type) {
         this.object = object;
@@ -54,7 +54,7 @@ pimcore.plugin.outputDataConfigToolkit.Tab = Class.create({
                 title: t('outputdataconfig'),
                 border: false,
                 layout: "fit",
-                iconCls: "plugin_outputdataconfig_icon",
+                iconCls: "bundle_outputdataconfig_icon",
                 tbar: toolbarConfig,
                 items: [this.getGrid()]
             });
@@ -186,7 +186,7 @@ pimcore.plugin.outputDataConfigToolkit.Tab = Class.create({
                 var data = Ext.decode(response.responseText);
 
                 if(data.success) {
-                    var dialog = new pimcore.plugin.outputDataConfigToolkit.OutputDataConfigDialog(data.outputConfig, this.saveConfigDialog.bind(this));
+                    var dialog = new pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog(data.outputConfig, this.saveConfigDialog.bind(this));
                 } else {
                     pimcore.helpers.showNotification(t("error"), t("error_opening_output_config"), "error", t(data.message));
                 }

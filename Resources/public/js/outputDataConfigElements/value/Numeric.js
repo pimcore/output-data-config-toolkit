@@ -12,9 +12,9 @@
  */
 
 
-pimcore.registerNS("pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.Numeric");
+pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.Numeric");
 
-pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.Numeric = Class.create(pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.Abstract, {
+pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.Numeric = Class.create(pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.Abstract, {
 
     type: "value",
     class: "Numeric",

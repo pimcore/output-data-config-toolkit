@@ -12,9 +12,9 @@
  */
 
 
-pimcore.registerNS("pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Concatenator");
+pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.Concatenator");
 
-pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Concatenator = Class.create(pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Text, {
+pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.Concatenator = Class.create(pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.Text, {
     type: "operator",
     class: "Concatenator",
     iconCls: "pimcore_icon_operator_concatenator",

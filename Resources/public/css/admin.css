@@ -18,10 +18,10 @@
 .pimcore_icon_operator_concatenator {
     background: url("/pimcore/static6/img/flat-color-icons/capacitor.svg") center center no-repeat !important;
 }
-.plugin_outputdataconfig_icon {
+.bundle_outputdataconfig_icon {
     background: url("/pimcore/static6/img/flat-color-icons/grid.svg") center center no-repeat !important;
 }
-.plugin_outputdataconfig_icon:before {
+.bundle_outputdataconfig_icon:before {
     position: absolute;
     width: 12px;
     height: 12px;

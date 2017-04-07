@@ -12,9 +12,9 @@
  */
 
 
-pimcore.registerNS("pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.DefaultValue");
+pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.DefaultValue");
 
-pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.DefaultValue = Class.create(pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.Abstract, {
+pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.DefaultValue = Class.create(pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.Abstract, {
 
     type: "value",
     class: "DefaultValue",

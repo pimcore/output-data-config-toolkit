@@ -12,9 +12,9 @@
  */
 
 
-pimcore.registerNS("pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.TableRow");
+pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.TableRow");
 
-pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.TableRow = Class.create(pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Group, {
+pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.TableRow = Class.create(pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.Group, {
     type: "operator",
     class: "TableRow",
     iconCls: "pimcore_icon_operator_tablerow",

@@ -8,7 +8,7 @@ An output data configuration consists of
 
 ## Configuration
 
-After installing the plugin, a config file is located at `/var/config/outputdataconfig/config.php`. In this config file available output channels can be configured as follows:
+After installing the bundle, a config file is located at `/var/config/outputdataconfig/config.php`. In this config file available output channels can be configured as follows:
 
 ```php
 <?php
@@ -38,7 +38,7 @@ By clicking overwrite, the editor opens and a new output data configuration can 
 
 ## Working with output channels in code
 
-The plugin provides a service class, with converts an pimcore object to an output data structure based on its ouput data configuration.
+The bundle provides a service class, with converts an pimcore object to an output data structure based on its ouput data configuration.
 
 ```php
 <?php
@@ -100,13 +100,13 @@ class RemoveZero extends AbstractOperator {
 ```
 
 ### java script implementation of operator
-- must be in namespace `pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator`
-- must extend `pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.Abstract`
+- must be in namespace `pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator`
+- must extend `pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.Abstract`
 
 ```javascript
-pimcore.registerNS("pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.RemoveZero");
+pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.RemoveZero");
 
-pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.RemoveZero = Class.create(pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.Abstract, {
+pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.RemoveZero = Class.create(pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.Abstract, {
     type: "operator",
     class: "RemoveZero",
     iconCls: "pimcore_icon_operator_remove_zero",
@@ -173,7 +173,15 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.RemoveZ
 
 ## Migration from Pimcore 4
 - Change table name from `plugin_outputdataconfigtoolkit_outputdefinition` to 
-`bundle_outputdataconfigtoolkit_outputdefinition`. 
+`bundle_outputdataconfigtoolkit_outputdefinition`.
+```sql
+RENAME TABLE plugin_outputdataconfigtoolkit_outputdefinition TO bundle_outputdataconfigtoolkit_outputdefinition; 
+```
 - Change namespace from `Elements\OutputDataConfigToolkit` to `OutputDataConfigToolkitBundle`.
 - Removed key value support.
-- Changed permission key to `bundle_outputDataConfigToolkit`
+- Changed permission key to `bundle_outputDataConfigToolkit`, execute following SQL statement
+```sql
+UPDATE users_permission_definitions SET `key` = REPLACE(`key`, 'plugin_outputDataConfigToolkit', 'bundle_outputDataConfigToolkit');
+UPDATE users SET permissions = REPLACE(`permissions`, 'plugin_outputDataConfigToolkit', 'bundle_outputDataConfigToolkit');
+```
+- namespaces for custom operators and values changed from `pimcore.plugin.outputDataConfigToolkit.*` to `pimcore.bundle.outputDataConfigToolkit.*`  

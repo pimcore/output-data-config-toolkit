@@ -12,9 +12,9 @@
  */
 
 
-pimcore.registerNS("pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.TableCol");
+pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.TableCol");
 
-pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.TableCol = Class.create(pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator.Group, {
+pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.TableCol = Class.create(pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.Group, {
     type: "operator",
     class: "TableCol",
     iconCls: "pimcore_icon_operator_tablecol",

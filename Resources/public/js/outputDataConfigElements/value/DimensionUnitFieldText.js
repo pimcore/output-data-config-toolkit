@@ -12,9 +12,9 @@
  */
 
 
-pimcore.registerNS("pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.DimensionUnit");
+pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.DimensionUnit");
 
-pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.DimensionUnitFieldText = Class.create(pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.DimensionUnitField, {
+pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.DimensionUnitFieldText = Class.create(pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.DimensionUnitField, {
     type: "value",
     class: "DimensionUnitFieldText"
 });

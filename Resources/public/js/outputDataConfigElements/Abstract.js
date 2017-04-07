@@ -12,9 +12,9 @@
  */
 
 
-pimcore.registerNS("pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.Abstract");
+pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.Abstract");
 
-pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.Abstract = Class.create({
+pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.Abstract = Class.create({
     type: null,
     class: null,
     objectClassId: null,

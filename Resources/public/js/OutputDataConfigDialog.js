@@ -12,8 +12,8 @@
  */
 
 
-pimcore.registerNS("pimcore.plugin.outputDataConfigToolkit.OutputDataConfigDialog");
-pimcore.plugin.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pimcore.object.helpers.gridConfigDialog, {
+pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog");
+pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pimcore.object.helpers.gridConfigDialog, {
 
     data: {},
     brickKeys: [],
@@ -46,7 +46,7 @@ pimcore.plugin.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
             width: 850,
             height: 650,
             modal: true,
-            iconCls: "plugin_outputdataconfig_icon",
+            iconCls: "bundle_outputdataconfig_icon",
             title: t('output_channel_definition_for') + " " + ts(this.outputConfig.channel),
             layout: "fit",
             items: [this.configPanel]
@@ -268,13 +268,13 @@ pimcore.plugin.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
     getConfigElement: function(configAttributes) {
         var element = null;
         if(configAttributes && configAttributes.class && configAttributes.type) {
-            element = new pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements[configAttributes.type][configAttributes.class](this.outputConfig.o_classId);
+            element = new pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements[configAttributes.type][configAttributes.class](this.outputConfig.o_classId);
         } else {
             var dataType = configAttributes.dataType.charAt(0).toUpperCase() + configAttributes.dataType.slice(1);
-            if(pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value[dataType]) {
-                element = new pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value[dataType](this.outputConfig.o_classId);
+            if(pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value[dataType]) {
+                element = new pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value[dataType](this.outputConfig.o_classId);
             } else {
-                element = new pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.DefaultValue(this.outputConfig.o_classId);
+                element = new pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.DefaultValue(this.outputConfig.o_classId);
             }
         }
         return element;
@@ -337,11 +337,11 @@ pimcore.plugin.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
     },
 
     getOperatorTree: function() {
-        var operators = Object.keys(pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator);
+        var operators = Object.keys(pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator);
         var childs = [];
         for(var i = 0; i < operators.length; i++) {
             if(!this.availableOperators || this.availableOperators.indexOf(operators[i]) >= 0) {
-                childs.push(pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.operator[operators[i]].prototype.getConfigTreeNode());
+                childs.push(pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator[operators[i]].prototype.getConfigTreeNode());
             }
         }
 
