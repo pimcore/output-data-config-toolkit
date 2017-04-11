@@ -16,6 +16,7 @@
 namespace OutputDataConfigToolkitBundle;
 
 use OutputDataConfigToolkitBundle\OutputDefinition\Dao;
+use Pimcore\Logger;
 
 class OutputDefinition extends \Pimcore\Model\AbstractModel {
     public $id;
@@ -41,12 +42,12 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel {
                 try {
                     $config->getDao()->getByO_IdClassIdChannel($o_id, $classId, $channel);
                 } catch(\Exception $e) {
-                    \Logger::info($e->getMessage());
+                    Logger::info($e->getMessage());
                     $config = null;
                 }
                 \Zend_Registry::set($cacheKey, $config);
             } catch(\Exception $ex) {
-                \Logger::debug($ex->getMessage());
+                Logger::debug($ex->getMessage());
                 return null;
             }
 
@@ -61,7 +62,7 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel {
             $config->getDao()->getById($id);
             return $config;
         } catch(\Exception $ex) {
-            \Logger::debug($ex->getMessage());
+            Logger::debug($ex->getMessage());
             return null;
         }        
     }
