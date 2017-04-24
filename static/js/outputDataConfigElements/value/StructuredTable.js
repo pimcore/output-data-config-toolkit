@@ -56,7 +56,7 @@ pimcore.plugin.outputDataConfigToolkit.outputDataConfigElements.value.Structured
         this.node = node;
 
         Ext.Ajax.request({
-            url: '/plugin/Elements_OutputDataConfigToolkit/admin/get-field-definition',
+            url: '/plugin/OutputDataConfigToolkitBundle/admin/get-field-definition',
             params: {
                 class_id: this.objectClassId,
                 key: node.attributes.configAttributes.attribute
