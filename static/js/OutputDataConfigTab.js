@@ -63,7 +63,7 @@ pimcore.plugin.outputDataConfigToolkit.Tab = Class.create({
 
     getGrid: function() {
         var proxy = new Ext.data.HttpProxy({
-            url: '/plugin/Elements_OutputDataConfigToolkit/admin/get-output-configs'
+            url: '/plugin/OutputDataConfigToolkitBundle/admin/get-output-configs'
         });
         var readerFields = [
             {name: 'id'},
@@ -177,7 +177,7 @@ pimcore.plugin.outputDataConfigToolkit.Tab = Class.create({
     resetOutputDataConfig: function(configId, answer) {
         if(answer != "no") {
             Ext.Ajax.request({
-                url: '/plugin/Elements_OutputDataConfigToolkit/admin/reset-output-config',
+                url: '/plugin/OutputDataConfigToolkitBundle/admin/reset-output-config',
                 params: {
                     config_id: configId
                 },
@@ -196,7 +196,7 @@ pimcore.plugin.outputDataConfigToolkit.Tab = Class.create({
 
     openConfigDialog: function(configId) {
         Ext.Ajax.request({
-            url: '/plugin/Elements_OutputDataConfigToolkit/admin/get-output-config',
+            url: '/plugin/OutputDataConfigToolkitBundle/admin/get-output-config',
             params: {
                 config_id: configId
             },
@@ -215,7 +215,7 @@ pimcore.plugin.outputDataConfigToolkit.Tab = Class.create({
 
     saveConfigDialog: function(data) {
         Ext.Ajax.request({
-            url: '/plugin/Elements_OutputDataConfigToolkit/admin/save-output-config',
+            url: '/plugin/OutputDataConfigToolkitBundle/admin/save-output-config',
             method: 'POST',
             params: {
                 config_id: data.id,

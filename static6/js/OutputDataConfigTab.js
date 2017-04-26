@@ -69,7 +69,7 @@ pimcore.plugin.outputDataConfigToolkit.Tab = Class.create({
 
         var itemsPerPage = 100000000;
         this.store = pimcore.helpers.grid.buildDefaultStore(
-            '/plugin/Elements_OutputDataConfigToolkit/admin/get-output-configs?',
+            '/plugin/OutputDataConfigToolkitBundle/admin/get-output-configs?',
             [
                 {name: 'id'},
                 {name: 'classname'},
@@ -161,7 +161,7 @@ pimcore.plugin.outputDataConfigToolkit.Tab = Class.create({
     resetOutputDataConfig: function(configId, answer) {
         if(answer != "no") {
             Ext.Ajax.request({
-                url: '/plugin/Elements_OutputDataConfigToolkit/admin/reset-output-config',
+                url: '/plugin/OutputDataConfigToolkitBundle/admin/reset-output-config',
                 params: {
                     config_id: configId
                 },
@@ -180,7 +180,7 @@ pimcore.plugin.outputDataConfigToolkit.Tab = Class.create({
 
     openConfigDialog: function(configId) {
         Ext.Ajax.request({
-            url: '/plugin/Elements_OutputDataConfigToolkit/admin/get-output-config',
+            url: '/plugin/OutputDataConfigToolkitBundle/admin/get-output-config',
             params: {
                 config_id: configId
             },
@@ -199,7 +199,7 @@ pimcore.plugin.outputDataConfigToolkit.Tab = Class.create({
 
     saveConfigDialog: function(data) {
         Ext.Ajax.request({
-            url: '/plugin/Elements_OutputDataConfigToolkit/admin/save-output-config',
+            url: '/plugin/OutputDataConfigToolkitBundle/admin/save-output-config',
             method: 'POST',
             params: {
                 config_id: data.id,

@@ -75,7 +75,7 @@ class Plugin extends \Pimcore\API\Plugin\AbstractPlugin implements \Pimcore\API\
 
         if(!file_exists(PIMCORE_WEBSITE_PATH . "/config/outputdataconfig")) {
             \Pimcore\File::mkdir(PIMCORE_WEBSITE_PATH . "/config/outputdataconfig");
-            copy(PIMCORE_PLUGINS_PATH . "/Elements_OutputDataConfigToolkit/install/config.php", PIMCORE_WEBSITE_PATH . "/config/outputdataconfig/config.php");
+            copy(PIMCORE_PLUGINS_PATH . "/OutputDataConfigToolkitBundle/install/config.php", PIMCORE_WEBSITE_PATH . "/config/outputdataconfig/config.php");
         }
 
         $db = \Pimcore\Db::get();
@@ -155,9 +155,9 @@ class Plugin extends \Pimcore\API\Plugin\AbstractPlugin implements \Pimcore\API\
     */
 	public static function getTranslationFile($language){
             if($language=="de"){
-                return "/Elements_OutputDataConfigToolkit/texts/de.csv";
+                return "/OutputDataConfigToolkitBundle/texts/de.csv";
             } else if($language=="en"){
-                return "/Elements_OutputDataConfigToolkit/texts/en.csv";
+                return "/OutputDataConfigToolkitBundle/texts/en.csv";
             } else {
                 return null;
             }

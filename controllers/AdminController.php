@@ -17,7 +17,7 @@
 
 use Elements\OutputDataConfigToolkit as OutputDataConfigToolkit;
 
-class Elements_OutputDataConfigToolkit_AdminController extends \Pimcore\Controller\Action\Admin {
+class OutputDataConfigToolkitBundle_AdminController extends \Pimcore\Controller\Action\Admin {
 
     public function init() {
         parent::init();

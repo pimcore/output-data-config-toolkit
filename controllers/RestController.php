@@ -17,7 +17,7 @@
 
 use Elements\OutputDataConfigToolkit as OutputDataConfigToolkit;
 
-class Elements_OutputDataConfigToolkit_RestController extends \Pimcore\Controller\Action\Webservice {
+class OutputDataConfigToolkitBundle_RestController extends \Pimcore\Controller\Action\Webservice {
 
     private static $_OUTPUTDATA_CONFIG_TABLE_NAME = "plugin_outputdataconfigtoolkit_outputdefinition";
 
