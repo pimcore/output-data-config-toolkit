@@ -1,0 +1,60 @@
+class_definition: Klassendefinition
+operators: Operatoren
+operator_text: Operator Text
+operator_group: Operator Gruppierung
+operator_concatenator: Operator Kombinierung
+output_channel_definition: Ausgabekanaldefinition
+output_channel_definition_for: Ausgabekanaldefinition für
+channel: Channel
+objectid: Objekt ID
+overwrite/edit: "Überschreiben/Editieren"
+reset: Zurücksetzen
+outputdataconfig: Definition Ausgabeformate
+attribute_settings: Attributeinstellungen
+config_title: Titel
+config_title_original: Originaltitel
+config_title_custom: Eigener Titel
+custom_title: Eigener Titel
+dimension_unit_mode: Dimensions-einheitenmodus
+value_with_unit: Wert mit Einheit
+raw_data: Rohdaten
+only_value: Nur Wert
+config_table: Einstellungen Tabelle
+config_whole_table: Gesamte Tabelle
+config_specific_field: Spezielles Feld
+row: Zeile
+column: Spalte
+text_operator_settings: Operator Text Einstellungen
+glue: Verbindungs-zeichen
+concatenator_operator_settings: Operator Kombinierung Einstellungen
+group_operator_settings: Operator Gruppierung Einstellungen
+reset_outputdataconfig: Ausgabedateneinstellungen zurücksetzen
+reset_outputdataconfig_text: Ausgabedateneinstellungen zurücksetzen und die des Elternobjekts verwenden.
+error_reseting_output_config: Fehler beim Zurücksetzen der Ausgabedateneinstellungen.
+error_opening_output_config: Fehler beim Öffnen der Ausgabedateneinstellungen.
+output_config_saved: Ausgabedateneinstellungen erfolgreich gespeichert.
+error_saving_output_config: Fehler beim Speichern der Ausgabedateneinstellungen.
+error_getting_field_definition: Fehler beim Laden der Felddefinitionen.
+operator_table: Operator Tabelle
+table_operator_settings: Operator Tabelle Einstellungen
+operator_tablerow: Operator Tabelle Zeile
+operator_tablecol: Operator Tablle Spalte
+tablecol_operator_settings: Operator Tabelle Spalte Einstellungen
+colspan: Column span
+permissions_bundle_outputDataConfigToolkit: Ausgabedateneinstellungen
+headline: "Überschrift"
+tablerow_operator_settings: Operator Table Zeile Einstellungen
+force_value: immer Wert anzeigen
+keyvalue_tag_col_group_description: Gruppenbeschreibung
+keyvalue_selected_keys: Ausgewählte Attribute
+format_number: Zahl formatieren
+precision: Nachkommastellen
+operator_translate_value: Operator Wert übersetzen
+operator_translate_value_settings: Operator Wert übersetzen Einstellungen
+operator_translate_value_prefix: Prefix
+operator_cell_formater: "Operator Zellformater"
+operator_cell_formater_settings: "Operator 'Zellformater' Einstellungen"
+operator_cell_formater_css_class: "CSS Klasse"
+operator_cell_formater_css_styles: "CSS Style"
+operator_textaddon: Operator Text Zusatz
+operator_textaddon_addon: Text Zusatz

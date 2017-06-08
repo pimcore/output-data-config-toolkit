@@ -1,4 +1,0 @@
-_pimcore_outputdataconfig_backend:
-    resource: "@OutputDataConfigToolkitBundle/Controller/"
-    type:     annotation
-    prefix:   /admin/outputdataconfig

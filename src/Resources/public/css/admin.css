@@ -1,0 +1,59 @@
+/**
+ * Pimcore
+ *
+ * This source file is available under two different licenses:
+ * - GNU General Public License version 3 (GPLv3)
+ * - Pimcore Enterprise License (PEL)
+ * Full copyright and license information is available in
+ * LICENSE.md which is distributed with this source code.
+ *
+ * @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
+ * @license    http://www.pimcore.org/license     GPLv3 and PEL
+ */
+
+
+.pimcore_icon_operator_group {
+    background: url("/pimcore/static6/img/flat-color-icons/multiple_inputs.svg") center center no-repeat !important;
+}
+.pimcore_icon_operator_concatenator {
+    background: url("/pimcore/static6/img/flat-color-icons/capacitor.svg") center center no-repeat !important;
+}
+.bundle_outputdataconfig_icon {
+    background: url("/pimcore/static6/img/flat-color-icons/grid.svg") center center no-repeat !important;
+}
+.bundle_outputdataconfig_icon:before {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    bottom: 0px;
+    right: 0px;
+    content: "";
+    background: url(/pimcore/static6/img/flat-color-icons/go.svg) center center no-repeat !important;
+}
+
+
+
+
+.pimcore_icon_operator_text {
+    background: url("/pimcore/static6/img/flat-color-icons/text.svg") center center no-repeat !important;
+}
+
+.pimcore_icon_operator_table {
+    background: url("/pimcore/static6/img/flat-color-icons/data_sheet.svg") center center no-repeat !important;
+}
+
+.pimcore_icon_operator_tablerow {
+    background: url("/pimcore/static6/img/flat-color-icons/table-row.svg") center center no-repeat !important;
+}
+
+.pimcore_icon_operator_tablecol {
+    background: url("/pimcore/static6/img/flat-color-icons/table-column.svg") center center no-repeat !important;
+}
+
+.pimcore_icon_operator_cell_formater {
+    background: url("/pimcore/static6/img/icon/style_edit.png") no-repeat scroll left center transparent !important;
+}
+
+.pimcore_icon_operator_textaddon {
+    background: url("/pimcore/static6/img/icon/font_add.png") no-repeat scroll left center transparent !important;
+}
