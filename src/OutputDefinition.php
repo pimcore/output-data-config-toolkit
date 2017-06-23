@@ -33,7 +33,7 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel {
         $cacheKey = self::getCacheKey($o_id, $classId, $channel);
 
         try {
-            $config = \Zend_Registry::get($cacheKey);
+            $config = \Pimcore\Cache\Runtime::get($cacheKey);
         }
         catch (\Exception $e) {
 
@@ -45,7 +45,7 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel {
                     Logger::info($e->getMessage());
                     $config = null;
                 }
-                \Zend_Registry::set($cacheKey, $config);
+                \Pimcore\Cache\Runtime::set($cacheKey, $config);
             } catch(\Exception $ex) {
                 Logger::debug($ex->getMessage());
                 return null;
@@ -64,7 +64,7 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel {
         } catch(\Exception $ex) {
             Logger::debug($ex->getMessage());
             return null;
-        }        
+        }
     }
 
     private static function getCacheKey($o_id, $classId, $channel) {
@@ -93,7 +93,7 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel {
      */
     public function delete() {
         $cacheKey = self::getCacheKey($this->getO_id(), $this->getO_ClassId(), $this->getChannel());
-        \Zend_Registry::set($cacheKey, null);
+        \Pimcore\Cache\Runtime::set($cacheKey, null);
 
         $this->getDao()->delete();
     }

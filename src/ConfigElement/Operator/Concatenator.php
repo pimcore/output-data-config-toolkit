@@ -40,7 +40,7 @@ class Concatenator extends AbstractOperator {
 
         $childs = $this->getChilds();
         $valueArray = [];
-        
+
         foreach($childs as $c) {
             $value = $c->getLabeledValue($object)->value;
 
@@ -51,7 +51,8 @@ class Concatenator extends AbstractOperator {
             }
 
             if($this->formatNumbers && is_numeric($value)) {
-                $value = \Zend_Locale_Format::toNumber($value, array("locale" => \Zend_Registry::get("Zend_Locale")) );
+                $formattingService = \Pimcore::getContainer()->get('pimcore.locale.intl_formatter');
+                $value = $formattingService->formatNumber($value);
             }
 
             if($value !== null) {
