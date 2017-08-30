@@ -1,9 +1,9 @@
 # OutputDataConfigToolkit
 
-This toolkit provides an user interface to create output formats for objects based on different output channels.
-So it is possible to define, which attributes of an objects should be printed in a certain output channel.
+This toolkit provides an user interface to create output formats for data objects based on different output channels.
+So it is possible to define, which attributes of a data objects should be printed in a certain output channel.
 An output data configuration consists of
-- values = object attributes
+- values = data object attributes
 - operators = can combine, modify, calculate, ... values
 
 ## Configuration
@@ -24,13 +24,13 @@ After installing the bundle, a config file is located at `/var/config/outputdata
 
 ## Defining output data configuration for different output channels
 
-Output data configurations can be configured in an additional tab in the object editor.
-There for each object class and output channel an output output data configuration can be defined.
+Output data configurations can be configured in an additional tab in the data object editor.
+There for each data object class and output channel an output output data configuration can be defined.
 
 ![list](doc/img/list.png)
 
 
-The output data configurations can be inherited along the objects tree. The column Object ID shows from with object the output data configuration is inherited from.
+The output data configurations can be inherited along the data objects tree. The column Object ID shows from with data object the output data configuration is inherited from.
 By clicking overwrite, the editor opens and a new output data configuration can be configured.
 
 ![editor](doc/img/editor.png)
@@ -38,7 +38,7 @@ By clicking overwrite, the editor opens and a new output data configuration can 
 
 ## Working with output channels in code
 
-The bundle provides a service class, with converts an pimcore object to an output data structure based on its ouput data configuration.
+The bundle provides a service class, with converts a Pimcore data object to an output data structure based on its ouput data configuration.
 
 ```php
 <?php

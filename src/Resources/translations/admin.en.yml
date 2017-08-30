@@ -29,7 +29,7 @@ glue: Glue
 concatenator_operator_settings: Operator Concatenator Settings
 group_operator_settings: Operator Group Settings
 reset_outputdataconfig: Reset Output Data Config
-reset_outputdataconfig_text: Reset Output Data Config and use it from parent object.
+reset_outputdataconfig_text: Reset Output Data Config and use it from parent data object.
 error_reseting_output_config: Error during resetting Output Config Data.
 error_opening_output_config: Error during opening Output Config Data.
 output_config_saved: Output Config Data saved successfully

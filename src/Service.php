@@ -16,6 +16,7 @@
 namespace OutputDataConfigToolkitBundle;
 
 use OutputDataConfigToolkitBundle\ConfigElement\IConfigElement;
+use Pimcore\Model\DataObject\ClassDefinition;
 
 class Service {
 
@@ -27,14 +28,14 @@ class Service {
 
         if($class) {
             if(is_string($class)) {
-                $objectClass = \Pimcore\Model\Object\ClassDefinition::getByName($class);
+                $objectClass = ClassDefinition::getByName($class);
                 if(empty($objectClass)) {
                     throw new \Exception("Class $class not found.");
                 }
-            } else if($class instanceof \Pimcore\Model\Object\ClassDefinition) {
+            } else if($class instanceof ClassDefinition) {
                 $objectClass = $class;
             } else {
-                throw new \Exception("Invalid Parameter class - needs to be string or Object_Class");
+                throw new \Exception("Invalid Parameter class - needs to be string or ClassDefinition");
             }
         } else {
             $objectClass = $object->getClass();
@@ -100,7 +101,7 @@ class Service {
     public static function initChannelsForRootobject() {
         $channels = self::getChannels();
 
-        $classList = new \Pimcore\Model\Object\ClassDefinition\Listing();
+        $classList = new ClassDefinition\Listing();
         $classList = $classList->load();
 
         foreach($classList as $class) {

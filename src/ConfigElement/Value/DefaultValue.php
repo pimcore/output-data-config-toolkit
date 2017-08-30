@@ -17,8 +17,8 @@ namespace OutputDataConfigToolkitBundle\ConfigElement\Value;
 
 
 use OutputDataConfigToolkitBundle\ConfigElement\AbstractConfigElement;
-use Pimcore\Bundle\PimcoreEcommerceFrameworkBundle\Model\DefaultMockup;
-use Pimcore\Model\Object\AbstractObject;
+use Pimcore\Bundle\EcommerceFrameworkBundle\Model\DefaultMockup;
+use Pimcore\Model\DataObject\AbstractObject;
 
 class DefaultValue extends AbstractConfigElement {
 
@@ -35,7 +35,7 @@ class DefaultValue extends AbstractConfigElement {
             $brickType = $attributeParts[0];
             $brickKey = $attributeParts[1];
 
-            $getter = "get" . ucfirst(\Pimcore\Model\Object\Service::getFieldForBrickType($object->getClass(), $brickType));
+            $getter = "get" . ucfirst(\Pimcore\Model\DataObject\Service::getFieldForBrickType($object->getClass(), $brickType));
             $brickTypeGetter = "get" . ucfirst($brickType);
             $brickGetter = "get" . ucfirst($brickKey);
         }
@@ -46,7 +46,7 @@ class DefaultValue extends AbstractConfigElement {
                 $def = $object->getClass()->getFieldDefinition($this->attribute);
                 if(!$def){
                     /**
-                     * @var \Pimcore\Model\Object\ClassDefinition\Data\Localizedfields $lf
+                     * @var \Pimcore\Model\DataObject\ClassDefinition\Data\Localizedfields $lf
                      */
                     $lf = $object->getClass()->getFieldDefinition("localizedfields");
                     if($lf) {
@@ -61,7 +61,7 @@ class DefaultValue extends AbstractConfigElement {
                 }
 
                 if(!empty($value) && !empty($brickGetter)) {
-                    $def = \Pimcore\Model\Object\Objectbrick\Definition::getByKey($brickType);
+                    $def = \Pimcore\Model\DataObject\Objectbrick\Definition::getByKey($brickType);
                     $def = $def->getFieldDefinition($brickKey);
                     if(empty($label) && !empty($value)) {
                         if($def) {

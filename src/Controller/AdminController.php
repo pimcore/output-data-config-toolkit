@@ -18,7 +18,8 @@ namespace OutputDataConfigToolkitBundle\Controller;
 use OutputDataConfigToolkitBundle\OutputDefinition;
 use OutputDataConfigToolkitBundle\Service;
 use Pimcore\Logger;
-use Pimcore\Model\Object\AbstractObject;
+use Pimcore\Model\DataObject\AbstractObject;
+use Pimcore\Model\DataObject\ClassDefinition;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -39,7 +40,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         $objectId = $request->get("object_id");
         $object = AbstractObject::getById($objectId);
 
-        $classList = new \Pimcore\Model\Object\ClassDefinition\Listing();
+        $classList = new \Pimcore\Model\DataObject\ClassDefinition\Listing();
         if($request->get("class_id")) {
             $classList->setCondition("id = ?", $request->get("class_id"));
         }
@@ -99,7 +100,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         try {
             $config = OutputDefinition::getByID($request->get("config_id"));
 
-            $objectClass = \Pimcore\Model\Object\ClassDefinition::getById($config->getO_ClassId());
+            $objectClass = ClassDefinition::getById($config->getO_ClassId());
             $configuration = json_decode($config->getConfiguration());
             $configuration = $this->doGetAttributeLabels($configuration, $objectClass);
 
@@ -121,9 +122,9 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             if(!$config) {
 
                 if(is_numeric($request->get("class_id"))) {
-                    $class = \Pimcore\Model\Object\ClassDefinition::getById($request->get("class_id"));
+                    $class = ClassDefinition::getById($request->get("class_id"));
                 } else {
-                    $class = \Pimcore\Model\Object\ClassDefinition::getByName($request->get("class_id"));
+                    $class = ClassDefinition::getByName($request->get("class_id"));
                 }
                 if(!$class) {
                     throw new \Exception("Class " . $request->get("class_id") . " not found.");
@@ -133,7 +134,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             }
 
             if($config) {
-                $objectClass = \Pimcore\Model\Object\ClassDefinition::getById($config->getO_ClassId());
+                $objectClass = ClassDefinition::getById($config->getO_ClassId());
                 $configuration = json_decode($config->getConfiguration());
                 $configuration = $this->doGetAttributeLabels($configuration, $objectClass);
                 $config->setConfiguration($configuration);
@@ -188,7 +189,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
      */
     public function getAttributeLabelsAction(Request $request) {
         $configration = json_decode($request->get("configuration"));
-        $class = \Pimcore\Model\Object\ClassDefinition::getById($request->get("classId"));
+        $class = ClassDefinition::getById($request->get("classId"));
 
         $configration = $this->doGetAttributeLabels($configration, $class);
         return $this->json(array("configuration" => $configration));
@@ -210,7 +211,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
         if(!empty($brickType)) {
             try {
-                $def = \Pimcore\Model\Object\Objectbrick\Definition::getByKey($brickType);
+                $def = \Pimcore\Model\DataObject\Objectbrick\Definition::getByKey($brickType);
                 $def = $def->getFieldDefinition($brickKey);
             } catch(\Exception $e) {
                 Logger::err($e);
@@ -250,9 +251,9 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         try {
             $config = OutputDefinition::getByID($request->get("config_id"));
 
-            $object = \Pimcore\Model\Object\AbstractObject::getById($request->get("object_id"));
+            $object = AbstractObject::getById($request->get("object_id"));
             if(empty($object)) {
-                throw new \Exception("Object with ID" . $request->get("object_id") . " not found.");
+                throw new \Exception("Data Object with ID" . $request->get("object_id") . " not found.");
             }
             if($config->getO_Id() == $request->get("object_id")) {
                 $config->setConfiguration($request->get("config"));
