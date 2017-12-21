@@ -54,7 +54,7 @@ class RestController extends AbstractRestController {
             $responseObj->status = "OK";
             $responseObj->msg = sprintf("Found %d records.", count($records));
         }
-        return $this->json($responseObj);
+        return $this->adminJson($responseObj);
     }
 
 }

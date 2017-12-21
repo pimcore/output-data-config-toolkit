@@ -62,7 +62,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                 );
             }
         }
-        return $this->json(array("success" => true, "data" => $outputDefinitions));
+        return $this->adminJson(array("success" => true, "data" => $outputDefinitions));
     }
 
 
@@ -85,10 +85,10 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         try {
             $config = OutputDefinition::getByID($request->get("config_id"));
             $config->delete();
-            return $this->json(array("success" => true));
+            return $this->adminJson(array("success" => true));
         } catch(\Exception $e) {
             Logger::err($e->getMessage(), $e);
-            return $this->json(array("success" => false, "message" => $e->getMessage()));
+            return $this->adminJson(array("success" => false, "message" => $e->getMessage()));
         }
     }
 
@@ -105,10 +105,10 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             $configuration = $this->doGetAttributeLabels($configuration, $objectClass);
 
             $config->setConfiguration($configuration);
-            return $this->json(array("success" => true, "outputConfig" => $config));
+            return $this->adminJson(array("success" => true, "outputConfig" => $config));
         } catch(\Exception $e) {
             Logger::err($e);
-            return $this->json(array("success" => false, "message" => $e->getMessage()));
+            return $this->adminJson(array("success" => false, "message" => $e->getMessage()));
         }
     }
 
@@ -138,7 +138,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                 $configuration = json_decode($config->getConfiguration());
                 $configuration = $this->doGetAttributeLabels($configuration, $objectClass);
                 $config->setConfiguration($configuration);
-                return $this->json(array("success" => true, "outputConfig" => $config));
+                return $this->adminJson(array("success" => true, "outputConfig" => $config));
             } else {
                 $config = new OutputDefinition();
                 $config->setChannel($request->get("channel"));
@@ -146,12 +146,12 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                 $config->setO_Id($request->get("o_id"));
                 $config->save();
 
-                return $this->json(array("success" => true, "outputConfig" => $config));
+                return $this->adminJson(array("success" => true, "outputConfig" => $config));
             }
 
         } catch(\Exception $e) {
             Logger::err($e->getMessage(), $e);
-            return $this->json(array("success" => false, "message" => $e->getMessage()));
+            return $this->adminJson(array("success" => false, "message" => $e->getMessage()));
         }
     }
 
@@ -192,7 +192,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         $class = ClassDefinition::getById($request->get("classId"));
 
         $configration = $this->doGetAttributeLabels($configration, $class);
-        return $this->json(array("configuration" => $configration));
+        return $this->adminJson(array("configuration" => $configration));
     }
 
     private function getFieldDefinition($attributeName, $objectClass) {
@@ -235,10 +235,10 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         try {
             $objectClass = \Pimcore\Model\Object\ClassDefinition::getById($request->get("class_id"));
             $def = $this->getFieldDefinition($request->get("key"), $objectClass);
-            return $this->json(array("success" => true, "fieldDefinition" => $def));
+            return $this->adminJson(array("success" => true, "fieldDefinition" => $def));
         } catch(\Exception $e) {
             Logger::err($e->getMessage(), $e);
-            return $this->json(array("success" => false, "message" => $e->getMessage()));
+            return $this->adminJson(array("success" => false, "message" => $e->getMessage()));
         }
 
     }
@@ -266,10 +266,10 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                 $newConfig->setConfiguration($request->get("config"));
                 $newConfig->save();
             }
-            return $this->json(array("success" => true));
+            return $this->adminJson(array("success" => true));
         } catch(\Exception $e) {
             Logger::err($e->getMessage(), $e);
-            return $this->json(array("success" => false, "message" => $e->getMessage()));
+            return $this->adminJson(array("success" => false, "message" => $e->getMessage()));
         }
     }
 
