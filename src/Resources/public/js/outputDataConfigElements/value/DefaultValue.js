@@ -89,10 +89,17 @@ pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.DefaultVal
             ]
         });
 
+        this.icon = new Ext.form.TextField({
+            fieldLabel: t('custom_icon'),
+            length: 255,
+            width: 500,
+            value: this.node.data.configAttributes.icon
+        });
+
         this.configPanel = new Ext.Panel({
             layout: "form",
             bodyStyle: "padding: 10px;",
-            items: [this.radiogroup, this.textfield],
+            items: [this.radiogroup, this.textfield, this.icon],
             buttons: [{
                 text: t("apply"),
                 iconCls: "pimcore_icon_apply",
@@ -103,8 +110,8 @@ pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.DefaultVal
         });
 
         this.window = new Ext.Window({
-            width: 400,
-            height: 250,
+            width: 500,
+            height: 300,
             modal: true,
             title: t('attribute_settings'),
             layout: "fit",
@@ -122,6 +129,8 @@ pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.DefaultVal
         } else {
             this.node.data.configAttributes.label = null;
         }
+        this.node.data.configAttributes.icon = this.icon ? this.icon.getValue() : null;
+        this.node.set('icon', this.icon ? this.icon.getValue() : null);
         this.window.close();
     }
 });

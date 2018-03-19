@@ -22,6 +22,13 @@ use Pimcore\Model\DataObject\AbstractObject;
 
 class DefaultValue extends AbstractConfigElement {
 
+    protected $icon;
+
+    public function __construct($config, $context = null) {
+        parent::__construct($config, $context);
+        $this->icon = $config->icon;
+    }
+
     public function getLabeledValue($object) {
 
         $attributeParts = explode("~", $this->attribute);
