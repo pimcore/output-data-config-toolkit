@@ -78,7 +78,9 @@ class DefaultValue extends AbstractConfigElement {
                     $lf = $object->getClass()->getFieldDefinition("localizedfields");
                     if($lf) {
                         $def = $lf->getFieldDefinition($this->attribute);
-                        $this->localized = true;
+                        if ($def) {
+                            $this->localized = true;
+                        }
                     }
                 }
 
