@@ -63,7 +63,7 @@ class Service {
         return $config;
     }
 
-    private static function locateOperatorConfigClass($configElement) {
+    private static function locateOperatorConfigClass($configElement) : string {
         $namespaces = [
             "\\OutputDataConfigToolkitBundle\\ConfigElement\\Operator\\",
             "\\AppBundle\\OutputDataConfigToolkit\\ConfigElement\\Operator\\"
