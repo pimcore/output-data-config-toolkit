@@ -223,9 +223,11 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             } catch(\Exception $e) {
                 Logger::err($e);
             }
+        } else {
+            $def = $objectClass->getFieldDefinition($attributeName);
         }
 
-        if(!$def & !empty($brickType)) {
+        if(!$def && !empty($brickType)) {
             try {
                 $def = \Pimcore\Model\DataObject\Objectbrick\Definition::getByKey($brickType);
                 $def = $def->getFieldDefinition($brickKey);
