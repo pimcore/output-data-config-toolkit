@@ -206,10 +206,28 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             $brickKey = $attributeParts[1];
         }
 
-        $def = $objectClass->getFieldDefinition($attributeName);
+        $def = null;
+        $brickInfos = null;
+        if ($brickKey && strpos($brickType, '?') === 0) {
+            $definitionJson = substr($brickType, 1);
+            $brickInfos = json_decode($definitionJson);
+            $containerKey = $brickInfos->containerKey;
+            $fieldName = $brickInfos->fieldname;
+            $brickfield = $brickInfos->brickfield;
+            try {
+                $brickDef = \Pimcore\Model\DataObject\Objectbrick\Definition::getByKey($containerKey);
+                $def = $brickDef->getFieldDefinition($brickKey);
+                if(empty($def) && $brickDef->getFieldDefinition("localizedfields")) {
+                    $def = $brickDef->getFieldDefinition("localizedfields")->getFieldDefinition($brickfield);
+                }
+            } catch(\Exception $e) {
+                Logger::err($e);
+            }
+        } else {
+            $def = $objectClass->getFieldDefinition($attributeName);
+        }
 
-
-        if(!empty($brickType)) {
+        if(!$def && !empty($brickType)) {
             try {
                 $def = \Pimcore\Model\DataObject\Objectbrick\Definition::getByKey($brickType);
                 $def = $def->getFieldDefinition($brickKey);
