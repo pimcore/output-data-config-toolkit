@@ -129,8 +129,19 @@ pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.DefaultVal
         } else {
             this.node.data.configAttributes.label = null;
         }
-        this.node.data.configAttributes.icon = this.icon ? this.icon.getValue() : null;
-        this.node.set('icon', this.icon ? this.icon.getValue() : null);
+
+        var iconValue = this.icon ? this.icon.getValue() : null;
+        if (iconValue != null && iconValue.length == 0) {
+            iconValue = null;
+            this.node.data.configAttributes.icon = iconValue;
+            var restoredIconClass = "pimcore_icon_" + this.node.data.configAttributes.dataType;
+            this.node.set('iconCls', restoredIconClass);
+        } else if (iconValue != null) {
+            this.node.set('iconCls', null);
+        }
+        this.node.data.configAttributes.icon = iconValue;
+        this.node.set('icon', iconValue);
+
         this.window.close();
     }
 });
