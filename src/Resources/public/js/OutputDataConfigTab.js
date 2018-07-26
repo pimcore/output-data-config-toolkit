@@ -100,7 +100,7 @@ pimcore.bundle.outputDataConfigToolkit.Tab = Class.create({
             items: [
                 {
                     tooltip: t('overwrite/edit'),
-                    icon: "/pimcore/static6/img/flat-color-icons/edit.svg",
+                    icon: "/bundles/pimcoreadmin/img/flat-color-icons/edit.svg",
                     handler: function (grid, rowIndex) {
                         var data = grid.getStore().getAt(rowIndex);
                         this.openConfigDialog(data.data.id);
@@ -115,7 +115,7 @@ pimcore.bundle.outputDataConfigToolkit.Tab = Class.create({
             items: [
                 {
                     tooltip: t('reset'),
-                    icon: "/pimcore/static6/img/flat-color-icons/delete.svg",
+                    icon: "/bundles/pimcoreadmin/img/flat-color-icons/delete.svg",
                     getClass: function(v, meta, rec) {  // Or return a class from a function
                         if(rec.get('is_inherited') || this.object.id == 1) {
                             return "pimcore_hidden";
