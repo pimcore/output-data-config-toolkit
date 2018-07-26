@@ -259,7 +259,7 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
                         treenode.expandable = true;
                     }
                 }
-                if (configuration[i].icon != null) {
+                if (configuration[i].icon != null && configuration[i].icon.length > 0) {
                     treenode.iconCls = null;
                     treenode.icon = configuration[i].icon;
                 }
