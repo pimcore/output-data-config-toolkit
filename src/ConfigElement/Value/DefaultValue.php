@@ -117,7 +117,7 @@ class DefaultValue extends AbstractConfigElement {
 
                         if(is_object($value) && method_exists($value, $brickGetter)) {
                             $value = $value->$brickGetter();
-                        } elseif ($brickInfos) {
+                        } elseif ($brickInfos && !is_null($value)) {
                             $lfs = $value->getLocalizedfields();
                             $value = $lfs->getLocalizedValue($brickfield);
                             $this->localized = true;
