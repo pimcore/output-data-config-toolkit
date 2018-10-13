@@ -41,11 +41,11 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel {
                 $config = new self();
                 try {
                     $config->getDao()->getByO_IdClassIdChannel($o_id, $classId, $channel);
+                    \Pimcore\Cache\Runtime::set($cacheKey, $config);
                 } catch(\Exception $e) {
                     Logger::info($e->getMessage());
                     $config = null;
                 }
-                \Pimcore\Cache\Runtime::set($cacheKey, $config);
             } catch(\Exception $ex) {
                 Logger::debug($ex->getMessage());
                 return null;
