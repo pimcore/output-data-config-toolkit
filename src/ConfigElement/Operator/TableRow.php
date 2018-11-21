@@ -34,7 +34,7 @@ class TableRow extends AbstractOperator {
         foreach($childs as $c) {
 
             $col = $c->getLabeledValue($object);
-            if(!empty($col) && (!$col->empty && !($c instanceof \Elements\OutputDataConfigToolkit\ConfigElement\Operator\Text))) {
+            if(!empty($col) && (!$col->empty && !($c instanceof \OutputDataConfigToolkitBundle\ConfigElement\Operator\Text))) {
                 $isEmpty = false;
             }
             $valueArray[] = $c->getLabeledValue($object);

@@ -36,7 +36,7 @@ class TableCol extends AbstractOperator {
             $value->colSpan = $this->colspan;
             $value->headline = $this->headline;
 
-            if(empty($value) || $childs[0] instanceof \Elements\OutputDataConfigToolkit\ConfigElement\Operator\Text) {
+            if(empty($value) || $childs[0] instanceof \OutputDataConfigToolkitBundle\ConfigElement\Operator\Text) {
                 $value->empty = true;
             }            
         }
