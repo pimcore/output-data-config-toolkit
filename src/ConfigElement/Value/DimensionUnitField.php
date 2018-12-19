@@ -55,7 +55,7 @@ class DimensionUnitField extends DefaultValue {
                     if(is_numeric($value)) {
                         $value = $formatter->formatNumber($value);
                     }
-                    $result->value = $value . " " . $rawResult->value->getUnit()->getAbbreviation();
+                    $result->value = $value . ($rawResult->value->getUnit() ? " " . $rawResult->value->getUnit()->getAbbreviation() : "");
                 }
             }
 
