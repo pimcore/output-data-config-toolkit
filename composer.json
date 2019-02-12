@@ -5,6 +5,9 @@
   "require": {
     "pimcore/core-version": ">=5.2.0 <5.7"
   },
+  "require-dev": {
+    "composer/composer": "~1.0.0"
+  },
   "autoload": {
     "psr-4": {
       "OutputDataConfigToolkitBundle\\": "src/"
@@ -16,5 +19,11 @@
         "OutputDataConfigToolkitBundle\\OutputDataConfigToolkitBundle"
       ]
     }
+  },
+  "scripts": {
+    "pre-update-cmd": "OutputDataConfigToolkitBundle\\Tools:preUpdate",
+    "pre-package-update": "OutputDataConfigToolkitBundle\\Tools:preUpdate",
+    "post-update-cmd": "OutputDataConfigToolkitBundle\\Tools:postUpdate",
+    "post-package-update": "OutputDataConfigToolkitBundle\\Tools:postUpdate"
   }
 }

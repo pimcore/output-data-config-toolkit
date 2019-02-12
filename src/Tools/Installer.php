@@ -25,7 +25,6 @@ class Installer extends AbstractInstaller {
 
     public function install()
     {
-
         if(!file_exists(PIMCORE_CUSTOM_CONFIGURATION_DIRECTORY . "/outputdataconfig")) {
             \Pimcore\File::mkdir(PIMCORE_CUSTOM_CONFIGURATION_DIRECTORY . "/outputdataconfig");
             copy(__DIR__ . "/../../install/config.php", PIMCORE_CUSTOM_CONFIGURATION_DIRECTORY . "/outputdataconfig/config.php");
@@ -35,7 +34,7 @@ class Installer extends AbstractInstaller {
         $db->query("CREATE TABLE `" . Dao::TABLE_NAME . "` (
               `id` int(11) NOT NULL AUTO_INCREMENT,
               `o_id` int(11) NOT NULL,
-              `o_classId` int(11) NOT NULL,
+              `o_classId` varchar(50) NOT NULL,
               `channel` varchar(255) COLLATE utf8_bin NOT NULL,
               `configuration` longtext CHARACTER SET latin1,
               PRIMARY KEY (`id`),
@@ -50,7 +49,6 @@ class Installer extends AbstractInstaller {
         } else {
             return false;
         }
-
     }
 
     public function needsReloadAfterInstall()
