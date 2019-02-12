@@ -17,8 +17,10 @@ use Composer\Script\ScriptEvents;
  */
 class Updater
 {
-    const VERSION_FILE = './update/version.txt';
-    const VERSION_EXECUTED_DIR = './update/executed';
+    const DIR_PREFIX = PIMCORE_PRIVATE_VAR . '/config/output_data-config-toolkit/update/';
+
+    const VERSION_FILE = self::DIR_PREFIX . 'version.txt';
+    const VERSION_EXECUTED_DIR = self::DIR_PREFIX . 'executed';
 
     /**
      * Save pre version
