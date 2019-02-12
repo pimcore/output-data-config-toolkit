@@ -10,6 +10,7 @@ namespace OutputDataConfigToolkitBundle\Tools;
 
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
+use Pimcore\Log\Simple;
 
 /**
  * Class Updater
@@ -29,6 +30,8 @@ class Updater
      */
     public static function preUpdate(Event $event)
     {
+        Simple::log("output_data_config_toolkit", $event->getName());
+
         if (!in_array($event->getName(), [
             ScriptEvents::PRE_UPDATE_CMD,
             ScriptEvents::PRE_PACKAGE_UPDATE,
@@ -40,6 +43,7 @@ class Updater
 
         $versionFilePath = self::getVersionFilePath();
         file_put_contents($versionFilePath, $currentVersion);
+        Simple::log("output_data_config_toolkit", "Current Version: {$currentVersion}");
     }
 
     /**
@@ -47,6 +51,8 @@ class Updater
      */
     public static function postUpdate(Event $event)
     {
+        Simple::log("output_data_config_toolkit", $event->getName());
+
         if (!in_array($event->getName(), [
             ScriptEvents::POST_UPDATE_CMD,
             ScriptEvents::POST_PACKAGE_UPDATE,
@@ -55,8 +61,11 @@ class Updater
         }
 
         $currentVersion = $event->getComposer()->getPackage()->getVersion();
+        Simple::log("output_data_config_toolkit", "Current Version: {$currentVersion}");
+
         $versionFilePath = self::getVersionFilePath();
         $previousVersion = file_get_contents($versionFilePath);
+        Simple::log("output_data_config_toolkit", "Previous Version: {$previousVersion}");
 
         self::executeVersionUpdates($previousVersion, $currentVersion);
 
