@@ -20,12 +20,13 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
     availableOperators: null,
 
 
-    initialize: function (outputConfig, callback, availableOperators) {
+    initialize: function (outputConfig, callback, availableOperators, targetObjectId) {
 
         if(pimcore.settings === undefined) {
             pimcore.settings = { debug_admin_translations: false };
         }
 
+        this.targetObjectId = targetObjectId;
         this.outputConfig = outputConfig;
         this.callback = callback;
         if(availableOperators) {
@@ -301,7 +302,8 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
         if (!this.leftPanel) {
 
             var items = [
-                this.getClassTree("/admin/class/get-class-definition-for-column-config", this.outputConfig.o_classId),
+                this.getClassTree("/admin/outputdataconfig/get-class-definition-for-column-config", this.outputConfig.o_classId, this.targetObjectId),
+                // this.getClassTree("/admin/class/get-class-definition-for-column-config", this.outputConfig.o_classId, this.outputConfig.o_id, this.targetObjectId),
                 this.getOperatorTree()
             ];
 
@@ -316,10 +318,10 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
         return this.leftPanel;
     },
 
-    getClassTree: function(url, id) {
+    getClassTree: function(url, id,  target_oid) {
 
-        var classTreeHelper = new pimcore.object.helpers.classTree(false);
-        var tree = classTreeHelper.getClassTree(url, id);
+        var classTreeHelper = new pimcore.bundle.outputDataConfigToolkit.ClassTree(false);
+        var tree = classTreeHelper.getClassTree(url, id, null, target_oid);
 
         tree.addListener("itemdblclick", function( tree, record, item, index, e, eOpts ) {
 

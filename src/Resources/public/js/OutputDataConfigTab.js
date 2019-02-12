@@ -186,7 +186,7 @@ pimcore.bundle.outputDataConfigToolkit.Tab = Class.create({
                 var data = Ext.decode(response.responseText);
 
                 if(data.success) {
-                    var dialog = new pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog(data.outputConfig, this.saveConfigDialog.bind(this));
+                    var dialog = new pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog(data.outputConfig, this.saveConfigDialog.bind(this), null, this.object.id);
                 } else {
                     pimcore.helpers.showNotification(t("error"), t("error_opening_output_config"), "error", t(data.message));
                 }
