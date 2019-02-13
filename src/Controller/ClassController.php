@@ -9,11 +9,15 @@
 namespace OutputDataConfigToolkitBundle\Controller;
 
 
+use Doctrine\DBAL\Exception\TableNotFoundException;
+use Doctrine\DBAL\Schema\Column;
+use OutputDataConfigToolkitBundle\Constant\ColumnConfigDisplayMode;
 use Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse;
 use Pimcore\Db;
+use Pimcore\Model\DataObject;
+use Pimcore\Model\DataObject\Classificationstore;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Pimcore\Model\DataObject;
 
 /**
  * Class ClassController
@@ -22,6 +26,8 @@ use Pimcore\Model\DataObject;
  */
 class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminController
 {
+    /* @var string $columnConfigClassificationDisplayMode */
+    protected $columnConfigClassificationDisplayMode;
 
     /**
      * @Route("/get-class-definition-for-column-config", methods={"GET"})
@@ -86,15 +92,73 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             }
         }
 
-        $targetObjectId = $request->get('target_oid');
-
-        if ($targetObject = DataObject\AbstractObject::getById($targetObjectId)) {
-            $class->setFieldDefinitions($fieldDefinitions);
-            DataObject\Service::enrichLayoutDefinition($result['objectColumns']['childs'][0], $targetObject);
-        }
-
+        $this->considerClassificationStoreForColumnConfig($request, $class, $fieldDefinitions, $result);
 
         return $this->adminJson($result);
+    }
+
+    /**
+     * @param Request $request
+     * @param DataObject\ClassDefinition|null $class
+     * @param array $fieldDefinitions
+     * @param array $result
+     */
+    private function considerClassificationStoreForColumnConfig(Request $request, ?DataObject\ClassDefinition $class, array $fieldDefinitions, array &$result): void
+    {
+        $displayMode = $this->getColumnConfigClassificationDisplayMode();
+
+        if ($displayMode == ColumnConfigDisplayMode::NONE) {
+            return;
+        }
+
+        if ($displayMode == ColumnConfigDisplayMode::OBJECT || $displayMode == ColumnConfigDisplayMode::RELEVANT) {
+            $targetObjectId = $request->get('target_oid');
+
+            if (($targetObject = DataObject\Concrete::getById($targetObjectId)) && !$targetObject instanceof DataObject\Folder) {
+                $class->setFieldDefinitions($fieldDefinitions);
+                DataObject\Service::enrichLayoutDefinition($result['objectColumns']['childs'][0], $targetObject);
+                try {
+                    // todo: is there a better way to check if a classification group exists for class?
+                    $enrichment = Db::get()->fetchOne("SELECT EXISTS (SELECT * FROM object_classificationstore_groups_{$class->getId()} WHERE o_id = '{$targetObjectId}')");
+                } catch (TableNotFoundException $exception) {
+                    $enrichment = false;
+                }
+            }
+        }
+
+        if ($displayMode == ColumnConfigDisplayMode::ALL || ($displayMode == ColumnConfigDisplayMode::RELEVANT && !$enrichment)) {
+            $keyConfigDefinitions = [];
+            $keyConfigs = new Classificationstore\KeyConfig\Listing();
+            $keyConfigs = $keyConfigs->load();
+
+            foreach ($keyConfigs as $keyConfig) {
+                $definition = Classificationstore\Service::getFieldDefinitionFromKeyConfig($keyConfig);
+                $definition->setTooltip($definition->getName() . ' - ' . $keyConfig->getDescription());
+                $keyConfigDefinitions[] = $definition;
+            }
+
+            $result["classificationColumns"] = [
+                "nodeType" => "classificationstore",
+                "nodeLabel" => "classificationstore",
+                "childs" => $keyConfigDefinitions,
+            ];
+        }
+    }
+
+    /**
+     * @param string $columnConfigClassificationDisplayMode
+     */
+    public function setColumnConfigClassificationDisplayMode(string $columnConfigClassificationDisplayMode)
+    {
+        $this->columnConfigClassificationDisplayMode = $columnConfigClassificationDisplayMode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getColumnConfigClassificationDisplayMode(): string
+    {
+        return $this->columnConfigClassificationDisplayMode;
     }
 
 }

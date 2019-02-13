@@ -136,8 +136,11 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
                             var target = overModel.getOwnerTree().getView();
                             var source = data.view;
 
+                            console.log(this.leftPanel.getComponent(0));
                             if (source != target) {
                                 var record = data.records[0];
+                                // console.log("store", this.leftPanel.getComponent(0).getStore());
+
                                 var attr = record.data;
                                 if (record.data.configAttributes) {
                                     attr = record.data.configAttributes;
@@ -338,6 +341,25 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
                     this.selectionPanel.getRootNode().appendChild(copy);
                 }
             }
+        }.bind(this));
+
+        tree.addListener("itemcontextmenu", function (tree, record, item, index, e) {
+            if (record.data.depth === 1 && record.data.nodeType == "classificationstore") {
+                var menu = new Ext.menu.Menu({
+                    items: [{
+                        text: t("add_all"),
+                        iconCls: "pimcore_icon_add",
+                        handler: function (item, e) {
+                            Ext.Array.forEach(record.childNodes, function (child) {
+                                this.selectionPanel.getRootNode().appendChild(child);
+                            }, this);
+                        }.bind(this),
+                    }]
+                });
+                menu.showAt(e.getXY());
+                e.stopEvent();
+            }
+
         }.bind(this));
 
         return tree;

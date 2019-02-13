@@ -1,5 +1,49 @@
 pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.ClassTree");
-pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.helpers.classTree,{
+pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.helpers.classTree, {
+
+    initLayoutFields: function (tree, response) {
+        var data = Ext.decode(response.responseText);
+
+        var keys = Object.keys(data);
+        for (var i = 0; i < keys.length; i++) {
+            if (data[keys[i]]) {
+                if (data[keys[i]].childs) {
+
+                    var text = t(data[keys[i]].nodeLabel);
+
+                    var brickDescriptor = {};
+
+                    if (data[keys[i]].nodeType == "objectbricks") {
+                        brickDescriptor = {
+                            insideBrick: true,
+                            brickType: data[keys[i]].nodeLabel,
+                            brickField: data[keys[i]].brickField
+                        };
+
+                        text = ts(data[keys[i]].nodeLabel) + " " + t("columns");
+
+                    }
+                    var baseNode = {
+                        nodeType: data[keys[i]].nodeType,
+                        type: "layout",
+                        allowDrag: false,
+                        iconCls: "pimcore_icon_" + data[keys[i]].nodeType,
+                        text: text
+                    };
+
+                    baseNode = tree.getRootNode().appendChild(baseNode);
+                    for (var j = 0; j < data[keys[i]].childs.length; j++) {
+                        baseNode.appendChild(this.recursiveAddNode(data[keys[i]].childs[j], baseNode, brickDescriptor));
+                    }
+                    if (data[keys[i]].nodeType == "object") {
+                        baseNode.expand();
+                    } else {
+                        // baseNode.collapse();
+                    }
+                }
+            }
+        }
+    },
 
     recursiveAddNode: function (con, scope, brickDescriptor) {
 
@@ -8,8 +52,7 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
 
         if (con.datatype == "layout" || con.fieldtype == "classificationstore") {
             fn = this.addLayoutChild.bind(scope, con.fieldtype, con, this);
-        }
-        else if (con.datatype == "data") {
+        } else if (con.datatype == "data") {
             fn = this.addDataChild.bind(scope, con.fieldtype, con, this.showFieldName, brickDescriptor, this);
         }
 
@@ -37,7 +80,9 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
 
         var children = [];
         if (type == "classificationstore") {
-            children = Object.values(initData.activeGroupDefinitions);
+            children = typeof initData.activeGroupDefinitions == "object"
+                ? Object.values(initData.activeGroupDefinitions)
+                : [];
         } else {
             children = initData.childs;
         }
@@ -56,16 +101,16 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
         this.expand();
 
         if (type === "classificationstore") {
-            console.log(type);
-            console.log(initData);
-            console.log(initData.activeGroupDefinitions);
-
             for (var groupId in initData.activeGroupDefinitions) {
                 var activeGroupDefinition = initData.activeGroupDefinitions[groupId];
+
+                var groupNode = clazz.addLayoutChild.call(newNode, "keys", {
+                    title: activeGroupDefinition.name + " (" + groupId + ")",
+                    childs: activeGroupDefinition.keys
+                }, clazz);
+
                 Ext.Array.forEach(activeGroupDefinition.keys, function (keyData) {
-                    console.log(keyData);
-                    console.log(clazz.showFieldName);
-                    clazz.addDataChild.call(newNode, keyData.fieldtype, keyData, true, clazz);
+                    clazz.addDataChild.call(groupNode, keyData.definition.fieldtype, keyData.definition, clazz.showFieldName, clazz);
                 }, this);
             }
         }

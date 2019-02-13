@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jraab
- * Date: 12.02.2019
- * Time: 10:42
- */
 
 namespace OutputDataConfigToolkitBundle\Tools;
 
@@ -19,7 +13,6 @@ use Pimcore\Log\Simple;
 class Updater
 {
     const DIR_PREFIX = PIMCORE_PRIVATE_VAR . '/config/output_data-config-toolkit/update/';
-
     const VERSION_FILE = self::DIR_PREFIX . 'version.txt';
     const VERSION_EXECUTED_DIR = self::DIR_PREFIX . 'executed';
 

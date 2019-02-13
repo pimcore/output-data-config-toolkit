@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jraab
- * Date: 12.02.2019
- * Time: 11:53
- */
 
 namespace OutputDataConfigToolkitBundle\Tools;
 
@@ -12,14 +6,26 @@ use Doctrine\DBAL\DBALException;
 use OutputDataConfigToolkitBundle\OutputDefinition\Dao;
 use Pimcore\Db;
 
+/**
+ * Class VersionScript
+ * @package OutputDataConfigToolkitBundle\Tools
+ */
 class VersionScript
 {
-
+    /**
+     * @param $versionString
+     * @return bool
+     */
     private static function isExecuted($versionString)
     {
         return file_exists(Updater::getVersionExecutedDir() . "/" . $versionString . ".txt");
     }
 
+    /**
+     * @param $versionString
+     * @param string $data
+     * @return bool|int
+     */
     private static function setExecuted($versionString, $data = "")
     {
         return file_put_contents(Updater::getVersionExecutedDir() . "/" . $versionString . ".txt", $data);
