@@ -110,6 +110,7 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
                 }, clazz);
 
                 Ext.Array.forEach(activeGroupDefinition.keys, function (keyData) {
+                    keyData.definition.title = keydata.name + " (" + keyData.id + ")";
                     clazz.addDataChild.call(groupNode, keyData.definition.fieldtype, keyData.definition, clazz.showFieldName, clazz);
                 }, this);
             }

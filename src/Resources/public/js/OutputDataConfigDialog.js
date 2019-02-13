@@ -19,7 +19,6 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
     brickKeys: [],
     availableOperators: null,
 
-
     initialize: function (outputConfig, callback, availableOperators, targetObjectId) {
 
         if(pimcore.settings === undefined) {
@@ -85,21 +84,16 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
     },
 
     expandChildren: function(rootNode) {
-
         for(var i = 0; i < rootNode.childNodes.length; i++) {
             var child = rootNode.childNodes[i];
-
             if(child.data.expanded) {
                 child.expand();
 
                 if(child.childNodes && child.childNodes.length) {
                     this.expandChildren(child);
                 }
-
             }
-
         }
-
     },
 
     getSelectionPanel: function () {
@@ -136,7 +130,6 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
                             var target = overModel.getOwnerTree().getView();
                             var source = data.view;
 
-                            console.log(this.leftPanel.getComponent(0));
                             if (source != target) {
                                 var record = data.records[0];
                                 // console.log("store", this.leftPanel.getComponent(0).getStore());
@@ -203,6 +196,15 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
                     }
                 },
                 listeners: {
+
+                    beforeitemappend: function(node, appendedNode){
+                        var configRootNode = this.getLeftPanel().getComponent(1).getRootNode();
+                        // configRootNode.findChild("")
+                        // console.log(configRootNode);
+                        // console.log(component)
+                        // console.log(index)
+                    }.bind(this),
+
                     afterlayout: function (tree) {
                         this.expandChildren(tree.getRootNode());
                     }.bind(this),
@@ -351,6 +353,11 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
                         iconCls: "pimcore_icon_add",
                         handler: function (item, e) {
                             Ext.Array.forEach(record.childNodes, function (child) {
+                                child.data.configAttributes = {
+                                    label: null,
+                                    icon: child.data.iconCls,
+                                    dataType: child.data.dataType,
+                                };
                                 this.selectionPanel.getRootNode().appendChild(child);
                             }, this);
                         }.bind(this),

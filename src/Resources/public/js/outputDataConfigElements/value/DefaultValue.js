@@ -55,7 +55,7 @@ pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.DefaultVal
 
     getConfigDialog: function(node) {
         this.node = node;
-        console.log(node);
+
         var value = "original";
         if(this.node.data.configAttributes.label) {
             value = "custom";
