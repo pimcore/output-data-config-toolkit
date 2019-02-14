@@ -21,6 +21,7 @@ use Pimcore\Logger;
 use Pimcore\Model\DataObject\AbstractObject;
 use Pimcore\Model\DataObject\ClassDefinition;
 use Pimcore\Model\DataObject\Classificationstore\KeyConfig;
+use Pimcore\Model\DataObject\Product;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -30,6 +31,9 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminController
 {
+
+    /* @var string[] $allowedClasses */
+    private $allowedClasses = [];
 
     /**
      * @param Request $request
@@ -43,11 +47,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         $objectId = $request->get("object_id");
         $object = AbstractObject::getById($objectId);
 
-        $classList = new \Pimcore\Model\DataObject\ClassDefinition\Listing();
-        if ($request->get("class_id")) {
-            $classList->setCondition("id = ?", $request->get("class_id"));
-        }
-
+        $classList = $this->getFilteredClassDefinitionList($request);
         $classList = $classList->load();
 
         $translator = $this->get("translator");
@@ -312,6 +312,41 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             Logger::err($e->getMessage(), $e);
             return $this->adminJson(array("success" => false, "message" => $e->getMessage()));
         }
+    }
+
+    /**
+     * @param string[] $allowedClasses
+     * @return AdminController
+     */
+    public function setAllowedClasses(array $allowedClasses): AdminController
+    {
+        $this->allowedClasses = $allowedClasses;
+        return $this;
+    }
+
+    /**
+     * @param Request $request
+     * @return ClassDefinition\Listing
+     */
+    private function getFilteredClassDefinitionList(Request $request): ClassDefinition\Listing
+    {
+        $classList = new \Pimcore\Model\DataObject\ClassDefinition\Listing();
+        if ($request->get("class_id")) {
+            $classList->setCondition("id = ?", $request->get("class_id"));
+        } else if (!empty($this->allowedClasses)) {
+            $allowedClassIds = [];
+            foreach ($this->allowedClasses as $allowedClass) {
+                $classNamespace = "Pimcore\\Model\\DataObject\\";
+                $allowedClassFull = $classNamespace . array_pop(explode('\\', $allowedClass));
+                if (class_exists($allowedClassFull)) {
+                    $allowedClassIds[] = call_user_func([$allowedClassFull, "classId"]);
+                } else {
+                    $allowedClassIds[] = $allowedClass;
+                }
+            }
+            $classList->addConditionParam("id IN ('" . implode("','", $allowedClassIds) . "')");
+        }
+        return $classList;
     }
 
 }

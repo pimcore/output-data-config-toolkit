@@ -5,3 +5,4 @@ services:
     public: true
 
   OutputDataConfigToolkitBundle\Controller\ClassController:
+  OutputDataConfigToolkitBundle\Controller\AdminController:

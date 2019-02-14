@@ -30,6 +30,9 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->arrayNode('default_grid')
+                    ->scalarPrototype()->end()
+                ->end()
             ->end()
         ->end();
 

@@ -2,6 +2,7 @@
 
 namespace OutputDataConfigToolkitBundle\DependencyInjection;
 
+use OutputDataConfigToolkitBundle\Controller\AdminController;
 use OutputDataConfigToolkitBundle\Controller\ClassController;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -26,9 +27,13 @@ class OutputDataConfigToolkitExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $displayMode = $config["classification_store"]["display_mode"];
+        $defaultGrid = $config["default_grid"];
 
         $container
             ->getDefinition(ClassController::class)
             ->addMethodCall("setColumnConfigClassificationDisplayMode", [$displayMode]);
+        $container
+            ->getDefinition(AdminController::class)
+            ->addMethodCall("setAllowedClasses", [$defaultGrid]);
     }
 }

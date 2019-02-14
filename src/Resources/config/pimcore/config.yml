@@ -1,4 +1,9 @@
 output_data_config_toolkit:
 
-  classification_store:
-    display_mode: "relevant"
+    classification_store:
+        display_mode: "relevant"
+
+    default_grid:
+        - Product
+        - Pimcore\Model\DataObject\ProductCategory
+        - 12
