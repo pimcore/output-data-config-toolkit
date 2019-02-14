@@ -32,11 +32,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminController
 {
 
-    /* @var string[] $allowedClasses */
-    private $allowedClasses = [];
+    /* @var string[] $defaultGridClasses */
+    private $defaultGridClasses = [];
 
     /**
      * @param Request $request
+     * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
+     *
      * @Route("/get-output-configs")
      */
     public function getOutputConfigsAction(Request $request)
@@ -70,7 +72,12 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         return $this->adminJson(array("success" => true, "data" => $outputDefinitions));
     }
 
-
+    /**
+     * @param $object
+     * @param $classId
+     * @param $channel
+     * @return OutputDefinition
+     */
     private function getOutputDefinitionForObjectAndChannel($object, $classId, $channel)
     {
         $outputDefinition = OutputDefinition::getByO_IdClassIdChannel($object->getId(), $classId, $channel);
@@ -85,6 +92,8 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
     /**
      * @param Request $request
+     * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
+     *
      * @Route("/reset-output-config")
      */
     public function resetOutputConfigAction(Request $request)
@@ -101,6 +110,8 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
     /**
      * @param Request $request
+     * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
+     *
      * @Route("/get-output-config")
      */
     public function getOutputConfigAction(Request $request)
@@ -122,6 +133,8 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
     /**
      * @param Request $request
+     * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
+     *
      * @Route("/get-or-create-output-config")
      */
     public function getOrCreateOutputConfigAction(Request $request)
@@ -164,6 +177,11 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         }
     }
 
+    /**
+     * @param $configuration
+     * @param $objectClass
+     * @return array
+     */
     private function doGetAttributeLabels($configuration, $objectClass)
     {
         $newConfiguration = array();
@@ -195,6 +213,8 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
     /**
      * @param Request $request
+     * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
+     *
      * @Route("/get-attribute-labels")
      */
     public function getAttributeLabelsAction(Request $request)
@@ -206,6 +226,11 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         return $this->adminJson(array("configuration" => $configration));
     }
 
+    /**
+     * @param $attributeName
+     * @param $objectClass
+     * @return mixed|ClassDefinition\Data|null
+     */
     private function getFieldDefinition($attributeName, $objectClass)
     {
         $label = null;
@@ -270,6 +295,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     /**
      * @param Request $request
      * @Route("/get-field-definition")
+     * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
      */
     public function getFieldDefinitionAction(Request $request)
     {
@@ -288,6 +314,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     /**
      * @param Request $request
      * @Route("/save-output-config")
+     * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
      */
     public function saveOutputConfigAction(Request $request)
     {
@@ -317,12 +344,12 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     }
 
     /**
-     * @param string[] $allowedClasses
+     * @param string[] $defaultGridClasses
      * @return AdminController
      */
-    public function setAllowedClasses(array $allowedClasses): AdminController
+    public function setDefaultGridClasses(array $defaultGridClasses): AdminController
     {
-        $this->allowedClasses = $allowedClasses;
+        $this->defaultGridClasses = $defaultGridClasses;
         return $this;
     }
 
@@ -333,11 +360,12 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     private function getFilteredClassDefinitionList(Request $request): ClassDefinition\Listing
     {
         $classList = new \Pimcore\Model\DataObject\ClassDefinition\Listing();
+
         if ($request->get("class_id")) {
             $classList->setCondition("id = ?", $request->get("class_id"));
-        } else if (!empty($this->allowedClasses)) {
+        } else if (!empty($this->defaultGridClasses)) {
             $allowedClassIds = [];
-            foreach ($this->allowedClasses as $allowedClass) {
+            foreach ($this->defaultGridClasses as $allowedClass) {
                 $classNamespace = "Pimcore\\Model\\DataObject\\";
                 $allowedClassFull = $classNamespace . array_pop(explode('\\', $allowedClass));
                 if (class_exists($allowedClassFull)) {

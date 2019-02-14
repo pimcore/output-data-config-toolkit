@@ -31,6 +31,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('default_grid')
+                    ->info("list of class names or ids")
                     ->scalarPrototype()->end()
                 ->end()
             ->end()

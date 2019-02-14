@@ -34,6 +34,6 @@ class OutputDataConfigToolkitExtension extends Extension
             ->addMethodCall("setColumnConfigClassificationDisplayMode", [$displayMode]);
         $container
             ->getDefinition(AdminController::class)
-            ->addMethodCall("setAllowedClasses", [$defaultGrid]);
+            ->addMethodCall("setDefaultGridClasses", [$defaultGrid]);
     }
 }
