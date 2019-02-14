@@ -101,9 +101,8 @@ pimcore.bundle.outputDataConfigToolkit.Tab = Class.create({
                 {
                     tooltip: t('overwrite/edit'),
                     icon: "/bundles/pimcoreadmin/img/flat-color-icons/edit.svg",
-                    handler: function (grid, rowIndex) {
-                        var data = grid.getStore().getAt(rowIndex);
-                        this.openConfigDialog(data.data.id);
+                    handler: function (grid, rowIndex, colIndex, item, e, record, row) {
+                        this.openConfigDialog(record.id);
                     }.bind(this)
                 }
             ]
@@ -146,7 +145,8 @@ pimcore.bundle.outputDataConfigToolkit.Tab = Class.create({
                 groupHeaderTpl: '{name}',
                 hideGroupedHeader: true,
                 enableGroupingMenu: false,
-                enableNoGroups:false
+                enableNoGroups:false,
+                startCollapsed: true
             }],
             viewConfig: {
                 forceFit: true

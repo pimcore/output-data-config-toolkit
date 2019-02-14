@@ -118,7 +118,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                 $class->setFieldDefinitions($fieldDefinitions);
                 DataObject\Service::enrichLayoutDefinition($result['objectColumns']['childs'][0], $targetObject);
                 try {
-                    // todo: is there a better way to check if a classification group exists for class?
+                    // todo: is there a better way to check if a classification group is assigned to the class?
                     $enrichment = Db::get()->fetchOne("SELECT EXISTS (SELECT * FROM object_classificationstore_groups_{$class->getId()} WHERE o_id = '{$targetObjectId}')");
                 } catch (TableNotFoundException $exception) {
                     $enrichment = false;
@@ -134,7 +134,11 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             foreach ($keyConfigs as $keyConfig) {
                 $definition = Classificationstore\Service::getFieldDefinitionFromKeyConfig($keyConfig);
                 $definition->setTooltip($definition->getName() . ' - ' . $keyConfig->getDescription());
-                $keyConfigDefinitions[] = $definition;
+                $keyConfigDefinitions[] = [
+                    "definition" => $definition,
+                    "id" => $keyConfig->getId(),
+                    "name" => $keyConfig->getName()
+                ];
             }
 
             $result["classificationColumns"] = [

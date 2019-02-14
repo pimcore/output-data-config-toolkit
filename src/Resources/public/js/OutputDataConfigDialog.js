@@ -132,7 +132,6 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
 
                             if (source != target) {
                                 var record = data.records[0];
-                                // console.log("store", this.leftPanel.getComponent(0).getStore());
 
                                 var attr = record.data;
                                 if (record.data.configAttributes) {
@@ -196,15 +195,6 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
                     }
                 },
                 listeners: {
-
-                    beforeitemappend: function(node, appendedNode){
-                        var configRootNode = this.getLeftPanel().getComponent(1).getRootNode();
-                        // configRootNode.findChild("")
-                        // console.log(configRootNode);
-                        // console.log(component)
-                        // console.log(index)
-                    }.bind(this),
-
                     afterlayout: function (tree) {
                         this.expandChildren(tree.getRootNode());
                     }.bind(this),
@@ -308,7 +298,6 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
 
             var items = [
                 this.getClassTree("/admin/outputdataconfig/get-class-definition-for-column-config", this.outputConfig.o_classId, this.targetObjectId),
-                // this.getClassTree("/admin/class/get-class-definition-for-column-config", this.outputConfig.o_classId, this.outputConfig.o_id, this.targetObjectId),
                 this.getOperatorTree()
             ];
 

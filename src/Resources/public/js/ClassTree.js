@@ -8,34 +8,48 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
         for (var i = 0; i < keys.length; i++) {
             if (data[keys[i]]) {
                 if (data[keys[i]].childs) {
+                    var nodeData = data[keys[i]],
+                        text = t(nodeData.nodeLabel),
+                        brickDescriptor = {},
+                        classificationDescriptor = {},
+                        nodeType = nodeData.nodeType;
 
-                    var text = t(data[keys[i]].nodeLabel);
-
-                    var brickDescriptor = {};
-
-                    if (data[keys[i]].nodeType == "objectbricks") {
+                    if (nodeType == "objectbricks") {
                         brickDescriptor = {
                             insideBrick: true,
-                            brickType: data[keys[i]].nodeLabel,
-                            brickField: data[keys[i]].brickField
+                            brickType: nodeData.nodeLabel,
+                            brickField: nodeData.brickField
                         };
 
-                        text = ts(data[keys[i]].nodeLabel) + " " + t("columns");
+                        text = ts(nodeData.nodeLabel) + " " + t("columns");
 
                     }
+
                     var baseNode = {
-                        nodeType: data[keys[i]].nodeType,
+                        nodeType: nodeType,
                         type: "layout",
                         allowDrag: false,
-                        iconCls: "pimcore_icon_" + data[keys[i]].nodeType,
+                        iconCls: "pimcore_icon_" + nodeType,
                         text: text
                     };
 
                     baseNode = tree.getRootNode().appendChild(baseNode);
                     for (var j = 0; j < data[keys[i]].childs.length; j++) {
-                        baseNode.appendChild(this.recursiveAddNode(data[keys[i]].childs[j], baseNode, brickDescriptor));
+                        var newChild = data[keys[i]].childs[j];
+
+                        if (nodeType === "classificationstore") {
+                            classificationDescriptor = {
+                                keyConfig: {
+                                    id: newChild.id,
+                                    name: newChild.name,
+                                }
+                            };
+                            newChild = newChild.definition;
+                        }
+
+                        baseNode.appendChild(this.recursiveAddNode(newChild, baseNode, brickDescriptor, classificationDescriptor));
                     }
-                    if (data[keys[i]].nodeType == "object") {
+                    if (nodeType == "object") {
                         baseNode.expand();
                     } else {
                         // baseNode.collapse();
@@ -45,7 +59,7 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
         }
     },
 
-    recursiveAddNode: function (con, scope, brickDescriptor) {
+    recursiveAddNode: function (con, scope, brickDescriptor, classificationDescriptor) {
 
         var fn = null;
         var newNode = null;
@@ -53,7 +67,7 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
         if (con.datatype == "layout" || con.fieldtype == "classificationstore") {
             fn = this.addLayoutChild.bind(scope, con.fieldtype, con, this);
         } else if (con.datatype == "data") {
-            fn = this.addDataChild.bind(scope, con.fieldtype, con, this.showFieldName, brickDescriptor, this);
+            fn = this.addDataChild.bind(scope, con.fieldtype, con, this.showFieldName, brickDescriptor, classificationDescriptor);
         }
 
         newNode = fn();
@@ -110,13 +124,92 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
                 }, clazz);
 
                 Ext.Array.forEach(activeGroupDefinition.keys, function (keyData) {
-                    keyData.definition.title = keydata.name + " (" + keyData.id + ")";
-                    clazz.addDataChild.call(groupNode, keyData.definition.fieldtype, keyData.definition, clazz.showFieldName, clazz);
+                    keyData.definition.title = keyData.name;
+                    var classificationDescriptor = {
+                        keyConfig: {
+                            id: keyData.id,
+                            name: keyData.name,
+                            // description: keyData.description
+                        }
+                    };
+                    clazz.addDataChild.call(groupNode, keyData.definition.fieldtype, keyData.definition, clazz.showFieldName, {}, classificationDescriptor);
                 }, this);
             }
         }
 
         return newNode;
+    },
+
+    addDataChild: function (type, initData, showFieldname, brickDescriptor, classificationDescriptor) {
+
+        if (type != "objectbricks" && !initData.invisible) {
+            var isLeaf = true;
+            var draggable = true;
+
+            // localizedfields can be a drop target
+            if (type == "localizedfields") {
+
+                isLeaf = false;
+                draggable = false;
+
+                Ext.apply(brickDescriptor, {
+                    insideLocalizedFields: true
+                });
+
+            }
+
+            var key = initData.name;
+
+            if (brickDescriptor && brickDescriptor.insideBrick) {
+                if (brickDescriptor.insideLocalizedFields) {
+                    var parts = {
+                        containerKey: brickDescriptor.brickType,
+                        fieldname: brickDescriptor.brickField,
+                        brickfield: key
+                    }
+                    key = "?" + Ext.encode(parts) + "~" + key;
+                } else {
+                    key = brickDescriptor.brickType + "~" + key;
+                }
+            }
+
+            if (classificationDescriptor && !Ext.Object.isEmpty(classificationDescriptor)) {
+                key = "#classificationstore#" + classificationDescriptor.keyConfig.id + "#" + classificationDescriptor.keyConfig.name
+            }
+
+            var text = ts(initData.title);
+            if (showFieldname) {
+                if (brickDescriptor && brickDescriptor.insideBrick && brickDescriptor.insideLocalizedFields) {
+                    text = text + "(" + brickDescriptor.brickType + "." + initData.name + ")";
+                } else {
+                    text = text + " (" + key.replace(/~|\#classificationstore\#|\#"/, ".") + ")";
+                }
+            }
+            var newNode = {
+                text: text,
+                key: key,
+                type: "data",
+                layout: initData,
+                leaf: isLeaf,
+                allowDrag: draggable,
+                dataType: type,
+                iconCls: "pimcore_icon_" + type,
+                expanded: true,
+                brickDescriptor: brickDescriptor,
+                classificationDescriptor: classificationDescriptor
+            };
+
+            newNode = this.appendChild(newNode);
+
+            if (this.rendered) {
+                this.expand();
+            }
+
+            return newNode;
+        } else {
+            return null;
+        }
+
     },
 
     getClassTree: function (url, classId, objectId, targetObjectId) {
