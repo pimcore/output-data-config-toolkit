@@ -1,9 +1,7 @@
 output_data_config_toolkit:
 
     classification_store:
-        display_mode: "relevant"
+        display_mode: relevant
 
     default_grid:
-        - Product
-        - Pimcore\Model\DataObject\ProductCategory
-        - 12
+        # list of class names or ids

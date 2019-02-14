@@ -48,6 +48,8 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         $object = AbstractObject::getById($objectId);
 
         $classList = $this->getFilteredClassDefinitionList($request);
+        $classList->setOrderKey("name");
+        $classList->setOrder("ASC");
         $classList = $classList->load();
 
         $translator = $this->get("translator");
