@@ -196,7 +196,6 @@ pimcore.bundle.outputDataConfigToolkit.Tab = Class.create({
     },
 
     saveConfigDialog: function(data) {
-        console.log(data);
         Ext.Ajax.request({
             url: '/admin/outputdataconfig/admin/save-output-config',
             method: 'POST',
@@ -216,7 +215,6 @@ pimcore.bundle.outputDataConfigToolkit.Tab = Class.create({
                 }
             }.bind(this)
         });
-
     }
 
 });
