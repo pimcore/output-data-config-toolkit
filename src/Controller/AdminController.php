@@ -245,7 +245,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
         $def = null;
         $brickInfos = null;
-        $classificationPrefix = "#classificationstore#";
+        $classificationPrefix = "#cs#";
 
         if (substr($attributeName, 0, strlen($classificationPrefix)) == $classificationPrefix) {
             $attributeName = substr($attributeName, strlen($classificationPrefix));

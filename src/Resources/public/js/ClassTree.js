@@ -174,7 +174,7 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
             }
 
             if (classificationDescriptor && !Ext.Object.isEmpty(classificationDescriptor)) {
-                key = "#classificationstore#" + classificationDescriptor.keyConfig.id + "#" + classificationDescriptor.keyConfig.name
+                key = "#cs#" + classificationDescriptor.keyConfig.id + "#" + classificationDescriptor.keyConfig.name
             }
 
             var text = ts(initData.title);
@@ -182,7 +182,7 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
                 if (brickDescriptor && brickDescriptor.insideBrick && brickDescriptor.insideLocalizedFields) {
                     text = text + "(" + brickDescriptor.brickType + "." + initData.name + ")";
                 } else {
-                    text = text + " (" + key.replace(/~|\#classificationstore\#|\#"/, ".") + ")";
+                    text = text + " (" + key.replace(/~|\#cs\#|\#"/, ".") + ")";
                 }
             }
             var newNode = {
