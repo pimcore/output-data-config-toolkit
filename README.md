@@ -8,6 +8,7 @@ An output data configuration consists of
 
 ## Configuration
 
+### Channel Config
 After installing the bundle, a config file is located at `/var/config/outputdataconfig/config.php`. In this config file available output channels can be configured as follows:
 
 ```php
@@ -20,6 +21,26 @@ After installing the bundle, a config file is located at `/var/config/outputdata
             "mychannel2"
         ]
     ];
+```
+
+### Functional Config
+
+```yaml
+output_data_config_toolkit:
+
+    classification_store:
+        # possible values are:
+        #   'all',       -> always show all keys
+        #   'object',    -> only show keys which are in any assigned group
+        #   'relevant',  -> use 'object' mode if any group is assigned, else show all keys
+        #   'none'       -> do not show classification store keys
+        display_mode: relevant
+
+    # list to show in output config tab
+    default_grid:
+        - Product                                   # class name
+        - Pimcore\Model\DataObject\ProductCategory  # full namespace
+        - 12                                        # class id
 ```
 
 ## Defining output data configuration for different output channels

@@ -20,6 +20,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode("classification_store")
                     ->children()
                         ->enumNode('display_mode')
+                            ->info("possible values are [all, object, relevant, none]")
                             ->values([
                                 'all',          // always show all keys
                                 'object',       // only show keys which are in any assigned group
