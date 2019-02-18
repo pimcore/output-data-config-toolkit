@@ -199,7 +199,12 @@ with Pimcore < 5.4, please add following rewrite rule to your `.htaccess`.
     # rewrite rule for pre pimcore 5.4 core static files
     RewriteRule ^bundles/pimcoreadmin/(.*) /pimcore/static6/$1 [PT,L]
 ``` 
+### Support for textual class ids
+Execute the following statement:
 
+```mysql
+ALTER TABLE bundle_outputdataconfigtoolkit_outputdefinition MODIFY `o_classId` varchar(50);
+```
 
 ## Migration from Pimcore 4
 - Change table name from `plugin_outputdataconfigtoolkit_outputdefinition` to 

@@ -19,11 +19,5 @@
         "OutputDataConfigToolkitBundle\\OutputDataConfigToolkitBundle"
       ]
     }
-  },
-  "scripts": {
-    "pre-update-cmd": "OutputDataConfigToolkitBundle\\Tools:preUpdate",
-    "pre-package-update": "OutputDataConfigToolkitBundle\\Tools:preUpdate",
-    "post-update-cmd": "OutputDataConfigToolkitBundle\\Tools:postUpdate",
-    "post-package-update": "OutputDataConfigToolkitBundle\\Tools:postUpdate"
   }
 }
