@@ -41,6 +41,8 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao {
 
     /**
      * @return void
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Exception
      */
     public function getByO_IdClassIdChannel($o_id, $classId, $channel) {
 
@@ -53,6 +55,8 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao {
 
     /**
      * @return void
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Exception
      */
     public function getById($id) {
         $outputDefinitionRaw = $this->db->fetchRow("SELECT * FROM " . self::TABLE_NAME . " WHERE id=?", array($id));
@@ -66,7 +70,7 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao {
     /**
      * Create a new record for the object in database
      *
-     * @return boolean
+     * @return void
      */
     public function create() {
         $this->db->insert(self::TABLE_NAME, array());
