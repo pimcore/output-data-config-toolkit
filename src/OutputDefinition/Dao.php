@@ -114,7 +114,7 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao {
                 $data[$key] = $value;
             }
         }
-        $this->db->updateWhere(self::TABLE_NAME, $data, "id=" . $this->db->quote($this->model->getId()));
+        $this->db->updateWhere(self::TABLE_NAME, $data, "o_classId=" . $this->db->quote($this->model->getId()));
     }
 
     /**
@@ -123,7 +123,7 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao {
      * @return void
      */
     public function delete() {
-        $this->db->deleteWhere(self::TABLE_NAME, "id=" . $this->db->quote($this->model->getId()));
+        $this->db->deleteWhere(self::TABLE_NAME, "o_classId=" . $this->db->quote($this->model->getId()));
     }
 
 }

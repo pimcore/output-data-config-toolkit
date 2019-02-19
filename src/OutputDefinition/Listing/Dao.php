@@ -25,7 +25,7 @@ class Dao extends \Pimcore\Model\Listing\Dao\AbstractDao {
     public function load() {
         $configs = array();
 
-        $unitIds = $this->db->fetchAll("SELECT o_id, id, channel FROM " . OutputDefinition\Dao::TABLE_NAME .
+        $unitIds = $this->db->fetchAll("SELECT o_id, o_classId, channel FROM " . OutputDefinition\Dao::TABLE_NAME .
                                                  $this->getCondition() . $this->getOrder() . $this->getOffsetLimit());
 
         foreach ($unitIds as $row) {
