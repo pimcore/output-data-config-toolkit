@@ -38,10 +38,12 @@ output_data_config_toolkit:
         display_mode: relevant
 
     # which classes should be listed by default in output config tab
-    default_grid:
-        - Product                                   # class name
-        - Pimcore\Model\DataObject\ProductCategory  # full namespace
-        - 12                                        # class id
+    tab_options:
+        order_by_name: true                             # order classes by name (default id)
+        default_classes:
+            - Product                                   # class name
+            - Pimcore\Model\DataObject\ProductCategory  # full namespace
+            - 12                                        # class id
 ```
 
 ## Defining output data configuration for different output channels

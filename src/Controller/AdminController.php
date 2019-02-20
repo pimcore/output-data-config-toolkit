@@ -35,6 +35,9 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     /* @var string[] $defaultGridClasses */
     private $defaultGridClasses = [];
 
+    /* @var bool $orderByName */
+    private $orderByName = false;
+
     /**
      * @param Request $request
      * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
@@ -50,8 +53,12 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         $object = AbstractObject::getById($objectId);
 
         $classList = $this->getFilteredClassDefinitionList($request);
-        $classList->setOrderKey("name");
-        $classList->setOrder("ASC");
+
+        if ($this->getOrderByName()) {
+            $classList->setOrderKey("name");
+            $classList->setOrder("ASC");
+        }
+
         $classList = $classList->load();
 
         $translator = $this->get("translator");
@@ -344,16 +351,6 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     }
 
     /**
-     * @param string[] $defaultGridClasses
-     * @return AdminController
-     */
-    public function setDefaultGridClasses(array $defaultGridClasses): AdminController
-    {
-        $this->defaultGridClasses = $defaultGridClasses;
-        return $this;
-    }
-
-    /**
      * @param Request $request
      * @return ClassDefinition\Listing
      */
@@ -377,6 +374,42 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             $classList->addConditionParam("id IN ('" . implode("','", $allowedClassIds) . "')");
         }
         return $classList;
+    }
+
+    /**
+     * @param string[] $defaultGridClasses
+     * @return AdminController
+     */
+    public function setDefaultGridClasses(array $defaultGridClasses): self
+    {
+        $this->defaultGridClasses = $defaultGridClasses;
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getDefaultGridClasses(): array
+    {
+        return $this->defaultGridClasses;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getOrderByName(): bool
+    {
+        return $this->orderByName;
+    }
+
+    /**
+     * @param bool $orderByName
+     * @return AdminController
+     */
+    public function setOrderByName(bool $orderByName): self
+    {
+        $this->orderByName = $orderByName;
+        return $this;
     }
 
 }

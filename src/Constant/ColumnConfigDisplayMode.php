@@ -17,7 +17,7 @@ namespace OutputDataConfigToolkitBundle\Constant;
 class ColumnConfigDisplayMode
 {
     const ALL = "all";
-    const OBJECT = "object";
+    const DATA_OBJECT = "object";
     const RELEVANT = "relevant";
     const NONE = "none";
 }

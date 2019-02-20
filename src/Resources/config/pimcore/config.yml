@@ -2,7 +2,8 @@ output_data_config_toolkit:
 
     # possible values are [all, object, relevant, none]
     classification_store:
-        display_mode: relevant
+        display_mode: none
 
     # list of class names or ids
-    default_grid:
+    tab_options:
+        default_classes:

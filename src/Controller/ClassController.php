@@ -116,7 +116,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             return;
         }
 
-        if ($displayMode == ColumnConfigDisplayMode::OBJECT || $displayMode == ColumnConfigDisplayMode::RELEVANT) {
+        if ($displayMode == ColumnConfigDisplayMode::DATA_OBJECT || $displayMode == ColumnConfigDisplayMode::RELEVANT) {
             $targetObjectId = $request->get('target_oid');
 
             if (($targetObject = DataObject\Concrete::getById($targetObjectId)) && !$targetObject instanceof DataObject\Folder) {

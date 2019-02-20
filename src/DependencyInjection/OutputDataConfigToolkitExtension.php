@@ -27,13 +27,16 @@ class OutputDataConfigToolkitExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $displayMode = $config["classification_store"]["display_mode"];
-        $defaultGrid = $config["default_grid"];
+        $defaultGrid = $config["tab_options"]["default_classes"];
+        $orderByName = $config["tab_options"]["order_by_name"];
 
         $container
             ->getDefinition(ClassController::class)
             ->addMethodCall("setClassificationDisplayMode", [$displayMode]);
+
         $container
             ->getDefinition(AdminController::class)
-            ->addMethodCall("setDefaultGridClasses", [$defaultGrid]);
+            ->addMethodCall("setDefaultGridClasses", [$defaultGrid])
+            ->addMethodCall("setOrderByName", [$orderByName]);
     }
 }
