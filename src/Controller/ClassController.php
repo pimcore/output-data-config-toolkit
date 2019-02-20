@@ -1,13 +1,18 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jraab
- * Date: 12.02.2019
- * Time: 16:49
+ * Pimcore
+ *
+ * This source file is available under two different licenses:
+ * - GNU General Public License version 3 (GPLv3)
+ * - Pimcore Enterprise License (PEL)
+ * Full copyright and license information is available in
+ * LICENSE.md which is distributed with this source code.
+ *
+ * @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
+ * @license    http://www.pimcore.org/license     GPLv3 and PEL
  */
 
 namespace OutputDataConfigToolkitBundle\Controller;
-
 
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Doctrine\DBAL\Schema\Column;
@@ -26,8 +31,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminController
 {
-    /* @var string $columnConfigClassificationDisplayMode */
-    protected $columnConfigClassificationDisplayMode;
+    /* @var string $classificationDisplayMode */
+    protected $classificationDisplayMode;
 
     /**
      * @Route("/get-class-definition-for-column-config", methods={"GET"})
@@ -105,7 +110,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
      */
     private function considerClassificationStoreForColumnConfig(Request $request, ?DataObject\ClassDefinition $class, array $fieldDefinitions, array &$result): void
     {
-        $displayMode = $this->getColumnConfigClassificationDisplayMode();
+        $displayMode = $this->getClassificationDisplayMode();
 
         if ($displayMode == ColumnConfigDisplayMode::NONE) {
             return;
@@ -150,19 +155,19 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     }
 
     /**
-     * @param string $columnConfigClassificationDisplayMode
+     * @param string $classificationDisplayMode
      */
-    public function setColumnConfigClassificationDisplayMode(string $columnConfigClassificationDisplayMode)
+    public function setClassificationDisplayMode(string $classificationDisplayMode)
     {
-        $this->columnConfigClassificationDisplayMode = $columnConfigClassificationDisplayMode;
+        $this->classificationDisplayMode = $classificationDisplayMode;
     }
 
     /**
      * @return string
      */
-    public function getColumnConfigClassificationDisplayMode(): string
+    public function getClassificationDisplayMode(): string
     {
-        return $this->columnConfigClassificationDisplayMode;
+        return $this->classificationDisplayMode;
     }
 
 }

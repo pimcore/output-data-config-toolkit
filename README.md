@@ -29,14 +29,15 @@ After installing the bundle, a config file is located at `/var/config/outputdata
 output_data_config_toolkit:
 
     classification_store:
-        # possible values are:
+        # defines which classification keys are displayed in the config dialog tree
+        # the possible values are:
         #   'all',       -> always show all keys
-        #   'object',    -> only show keys which are in any assigned group
+        #   'object',    -> only show keys which are in any assigned group of the current object
         #   'relevant',  -> use 'object' mode if any group is assigned, else show all keys
         #   'none'       -> do not show classification store keys
         display_mode: relevant
 
-    # list to show in output config tab
+    # which classes should be listed by default in output config tab
     default_grid:
         - Product                                   # class name
         - Pimcore\Model\DataObject\ProductCategory  # full namespace
