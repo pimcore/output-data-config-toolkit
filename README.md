@@ -24,27 +24,30 @@ After installing the bundle, a config file is located at `/var/config/outputdata
 ```
 
 ### Functional Config
-
+In `config.yml`:
 ```yaml
 output_data_config_toolkit:
+
+    # classes that should be listed by default in output config tab
+    tab_options:
+        order_by_name: true                             # order classes by name (defaults by id)
+        default_classes:
+            - Product                                   # class name
+            - Pimcore\Model\DataObject\ProductCategory  # full namespace
+            - 12                                        # class id
 
     classification_store:
         # defines which classification keys are displayed in the config dialog tree
         # the possible values are:
         #   'all',       -> always show all keys
         #   'object',    -> only show keys which are in any assigned group of the current object
-        #   'relevant',  -> use 'object' mode if any group is assigned, else show all keys
+        #   'relevant',  -> use 'object' mode if any group is assigned, else show all keys (i.e. on a folder)
         #   'none'       -> do not show classification store keys
         display_mode: relevant
 
-    # which classes should be listed by default in output config tab
-    tab_options:
-        order_by_name: true                             # order classes by name (default id)
-        default_classes:
-            - Product                                   # class name
-            - Pimcore\Model\DataObject\ProductCategory  # full namespace
-            - 12                                        # class id
 ```
+
+[Read more about the classification store display modes.](doc/classificationstore.md)
 
 ## Defining output data configuration for different output channels
 
@@ -193,6 +196,25 @@ pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.RemoveZ
     commitData: function() {
     }
 });
+```
+
+## Defining output data configuration programmatically
+For defining definitions programmatically utilize the `\OutputDataConfigToolkitBundle\ConfigAttribute\...` 
+classes. 
+
+Example: adding a classification store key to a channel definition:
+```php
+$config = new \OutputDataConfigToolkitBundle\ConfigAttribute\Value\DefaultValue();
+$config->applyDefaults(); // datatype, type, class
+$config->applyFromClassificationKeyConfig($keyConfig);
+
+// create definition for channel and add value 
+$newConfig = new \OutputDataConfigToolkitBundle\OutputDefinition();
+$newConfig->setChannel("my_channel");
+$newConfig->setO_ClassId($classId);
+$newConfig->setO_Id(12345);
+$newConfig->setConfiguration($serializer->serialize($config, 'json'));
+$newConfig->save();
 ```
 
 ## Running with Pimcore < 5.4
