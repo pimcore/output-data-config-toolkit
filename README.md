@@ -28,9 +28,10 @@ In `config.yml`:
 ```yaml
 output_data_config_toolkit:
 
-    # classes that should be listed by default in output config tab
     tab_options:
-        order_by_name: true                             # order classes by name (defaults by id)
+        # order classes by name (defaults by id)
+        order_by_name: true                             
+        # classes that should be listed by default in output config tab
         default_classes:
             - Product                                   # class name
             - Pimcore\Model\DataObject\ProductCategory  # full namespace
@@ -202,7 +203,7 @@ pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.RemoveZ
 For defining definitions programmatically utilize the `\OutputDataConfigToolkitBundle\ConfigAttribute\...` 
 classes. 
 
-Example: adding a classification store key to a channel definition:
+I.e. adding a classification store key to a channel definition:
 ```php
 $config = new \OutputDataConfigToolkitBundle\ConfigAttribute\Value\DefaultValue();
 $config->applyDefaults(); // datatype, type, class

@@ -1,4 +1,4 @@
-### Classificationstore Keys support
+### Classificationstore
 Via the config option `output_data_config_toolkit.classification_store.display_mode` it is possible to choose 
 different display modes for classification store keys in the output definition config window:
 1. `all`: all classificationstore keys are displayed at the bottom of the config tree
@@ -6,7 +6,7 @@ different display modes for classification store keys in the output definition c
 3. `relevant`: `object` mode is used if any group is assigned, else `all` keys are shown
 4. `none`: No classificationstore keys are displayed
 
-##### DisplayMode `all` or `relevant` and type folder or the object has no assigned group
+##### DisplayMode `all` or `relevant` and type is folder or the object has no assigned group
 ![image](img/classification_all.jpg)
 
 ##### DisplayMode `object` or `relevant` and object has any assigned group
