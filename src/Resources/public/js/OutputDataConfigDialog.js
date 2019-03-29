@@ -19,13 +19,13 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
     brickKeys: [],
     availableOperators: null,
 
-
-    initialize: function (outputConfig, callback, availableOperators) {
+    initialize: function (outputConfig, callback, availableOperators, targetObjectId) {
 
         if(pimcore.settings === undefined) {
             pimcore.settings = { debug_admin_translations: false };
         }
 
+        this.targetObjectId = targetObjectId;
         this.outputConfig = outputConfig;
         this.callback = callback;
         if(availableOperators) {
@@ -84,21 +84,16 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
     },
 
     expandChildren: function(rootNode) {
-
         for(var i = 0; i < rootNode.childNodes.length; i++) {
             var child = rootNode.childNodes[i];
-
             if(child.data.expanded) {
                 child.expand();
 
                 if(child.childNodes && child.childNodes.length) {
                     this.expandChildren(child);
                 }
-
             }
-
         }
-
     },
 
     getSelectionPanel: function () {
@@ -137,6 +132,7 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
 
                             if (source != target) {
                                 var record = data.records[0];
+
                                 var attr = record.data;
                                 if (record.data.configAttributes) {
                                     attr = record.data.configAttributes;
@@ -301,7 +297,7 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
         if (!this.leftPanel) {
 
             var items = [
-                this.getClassTree("/admin/class/get-class-definition-for-column-config", this.outputConfig.o_classId),
+                this.getClassTree("/admin/outputdataconfig/get-class-definition-for-column-config", this.outputConfig.o_classId, this.targetObjectId),
                 this.getOperatorTree()
             ];
 
@@ -316,10 +312,10 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
         return this.leftPanel;
     },
 
-    getClassTree: function(url, id) {
+    getClassTree: function(url, id,  target_oid) {
 
-        var classTreeHelper = new pimcore.object.helpers.classTree(false);
-        var tree = classTreeHelper.getClassTree(url, id);
+        var classTreeHelper = new pimcore.bundle.outputDataConfigToolkit.ClassTree(false);
+        var tree = classTreeHelper.getClassTree(url, id, null, target_oid);
 
         tree.addListener("itemdblclick", function( tree, record, item, index, e, eOpts ) {
 
@@ -336,6 +332,30 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
                     this.selectionPanel.getRootNode().appendChild(copy);
                 }
             }
+        }.bind(this));
+
+        tree.addListener("itemcontextmenu", function (tree, record, item, index, e) {
+            if (record.data.depth === 1 && record.data.nodeType == "classificationstore") {
+                var menu = new Ext.menu.Menu({
+                    items: [{
+                        text: t("add_all"),
+                        iconCls: "pimcore_icon_add",
+                        handler: function (item, e) {
+                            Ext.Array.forEach(record.childNodes, function (child) {
+                                child.data.configAttributes = {
+                                    label: null,
+                                    icon: child.data.iconCls,
+                                    dataType: child.data.dataType,
+                                };
+                                this.selectionPanel.getRootNode().appendChild(child);
+                            }, this);
+                        }.bind(this),
+                    }]
+                });
+                menu.showAt(e.getXY());
+                e.stopEvent();
+            }
+
         }.bind(this));
 
         return tree;

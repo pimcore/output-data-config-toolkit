@@ -8,6 +8,7 @@ An output data configuration consists of
 
 ## Configuration
 
+### Channel Config
 After installing the bundle, a config file is located at `/var/config/outputdataconfig/config.php`. In this config file available output channels can be configured as follows:
 
 ```php
@@ -21,6 +22,33 @@ After installing the bundle, a config file is located at `/var/config/outputdata
         ]
     ];
 ```
+
+### Functional Config
+In `config.yml`:
+```yaml
+output_data_config_toolkit:
+
+    tab_options:
+        # order classes by name (defaults by id)
+        order_by_name: true                             
+        # classes that should be listed by default in output config tab
+        default_classes:
+            - Product                                   # class name
+            - Pimcore\Model\DataObject\ProductCategory  # full namespace
+            - 12                                        # class id
+
+    classification_store:
+        # defines which classification keys are displayed in the config dialog tree
+        # the possible values are:
+        #   'all',       -> always show all keys
+        #   'object',    -> only show keys which are in any assigned group of the current object
+        #   'relevant',  -> use 'object' mode if any group is assigned, else show all keys (i.e. on a folder)
+        #   'none'       -> do not show classification store keys
+        display_mode: relevant
+
+```
+
+[Read more about the classification store display modes.](doc/classificationstore.md)
 
 ## Defining output data configuration for different output channels
 
@@ -171,6 +199,25 @@ pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.operator.RemoveZ
 });
 ```
 
+## Defining output data configuration programmatically
+For defining definitions programmatically utilize the `\OutputDataConfigToolkitBundle\ConfigAttribute\...` 
+classes. 
+
+I.e. adding a classification store key to a channel definition:
+```php
+$config = new \OutputDataConfigToolkitBundle\ConfigAttribute\Value\DefaultValue();
+$config->applyDefaults(); // datatype, type, class
+$config->applyFromClassificationKeyConfig($keyConfig);
+
+// create definition for channel and add value 
+$newConfig = new \OutputDataConfigToolkitBundle\OutputDefinition();
+$newConfig->setChannel("my_channel");
+$newConfig->setO_ClassId($classId);
+$newConfig->setO_Id(12345);
+$newConfig->setConfiguration($serializer->serialize($config, 'json'));
+$newConfig->save();
+```
+
 ## Running with Pimcore < 5.4
 With Pimcore 5.4 the location of static Pimcore files like icons has changed. In order to make this bundle work 
 with Pimcore < 5.4, please add following rewrite rule to your `.htaccess`.
@@ -178,7 +225,12 @@ with Pimcore < 5.4, please add following rewrite rule to your `.htaccess`.
     # rewrite rule for pre pimcore 5.4 core static files
     RewriteRule ^bundles/pimcoreadmin/(.*) /pimcore/static6/$1 [PT,L]
 ``` 
+### Support for textual class ids
+Execute the following statement:
 
+```mysql
+ALTER TABLE bundle_outputdataconfigtoolkit_outputdefinition MODIFY `o_classId` varchar(50);
+```
 
 ## Migration from Pimcore 4
 - Change table name from `plugin_outputdataconfigtoolkit_outputdefinition` to 

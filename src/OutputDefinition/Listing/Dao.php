@@ -12,11 +12,14 @@
  * @license    http://www.pimcore.org/license     GPLv3 and PEL
  */
 
-
 namespace OutputDataConfigToolkitBundle\OutputDefinition\Listing;
 
 use OutputDataConfigToolkitBundle\OutputDefinition;
 
+/**
+ * Class Dao
+ * @package OutputDataConfigToolkitBundle\OutputDefinition\Listing
+ */
 class Dao extends \Pimcore\Model\Listing\Dao\AbstractDao {
 
     /**
@@ -25,8 +28,10 @@ class Dao extends \Pimcore\Model\Listing\Dao\AbstractDao {
     public function load() {
         $configs = array();
 
-        $unitIds = $this->db->fetchAll("SELECT o_id, o_configId, channel FROM " . OutputDefinition\Dao::TABLE_NAME .
-                                                 $this->getCondition() . $this->getOrder() . $this->getOffsetLimit());
+        $params = array_column($this->model->getConditionParams() ?: [], "value");
+
+        $unitIds = $this->db->fetchAll("SELECT o_id, id, o_classId, channel FROM " . OutputDefinition\Dao::TABLE_NAME .
+            $this->getCondition() . $this->getOrder() . $this->getOffsetLimit(), $params);
 
         foreach ($unitIds as $row) {
             $configs[] = OutputDefinition::getByO_IdClassIdChannel($row['o_id'], $row['o_classId'], $row['channel']);
@@ -38,7 +43,8 @@ class Dao extends \Pimcore\Model\Listing\Dao\AbstractDao {
     }
 
     public function getTotalCount() {
-        $amount = $this->db->fetchRow("SELECT COUNT(*) as amount FROM `" . OutputDefinition\Dao::TABLE_NAME . "`" . $this->getCondition());
+        $params = array_column($this->model->getConditionParams() ?: [], "value");
+        $amount = $this->db->fetchRow("SELECT COUNT(*) as amount FROM `" . OutputDefinition\Dao::TABLE_NAME . "`" . $this->getCondition(), $params);
         return $amount["amount"];
     }
 

@@ -36,6 +36,7 @@ class OutputDataConfigToolkitBundle extends AbstractPimcoreBundle
             '/bundles/outputdataconfigtoolkit/js/Bundle.js',
             '/bundles/outputdataconfigtoolkit/js/OutputDataConfigTab.js',
             '/bundles/outputdataconfigtoolkit/js/OutputDataConfigDialog.js',
+            '/bundles/outputdataconfigtoolkit/js/ClassTree.js',
             '/bundles/outputdataconfigtoolkit/js/outputDataConfigElements/Abstract.js',
             '/bundles/outputdataconfigtoolkit/js/outputDataConfigElements/value/DefaultValue.js',
             '/bundles/outputdataconfigtoolkit/js/outputDataConfigElements/value/DimensionUnitField.js',
@@ -51,7 +52,7 @@ class OutputDataConfigToolkitBundle extends AbstractPimcoreBundle
             '/bundles/outputdataconfigtoolkit/js/outputDataConfigElements/operator/TableCol.js',
             '/bundles/outputdataconfigtoolkit/js/outputDataConfigElements/operator/TranslateValue.js',
             '/bundles/outputdataconfigtoolkit/js/outputDataConfigElements/operator/CellFormater.js',
-            '/bundles/outputdataconfigtoolkit/js/outputDataConfigElements/operator/TextAddon.js'
+            '/bundles/outputdataconfigtoolkit/js/outputDataConfigElements/operator/TextAddon.js',
         ];
     }
 

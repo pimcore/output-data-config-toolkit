@@ -14,7 +14,14 @@
 
 
 namespace OutputDataConfigToolkitBundle\OutputDefinition;
+use OutputDataConfigToolkitBundle\OutputDefinition;
 
+/**
+ * Class Listing
+ * @package OutputDataConfigToolkitBundle\OutputDefinition
+ *
+ * @method OutputDefinition[] load()
+ */
 class Listing extends \Pimcore\Model\Listing\AbstractListing {
 
     /**
@@ -24,6 +31,7 @@ class Listing extends \Pimcore\Model\Listing\AbstractListing {
 
     /**
      * @var array
+     * @return bool
      */
     public function isValidOrderKey($key) {
         if($key == "o_id" || $key == "o_classId" || $key == "channel") {
@@ -43,7 +51,7 @@ class Listing extends \Pimcore\Model\Listing\AbstractListing {
     }
 
     /**
-     * @param array $units
+     * @param array $outputDefinitions
      * @return void
      */
     function setOutputDefinitions($outputDefinitions) {
