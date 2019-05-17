@@ -18,9 +18,15 @@
 .pimcore_icon_operator_concatenator {
     background: url("/bundles/pimcoreadmin/img/flat-color-icons/capacitor.svg") center center no-repeat !important;
 }
+
 .bundle_outputdataconfig_icon {
     background: url("/bundles/pimcoreadmin/img/flat-color-icons/grid.svg") center center no-repeat !important;
 }
+
+.bundle_outputdataconfig_icon_material {
+    background: url("/bundles/outputdataconfigtoolkit/img/outline-chrome_reader_mode-24px.svg") center center no-repeat !important;
+}
+
 .bundle_outputdataconfig_icon:before {
     position: absolute;
     width: 12px;

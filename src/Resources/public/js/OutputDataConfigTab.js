@@ -51,10 +51,9 @@ pimcore.bundle.outputDataConfigToolkit.Tab = Class.create({
 
 
             this.layout = new Ext.Panel({
-                title: t('outputdataconfig'),
                 border: false,
                 layout: "fit",
-                iconCls: "bundle_outputdataconfig_icon",
+                iconCls: "bundle_outputdataconfig_icon_material pimcore_material_icon",
                 tbar: toolbarConfig,
                 items: [this.getGrid()]
             });
