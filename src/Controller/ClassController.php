@@ -121,10 +121,13 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
             if (($targetObject = DataObject\Concrete::getById($targetObjectId)) && !$targetObject instanceof DataObject\Folder) {
                 $class->setFieldDefinitions($fieldDefinitions);
-                DataObject\Service::enrichLayoutDefinition($result['objectColumns']['childs'][0], $targetObject);
+                
                 try {
-                    // todo: is there a better way to check if a classification group is assigned to the class?
+                    // @todo: is there a better way to check if a classification group is assigned to the class?
                     $enrichment = Db::get()->fetchOne("SELECT EXISTS (SELECT * FROM object_classificationstore_groups_{$class->getId()} WHERE o_id = '{$targetObjectId}')");
+                    if($enrichment){
+                        DataObject\Service::enrichLayoutDefinition($result['objectColumns']['childs'][0], $targetObject);
+                    }
                 } catch (TableNotFoundException $exception) {
                     $enrichment = false;
                 }
