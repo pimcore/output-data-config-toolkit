@@ -341,13 +341,15 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
                         text: t("add_all"),
                         iconCls: "pimcore_icon_add",
                         handler: function (item, e) {
-                            Ext.Array.forEach(record.childNodes, function (child) {
-                                child.data.configAttributes = {
-                                    label: null,
-                                    icon: child.data.iconCls,
-                                    dataType: child.data.dataType,
-                                };
-                                this.selectionPanel.getRootNode().appendChild(child);
+                            Ext.Array.forEach(record.childNodes, function (record) {
+                                var attr = record.data;
+                                if(record.data.configAttributes) {
+                                    attr = record.data.configAttributes;
+                                }
+                                var element = this.getConfigElement(attr);
+                                var copy = element.getCopyNode(record);
+                                copy.data.configAttributes.icon = null;
+                                this.selectionPanel.getRootNode().appendChild(copy);
                             }, this);
                         }.bind(this),
                     }]
