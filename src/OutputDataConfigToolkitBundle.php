@@ -17,9 +17,17 @@ namespace OutputDataConfigToolkitBundle;
 
 use OutputDataConfigToolkitBundle\Tools\Installer;
 use Pimcore\Extension\Bundle\AbstractPimcoreBundle;
+use Pimcore\Extension\Bundle\Traits\PackageVersionTrait;
 
 class OutputDataConfigToolkitBundle extends AbstractPimcoreBundle
 {
+    use PackageVersionTrait;
+
+    protected function getComposerPackageName()
+    {
+        return 'pimcore/output-data-config-toolkit-bundle';
+    }
+    
     /**
      * @inheritDoc
      */
