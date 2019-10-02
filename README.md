@@ -8,7 +8,7 @@ An output data configuration consists of
 
 #### Table of Contents
 
-- [Channel Config](#channel-config)  
+- [Configuration](#configuration)  
 - [Defining output data configuration for different output channels](#defining-output-data-configuration-for-different-output-channels) 
 - [Working with output channels in code](#working-with-output-channels-in-code) 
 - [Events](#events)  
