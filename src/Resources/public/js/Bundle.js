@@ -44,8 +44,9 @@ pimcore.bundle.outputDataConfigToolkit.Bundle = Class.create(pimcore.plugin.admi
                         return;
                     }
 
-                    if (data.object.id && data.object.id != object.id) {
-                        var objectData = data.object;
+                    var objectData = object;
+                    if (data.object.id) {
+                        objectData = data.object;
                     }
 
                     var configTab = new pimcore.bundle.outputDataConfigToolkit.Tab(objectData, type);
