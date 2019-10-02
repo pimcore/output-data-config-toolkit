@@ -6,6 +6,17 @@ An output data configuration consists of
 - values = data object attributes
 - operators = can combine, modify, calculate, ... values
 
+#### Table of Contents
+
+- [Channel Config](#channel-config)  
+- [Defining output data configuration for different output channels](#defining-output-data-configuration-for-different-output-channels) 
+- [Working with output channels in code](#working-with-output-channels-in-code) 
+- [Events](#events)  
+- [Adding new operators](#adding-new-operators)  
+- [Defining output data configuration programmatically](#defining-output-data-configuration-programmatically)  
+- [Running with Pimcore < 5.4](#running-with-pimcore--54)  
+- [Migration from Pimcore 4](#migration-from-pimcore-4)  
+
 ## Configuration
 
 ### Channel Config
