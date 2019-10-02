@@ -93,6 +93,12 @@ app.templating.helper.productDetailSpecification:
 ### used by projects for example
 - E-Commerce-Demo (http://ecommercedemo.pimcore.org)
 
+## Events
+| Event        | Example           | Description |
+| :------------- | :-----| : ---|
+| outputDataConfigToolkit.initialize | [OutputDataConfigToolkitListener](doc/OutputDataConfigToolkitListener.php) | Is thrown before any output-config tab's initialization, so you can i.e. manipulate the configuration object, or only show the tab for a specific class type. |
+
+
 ## Adding new operators
 Create a Pimcore bundle and add following files:
 

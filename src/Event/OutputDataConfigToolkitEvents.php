@@ -21,5 +21,11 @@ namespace OutputDataConfigToolkitBundle\Event;
  */
 class OutputDataConfigToolkitEvents
 {
+
+    /**
+     * @Event("OutputDataConfigToolkitBundle\Event\InitializeEvent")
+     *
+     * @var string
+     */
     const INITIALIZE = "outputDataConfigToolkit.initialize";
 }
