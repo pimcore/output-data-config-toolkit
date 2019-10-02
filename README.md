@@ -94,9 +94,9 @@ app.templating.helper.productDetailSpecification:
 - E-Commerce-Demo (http://ecommercedemo.pimcore.org)
 
 ## Events
-| Event        | Example           | Description |
-| :------------- | :-----| : ---|
-| outputDataConfigToolkit.initialize | [OutputDataConfigToolkitListener](doc/OutputDataConfigToolkitListener.php) | Is thrown before any output-config tab's initialization, so you can i.e. manipulate the configuration object, or only show the tab for a specific class type. |
+| Event | Description |
+| ----- | ----------- |
+| `outputDataConfigToolkit.initialize` | Before any output-config tab's initialization, so you can i.e. manipulate the configuration object, or only show the tab for a specific class type. For a full example see [OutputDataConfigToolkitListener](doc/OutputDataConfigToolkitListener.php). |
 
 
 ## Adding new operators
