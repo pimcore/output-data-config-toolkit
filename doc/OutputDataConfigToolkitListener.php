@@ -9,6 +9,7 @@ namespace AppBundle\EventListener;
 
 use OutputDataConfigToolkitBundle\Event\InitializeEvent;
 use OutputDataConfigToolkitBundle\Event\OutputDataConfigToolkitEvents;
+use Pimcore\Model\DataObject\Concrete;
 use Pimcore\Model\DataObject\Folder;
 use Pimcore\Model\DataObject\Product;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -37,7 +38,7 @@ class OutputDataConfigToolkitListener implements EventSubscriberInterface
     public function onInitialize(InitializeEvent $event)
     {
         $object = $event->getObject();
-        if ($object->getClassName() != substr(strrchr(Product::class, "\\"), 1)) {
+        if (!$object instanceof Concrete || $object->getClassName() != substr(strrchr(Product::class, "\\"), 1)) {
             $event->setHideConfigTab(true);
         } else {
             while (

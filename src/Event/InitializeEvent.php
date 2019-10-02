@@ -15,6 +15,7 @@
 namespace OutputDataConfigToolkitBundle\Event;
 
 
+use Pimcore\Model\DataObject\AbstractObject;
 use Pimcore\Model\DataObject\Concrete;
 use Symfony\Component\EventDispatcher\Event;
 
@@ -35,27 +36,27 @@ class InitializeEvent extends Event
 
     /**
      * ObjectEvent constructor.
-     * @param Concrete $object
+     * @param AbstractObject $object
      */
-    public function __construct(Concrete $object)
+    public function __construct(AbstractObject $object)
     {
         $this->object = $object;
         $this->hideConfigTab = false;
     }
 
     /**
-     * @return Concrete
+     * @return AbstractObject
      */
-    public function getObject(): Concrete
+    public function getObject(): AbstractObject
     {
         return $this->object;
     }
 
     /**
-     * @param Concrete $object
+     * @param AbstractObject $object
      * @return InitializeEvent
      */
-    public function setObject(Concrete $object): self
+    public function setObject(AbstractObject $object): self
     {
         $this->object = $object;
         return $this;
