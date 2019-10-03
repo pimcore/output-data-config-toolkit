@@ -6,6 +6,17 @@ An output data configuration consists of
 - values = data object attributes
 - operators = can combine, modify, calculate, ... values
 
+#### Table of Contents
+
+- [Configuration](#configuration)  
+- [Defining output data configuration for different output channels](#defining-output-data-configuration-for-different-output-channels) 
+- [Working with output channels in code](#working-with-output-channels-in-code) 
+- [Events](#events)  
+- [Adding new operators](#adding-new-operators)  
+- [Defining output data configuration programmatically](#defining-output-data-configuration-programmatically)  
+- [Running with Pimcore < 5.4](#running-with-pimcore--54)  
+- [Migration from Pimcore 4](#migration-from-pimcore-4)  
+
 ## Configuration
 
 ### Channel Config
@@ -92,6 +103,12 @@ app.templating.helper.productDetailSpecification:
 
 ### used by projects for example
 - E-Commerce-Demo (http://ecommercedemo.pimcore.org)
+
+## Events
+| Event | Description |
+| ----- | ----------- |
+| `outputDataConfigToolkit.initialize` | Before any output-config tab's initialization, so you can i.e. manipulate the configuration object, or only show the tab for a specific class type. For a full example see [OutputDataConfigToolkitListener](doc/OutputDataConfigToolkitListener.php). |
+
 
 ## Adding new operators
 Create a Pimcore bundle and add following files:

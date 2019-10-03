@@ -15,13 +15,14 @@
 
 namespace OutputDataConfigToolkitBundle\Controller;
 
+use OutputDataConfigToolkitBundle\Event\InitializeEvent;
+use OutputDataConfigToolkitBundle\Event\OutputDataConfigToolkitEvents;
 use OutputDataConfigToolkitBundle\OutputDefinition;
 use OutputDataConfigToolkitBundle\Service;
 use Pimcore\Logger;
 use Pimcore\Model\DataObject\AbstractObject;
 use Pimcore\Model\DataObject\ClassDefinition;
 use Pimcore\Model\DataObject\Classificationstore\KeyConfig;
-use Pimcore\Model\DataObject\Product;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -37,6 +38,35 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
     /* @var bool $orderByName */
     private $orderByName = false;
+
+    /**
+     * @param Request $request
+     * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
+     *
+     * @Route("/initialize")
+     */
+    public function initializeAction(Request $request)
+    {
+        $objectId = $request->get("id");
+        $object = AbstractObject::getById($objectId);
+        $eventDispatcher = \Pimcore::getEventDispatcher();
+
+        if (!$object) {
+            $this->adminJson(array("error" => true, "object" => (object)[]));
+        }
+
+        $event = new InitializeEvent($object);
+        $eventDispatcher->dispatch(OutputDataConfigToolkitEvents::INITIALIZE, $event);
+
+        if ($event->getHideConfigTab() || !$event->getObject()) {
+            // do not show output config tab
+            return $this->adminJson(array("success" => true, "object" => false));
+        }
+
+        $data = ["id" => $event->getObject()->getId()];
+
+        return $this->adminJson(array("success" => true, "object" => $data));
+    }
 
     /**
      * @param Request $request
