@@ -99,6 +99,28 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
     getSelectionPanel: function () {
         if(!this.selectionPanel) {
             var childs = this.doBuildChannelConfigTree(this.outputConfig.configuration);
+
+            var filterField = new Ext.form.field.Text(
+                {
+                    width: 300,
+                    hideLabel: true,
+                    enableKeyEvents: true
+                }
+            );
+
+            var filterButton = new Ext.button.Button({
+                iconCls: "pimcore_icon_search"
+            });
+
+            var headerConfig = {
+                title: t('class_attributes'),
+                items: [
+                    filterField,
+                    filterButton
+                ]
+            };
+
+
             this.selectionPanel = new Ext.tree.TreePanel({
                 root: {
                     id: "0",
@@ -110,6 +132,8 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
                     children: childs
                 },
                 region:'east',
+                tbar: headerConfig,
+
                 title: t('output_channel_definition'),
                 layout:'fit',
                 width: 428,
@@ -195,6 +219,17 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
                     }
                 },
                 listeners: {
+
+                    afterrender: function (tree) {
+
+                        //initialise search filter
+                        var classTreeHelper = new pimcore.object.helpers.classTree(true);
+                        classTreeHelper.updateFilter(tree, filterField);
+
+                        filterField.on("keyup", classTreeHelper.updateFilter.bind(tree, tree, filterField));
+                        filterButton.on("click", classTreeHelper.updateFilter.bind(tree, tree, filterField));
+
+                    },
                     afterlayout: function (tree) {
                         this.expandChildren(tree.getRootNode());
                     }.bind(this),
