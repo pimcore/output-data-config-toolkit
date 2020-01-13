@@ -28,4 +28,11 @@ class OutputDataConfigToolkitEvents
      * @var string
      */
     const INITIALIZE = "outputDataConfigToolkit.initialize";
+
+    /**
+     * @Event("OutputDataConfigToolkitBundle\Event\SaveConfigEvent")
+     *
+     * @var string
+     */
+    const SAVE_CONFIG_EVENT = "outputDataConfigToolkit.saveEvent";
 }

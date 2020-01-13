@@ -108,6 +108,7 @@ app.templating.helper.productDetailSpecification:
 | Event | Description |
 | ----- | ----------- |
 | `outputDataConfigToolkit.initialize` | Before any output-config tab's initialization, so you can i.e. manipulate the configuration object, or only show the tab for a specific class type. For a full example see [OutputDataConfigToolkitListener](doc/OutputDataConfigToolkitListener.php). |
+| `outputDataConfigToolkit.saveEvent`  | Before a specific output config is saved. Can be implemented to sort config attributes or to modify attributes in any other way. |
 
 
 ## Adding new operators

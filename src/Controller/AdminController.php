@@ -17,12 +17,14 @@ namespace OutputDataConfigToolkitBundle\Controller;
 
 use OutputDataConfigToolkitBundle\Event\InitializeEvent;
 use OutputDataConfigToolkitBundle\Event\OutputDataConfigToolkitEvents;
+use OutputDataConfigToolkitBundle\Event\SaveConfigEvent;
 use OutputDataConfigToolkitBundle\OutputDefinition;
 use OutputDataConfigToolkitBundle\Service;
 use Pimcore\Logger;
 use Pimcore\Model\DataObject\AbstractObject;
 use Pimcore\Model\DataObject\ClassDefinition;
 use Pimcore\Model\DataObject\Classificationstore\KeyConfig;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -219,7 +221,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
      * @param $objectClass
      * @return array
      */
-    private function doGetAttributeLabels($configuration, $objectClass)
+    private function doGetAttributeLabels($configuration, $objectClass, bool $sort = false)
     {
         $newConfiguration = array();
         if (!empty($configuration)) {
@@ -237,15 +239,30 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                     if ($newConfig->dataType == "system") {
                         $newConfig->text = $newConfig->attribute;
                     }
-
-
                 }
-                $newConfig->childs = $this->doGetAttributeLabels($c->childs, $objectClass);
-                $newConfiguration[] = $newConfig;
 
+                $children = $this->doGetAttributeLabels($c->childs, $objectClass, $sort);
+                if ($sort) {
+                    $this->sortAttributes($children);
+                }
+
+                $newConfig->childs = $children;
+                $newConfiguration[] = $newConfig;
             }
         }
+
+        if ($sort) {
+            $this->sortAttributes($newConfiguration);
+        }
+
         return $newConfiguration;
+    }
+
+    private function sortAttributes(array &$attributes) {
+        //@todo only sort if enabled in config...
+        usort($attributes, function($a1, $a2) {
+            return strcmp($a1->text, $a2->text);
+        });
     }
 
     /**
@@ -353,7 +370,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
      * @Route("/save-output-config")
      * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
      */
-    public function saveOutputConfigAction(Request $request)
+    public function saveOutputConfigAction(Request $request, EventDispatcher $eventDispatcher)
     {
         try {
             $config = OutputDefinition::getByID($request->get("config_id"));
@@ -363,16 +380,32 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                 throw new \Exception("Data Object with ID" . $request->get("object_id") . " not found.");
             }
             if ($config->getO_Id() == $request->get("object_id")) {
-                $config->setConfiguration($request->get("config"));
-                $config->save();
+
             } else {
                 $newConfig = new OutputDefinition();
                 $newConfig->setChannel($config->getChannel());
                 $newConfig->setO_ClassId($config->getO_ClassId());
                 $newConfig->setO_Id($object->getId());
-                $newConfig->setConfiguration($request->get("config"));
-                $newConfig->save();
+                $config = $newConfig;
             }
+
+            $configJson = $request->get("config");
+            $config->setConfiguration($configJson);
+
+
+            $event = new SaveConfigEvent($config);
+            $eventDispatcher->dispatch(OutputDataConfigToolkitEvents::SAVE_CONFIG_EVENT, $event);
+
+            if ($event->isSortAttributes()) {
+                $objectClass = ClassDefinition::getById($config->getO_ClassId());
+                $configuration = json_decode($configJson);
+                $configuration = $this->doGetAttributeLabels($configuration, $objectClass, true);
+                $configJson = json_encode($configuration);
+                $config->setConfiguration($configJson);
+            }
+            $config->save();
+
+
             return $this->adminJson(array("success" => true));
         } catch (\Exception $e) {
             Logger::err($e->getMessage(), $e);
