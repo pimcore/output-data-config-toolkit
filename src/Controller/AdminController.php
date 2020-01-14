@@ -396,7 +396,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             $event = new SaveConfigEvent($config);
             $eventDispatcher->dispatch(OutputDataConfigToolkitEvents::SAVE_CONFIG_EVENT, $event);
 
-            if ($event->isSortAttributes()) {
+            if ($event->doSortAttributes()) {
                 $objectClass = ClassDefinition::getById($config->getO_ClassId());
                 $configuration = json_decode($configJson);
                 $configuration = $this->doGetAttributeLabels($configuration, $objectClass, true);
