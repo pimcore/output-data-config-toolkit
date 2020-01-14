@@ -35,7 +35,7 @@ class SaveConfigEvent extends Event
     /**
      * @return bool
      */
-    public function isSortAttributes(): bool
+    public function doSortAttributes(): bool
     {
         return $this->sortAttributes;
     }
