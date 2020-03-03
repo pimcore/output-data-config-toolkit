@@ -3,7 +3,7 @@
   "license": "GPL-3.0+",
   "type": "pimcore-bundle",
   "require": {
-    "pimcore/pimcore": ">=5.4 <6.6"
+    "pimcore/pimcore": ">=5.4 <6.7"
   },
   "autoload": {
     "psr-4": {
