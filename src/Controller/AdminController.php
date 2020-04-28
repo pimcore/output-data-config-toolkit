@@ -24,7 +24,7 @@ use Pimcore\Logger;
 use Pimcore\Model\DataObject\AbstractObject;
 use Pimcore\Model\DataObject\ClassDefinition;
 use Pimcore\Model\DataObject\Classificationstore\KeyConfig;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -47,11 +47,10 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
      *
      * @Route("/initialize")
      */
-    public function initializeAction(Request $request)
+    public function initializeAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {
         $objectId = $request->get("id");
         $object = AbstractObject::getById($objectId);
-        $eventDispatcher = \Pimcore::getEventDispatcher();
 
         if (!$object) {
             $this->adminJson(array("error" => true, "object" => (object)[]));
@@ -288,6 +287,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     private function getFieldDefinition($attributeName, $objectClass)
     {
         $label = null;
+        $brickKey = null;
         $attributeParts = explode("~", $attributeName);
 
         if (substr($attributeName, 0, 1) == "~") {
@@ -370,7 +370,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
      * @Route("/save-output-config")
      * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
      */
-    public function saveOutputConfigAction(Request $request, EventDispatcher $eventDispatcher)
+    public function saveOutputConfigAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {
         try {
             $config = OutputDefinition::getByID($request->get("config_id"));
