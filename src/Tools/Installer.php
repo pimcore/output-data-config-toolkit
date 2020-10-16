@@ -58,14 +58,12 @@ class Installer extends AbstractInstaller {
 
     public function isInstalled()
     {
-        $result = null;
         try{
-            if(Config::getSystemConfig()) {
-                $result = \Pimcore\Db::get()->fetchAll("SHOW TABLES LIKE '" . Dao::TABLE_NAME . "';");
-            }
-        } catch(\Exception $e){}
-        return !empty($result);
-
+            $check = \Pimcore\Db::get()->fetchOne("SELECT `id` FROM " . Dao::TABLE_NAME . " LIMIT 1;");
+            return true;
+        } catch(\Exception $e){
+            return false;
+        }
     }
 
     public function canBeInstalled()

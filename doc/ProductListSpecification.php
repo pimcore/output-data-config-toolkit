@@ -10,7 +10,7 @@ use Pimcore\Model\DataObject\AbstractObject;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Checkbox;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Image;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Multiselect;
-use Pimcore\Model\DataObject\ClassDefinition\Data\Objects;
+use Pimcore\Model\DataObject\ClassDefinition\Data\ManyToManyObjectRelation;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Select;
 use Pimcore\Service\IntlFormatterService;
 use Pimcore\Translation\Translator;
@@ -23,16 +23,10 @@ class ProductDetailSpecification extends Helper {
      */
     protected $translator;
 
-    /**
-     * @var IntlFormatterService
-     */
-    protected $formatter;
 
-
-    public function __construct(Translator $translator, IntlFormatterService $formatter)
+    public function __construct(Translator $translator)
     {
         $this->translator = $translator;
-        $this->formatter = $formatter;
     }
 
     /**
@@ -83,7 +77,7 @@ class ProductDetailSpecification extends Helper {
                 }
 
 
-            } else if($labeledValue->def instanceof Objects) {
+            } else if($labeledValue->def instanceof ManyToManyObjectRelation) {
 
                 $names = array();
                 if(is_array($labeledValue->value)) {
@@ -109,11 +103,6 @@ class ProductDetailSpecification extends Helper {
                     p_r($property);
                     die();
                 }
-            }
-
-
-            if(is_numeric($value)) {
-                $value = $this->formatter->formatNumber($value);
             }
 
             if($labeledValue->value) {

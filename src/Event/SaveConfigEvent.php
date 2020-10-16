@@ -16,7 +16,7 @@ namespace OutputDataConfigToolkitBundle\Event;
 
 
 use OutputDataConfigToolkitBundle\OutputDefinition;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class SaveConfigEvent

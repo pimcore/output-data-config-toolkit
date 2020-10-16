@@ -90,7 +90,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                         $result[$key]['nodeLabel'] = $key;
                         $result[$key]['brickField'] = $fieldName;
                         $result[$key]['nodeType'] = 'objectbricks';
-                        $result[$key]['childs'] = $brickDefinition->getLayoutdefinitions()->getChilds();
+                        $result[$key]['childs'] = $brickDefinition->getLayoutdefinitions()->getChildren();
                         break;
                     }
                 }
@@ -121,7 +121,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
             if (($targetObject = DataObject\Concrete::getById($targetObjectId)) && !$targetObject instanceof DataObject\Folder) {
                 $class->setFieldDefinitions($fieldDefinitions);
-                
+
                 try {
                     // @todo: is there a better way to check if a classification group is assigned to the class?
                     $enrichment = Db::get()->fetchOne("SELECT EXISTS (SELECT * FROM object_classificationstore_groups_{$class->getId()} WHERE o_id = '{$targetObjectId}')");
