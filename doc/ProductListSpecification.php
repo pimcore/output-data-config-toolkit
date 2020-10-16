@@ -12,7 +12,6 @@ use Pimcore\Model\DataObject\ClassDefinition\Data\Image;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Multiselect;
 use Pimcore\Model\DataObject\ClassDefinition\Data\ManyToManyObjectRelation;
 use Pimcore\Model\DataObject\ClassDefinition\Data\Select;
-use Pimcore\Service\IntlFormatterService;
 use Pimcore\Translation\Translator;
 use Symfony\Component\Templating\Helper\Helper;
 
