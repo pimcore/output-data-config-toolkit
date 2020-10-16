@@ -3,7 +3,8 @@
   "license": "GPL-3.0+",
   "type": "pimcore-bundle",
   "require": {
-    "pimcore/pimcore": "^6.8"
+    "pimcore/pimcore": "^6.8",
+    "symfony/symfony": "^4"
   },
   "autoload": {
     "psr-4": {

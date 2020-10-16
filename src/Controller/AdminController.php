@@ -57,7 +57,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         }
 
         $event = new InitializeEvent($object);
-        $eventDispatcher->dispatch(OutputDataConfigToolkitEvents::INITIALIZE, $event);
+        $eventDispatcher->dispatch($event, OutputDataConfigToolkitEvents::INITIALIZE);
 
         if ($event->getHideConfigTab() || !$event->getObject()) {
             // do not show output config tab
@@ -394,7 +394,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
 
             $event = new SaveConfigEvent($config);
-            $eventDispatcher->dispatch(OutputDataConfigToolkitEvents::SAVE_CONFIG_EVENT, $event);
+            $eventDispatcher->dispatch($event, OutputDataConfigToolkitEvents::SAVE_CONFIG_EVENT);
 
             if ($event->doSortAttributes()) {
                 $objectClass = ClassDefinition::getById($config->getO_ClassId());
