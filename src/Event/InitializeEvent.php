@@ -17,12 +17,12 @@ namespace OutputDataConfigToolkitBundle\Event;
 
 use Pimcore\Model\DataObject\AbstractObject;
 use Pimcore\Model\DataObject\Concrete;
-use Symfony\Contracts\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class ObjectEvent
  */
-class InitializeEvent extends Event
+class InitializeEvent extends GenericEvent
 {
     /**
      * @var Concrete
