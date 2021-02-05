@@ -23,7 +23,7 @@ class OutputDataConfigToolkitBundle extends AbstractPimcoreBundle
 {
     use PackageVersionTrait;
 
-    protected function getComposerPackageName()
+    protected function getComposerPackageName(): string
     {
         return 'pimcore/output-data-config-toolkit-bundle';
     }
