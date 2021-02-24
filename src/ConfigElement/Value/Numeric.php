@@ -33,6 +33,10 @@ class Numeric extends DefaultValue {
 
         $labeledValue = parent::getLabeledValue($object);
 
+        if($labeledValue === null) {
+            return null;
+        }
+
         if($this->precision) {
             $labeledValue->value = round($labeledValue->value, $this->precision);
         }

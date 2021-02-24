@@ -42,7 +42,7 @@ class Concatenator extends AbstractOperator {
         $valueArray = [];
 
         foreach($childs as $c) {
-            $value = $c->getLabeledValue($object)->value;
+            $value = $c->getLabeledValue($object) ? $c->getLabeledValue($object)->value : null;
 
             if(!$hasValue) {
                 if(!empty($value) || ((method_exists($value, "isEmpty") && !$value->isEmpty()))) {

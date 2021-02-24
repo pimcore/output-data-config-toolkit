@@ -39,7 +39,7 @@ class DimensionUnitField extends DefaultValue {
         } else if(!empty($rawResult)) {
             $result = new \stdClass();
             $result->label = $rawResult->label;
-            $result->def = $rawResult->def;
+            $result->def = $rawResult->def ?? null;
 
             $formatter = \Pimcore::getContainer()->get("pimcore.locale.intl_formatter");
 

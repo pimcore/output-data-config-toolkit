@@ -27,7 +27,7 @@ class DefaultValue extends AbstractConfigElement {
 
     public function __construct($config, $context = null) {
         parent::__construct($config, $context);
-        $this->icon = $config->icon;
+        $this->icon = $config->icon ?? null;
         $this->localized = false;
     }
 
@@ -60,7 +60,7 @@ class DefaultValue extends AbstractConfigElement {
                 $brickTypeGetter = 'get'.ucfirst($brickType);
                 $brickGetter = 'get'.ucfirst($brickfield);
 
-            } else {
+            } else if($object instanceof DefaultMockup || $object instanceof AbstractObject) {
                 $getter = "get" . ucfirst(\Pimcore\Model\DataObject\Service::getFieldForBrickType($object->getClass(), $brickType));
                 $brickTypeGetter = "get" . ucfirst($brickType);
                 $brickGetter = "get" . ucfirst($brickKey);
@@ -71,7 +71,7 @@ class DefaultValue extends AbstractConfigElement {
 
             if($object instanceof DefaultMockup || $object instanceof AbstractObject) {
                 $def = $object->getClass()->getFieldDefinition($this->attribute);
-                if(!$def){
+                if(!$def && method_exists($object, 'getClass')){
                     /**
                      * @var \Pimcore\Model\DataObject\ClassDefinition\Data\Localizedfields $lf
                      */

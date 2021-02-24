@@ -59,7 +59,7 @@ class StructuredTable extends DefaultValue {
             }
 
             $result->value = $value;
-            $result->def = $wholeResult->def;
+            $result->def = $wholeResult->def ?? null;
 
             if(empty($result->value)) {
                 $result->empty = true;
