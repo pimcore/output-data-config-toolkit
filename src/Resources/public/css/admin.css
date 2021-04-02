@@ -24,10 +24,6 @@
 }
 
 .bundle_outputdataconfig_icon_material {
-    background: url("/bundles/pimcoreadmin/img/flat-color-icons/grid.svg") center center no-repeat;
-}
-
-.pimcore_version_6 .bundle_outputdataconfig_icon_material {
     background: url("/bundles/outputdataconfigtoolkit/img/outline-chrome_reader_mode-24px.svg") center center no-repeat;
 }
 
