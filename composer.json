@@ -4,7 +4,7 @@
   "type": "pimcore-bundle",
   "require": {
     "pimcore/pimcore": "^6.8 || ^10.0",
-    "symfony/symfony": "^4 || ^5"
+    "symfony/symfony": "^4.3 || ^5"
   },
   "autoload": {
     "psr-4": {
