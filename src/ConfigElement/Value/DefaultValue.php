@@ -19,6 +19,7 @@ use OutputDataConfigToolkitBundle\ConfigElement\AbstractConfigElement;
 use Pimcore\Bundle\EcommerceFrameworkBundle\Model\DefaultMockup;
 use Pimcore\Model\DataObject\AbstractObject;
 use Pimcore\Model\DataObject\Localizedfield;
+use Pimcore\Model\DataObject\Classificationstore;
 
 class DefaultValue extends AbstractConfigElement {
 
