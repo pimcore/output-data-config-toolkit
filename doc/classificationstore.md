@@ -11,3 +11,10 @@ different display modes for classification store keys in the output definition c
 
 ##### DisplayMode `object` or `relevant` and object has any assigned group
 ![image](img/classification_relevant.jpg)
+
+#### Get classificationstore key value, assign classificationstore name and classificationstore group.
+for eq. 
+    $outputDataConfig = OutputDataConfigToolkitBundle\Service::getOutputDataConfig($object, 'Output config channel');
+    $outputDataConfig[0]->classificationstore = 'Attributes';     ### classificationstore field name in object 
+    $outputDataConfig[0]->classificationstore_group = 'Product';  ### Classificationstore group name
+    $outputDataConfig[0]->getLabeledValue($object);
