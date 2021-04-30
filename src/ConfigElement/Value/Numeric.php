@@ -42,7 +42,7 @@ class Numeric extends DefaultValue {
         }
 
         if($this->formatNumber) {
-            $formatter = \Pimcore::getContainer()->get("pimcore.locale.intl_formatter");
+            $formatter = \Pimcore::getContainer()->get(\Pimcore\Localization\IntlFormatter::class);
 
             //TODO consider precision
             $labeledValue->value = $formatter->formatNumber($labeledValue->value);

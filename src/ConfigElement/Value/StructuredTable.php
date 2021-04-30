@@ -54,7 +54,7 @@ class StructuredTable extends DefaultValue {
             $result->label = $label;
 
             if(is_numeric($value)) {
-                $formatter = \Pimcore::getContainer()->get("pimcore.locale.intl_formatter");
+                $formatter = \Pimcore::getContainer()->get(\Pimcore\Localization\IntlFormatter::class);
                 $value = $formatter->formatNumber($value);
             }
 

@@ -96,7 +96,7 @@ A sample template helper see `doc/ProductListSpecification.php`, the needed serv
 # Product Detail Specification Template Helper
 app.templating.helper.productDetailSpecification:
     class: AppBundle\Templating\Helper\ProductDetailSpecification
-    arguments: ['@translator', '@pimcore.locale.intl_formatter']
+    arguments: ['@translator', '@Pimcore\Localization\IntlFormatter']
     tags:
         - { name: templating.helper, alias: productDetailSpecification }
 ```

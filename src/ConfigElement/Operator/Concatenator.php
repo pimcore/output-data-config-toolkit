@@ -51,7 +51,7 @@ class Concatenator extends AbstractOperator {
             }
 
             if($this->formatNumbers && is_numeric($value)) {
-                $formattingService = \Pimcore::getContainer()->get('pimcore.locale.intl_formatter');
+                $formattingService = \Pimcore::getContainer()->get(\Pimcore\Localization\IntlFormatter::class);
                 $value = $formattingService->formatNumber($value);
             }
 
