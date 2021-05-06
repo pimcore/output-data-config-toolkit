@@ -1,70 +1,73 @@
 <?php
+
 /**
  * Pimcore
  *
  * This source file is available under two different licenses:
  * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Enterprise License (PEL)
+ * - Pimcore Commercial License (PCL)
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- * @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- * @license    http://www.pimcore.org/license     GPLv3 and PEL
+ *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
+ *  @license    http://www.pimcore.org/license     GPLv3 and PCL
  */
-
 
 namespace OutputDataConfigToolkitBundle\ConfigElement\Operator;
 
-class Concatenator extends AbstractOperator {
-
+class Concatenator extends AbstractOperator
+{
     protected $glue;
     protected $forceValue;
     protected $formatNumbers;
 
-    public function __construct($config, $context = null) {
+    public function __construct($config, $context = null)
+    {
         parent::__construct($config, $context);
         $this->glue = $config->glue;
         $this->forceValue = $config->forceValue;
         $this->formatNumbers = $config->formatNumbers;
     }
 
-    public function getLabeledValue($object) {
+    public function getLabeledValue($object)
+    {
         $result = new \stdClass();
         $result->label = $this->label;
 
         $hasValue = true;
-        if(!$this->forceValue) {
+        if (!$this->forceValue) {
             $hasValue = false;
         }
-
 
         $childs = $this->getChilds();
         $valueArray = [];
 
-        foreach($childs as $c) {
+        foreach ($childs as $c) {
             $value = $c->getLabeledValue($object) ? $c->getLabeledValue($object)->value : null;
 
-            if(!$hasValue) {
-                if(!empty($value) || ((method_exists($value, "isEmpty") && !$value->isEmpty()))) {
+            if (!$hasValue) {
+                if (!empty($value) || ((method_exists($value, 'isEmpty') && !$value->isEmpty()))) {
                     $hasValue = true;
                 }
             }
 
-            if($this->formatNumbers && is_numeric($value)) {
+            if ($this->formatNumbers && is_numeric($value)) {
                 $formattingService = \Pimcore::getContainer()->get(\Pimcore\Localization\IntlFormatter::class);
                 $value = $formattingService->formatNumber($value);
             }
 
-            if($value !== null) {
+            if ($value !== null) {
                 $valueArray[] = $value;
             }
         }
 
-        if($hasValue) {
+        if ($hasValue) {
             $result->value = implode($this->glue, $valueArray);
+
             return $result;
         } else {
             $result->empty = true;
+
             return $result;
         }
     }

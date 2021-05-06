@@ -1,27 +1,28 @@
 <?php
+
 /**
  * Pimcore
  *
  * This source file is available under two different licenses:
  * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Enterprise License (PEL)
+ * - Pimcore Commercial License (PCL)
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- * @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- * @license    http://www.pimcore.org/license     GPLv3 and PEL
+ *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
+ *  @license    http://www.pimcore.org/license     GPLv3 and PCL
  */
-
 
 namespace OutputDataConfigToolkitBundle\ConfigElement\Operator;
 
-class CellFormater extends AbstractOperator {
-
+class CellFormater extends AbstractOperator
+{
     private $cssClass;
     private $styles;
     private $labelStyles;
 
-    public function __construct($config, $context = null) {
+    public function __construct($config, $context = null)
+    {
         parent::__construct($config, $context);
 
         $this->cssClass = $config->cssClass;
@@ -30,32 +31,38 @@ class CellFormater extends AbstractOperator {
         $this->labelStyles = $config->labelStyles;
     }
 
-    public function getLabeledValue($object) {
+    public function getLabeledValue($object)
+    {
         $childs = $this->getChilds();
-        if($childs[0]) {
+        if ($childs[0]) {
             return $childs[0]->getLabeledValue($object);
         }
+
         return null;
     }
 
-    public function getCssClass() {
+    public function getCssClass()
+    {
         return $this->cssClass;
     }
 
-    public function setStyles($styles) {
+    public function setStyles($styles)
+    {
         $this->styles = $styles;
     }
 
-    public function getStyles() {
+    public function getStyles()
+    {
         return $this->styles;
     }
 
-    public function setLabelStyles($styles) {
+    public function setLabelStyles($styles)
+    {
         $this->labelStyles = $styles;
     }
 
-    public function getLabelStyles() {
+    public function getLabelStyles()
+    {
         return $this->labelStyles;
     }
-
 }

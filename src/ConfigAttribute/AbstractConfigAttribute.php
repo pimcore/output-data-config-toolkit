@@ -1,21 +1,23 @@
 <?php
+
 /**
  * Pimcore
  *
  * This source file is available under two different licenses:
  * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Enterprise License (PEL)
+ * - Pimcore Commercial License (PCL)
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- * @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- * @license    http://www.pimcore.org/license     GPLv3 and PEL
+ *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
+ *  @license    http://www.pimcore.org/license     GPLv3 and PCL
  */
 
 namespace OutputDataConfigToolkitBundle\ConfigAttribute;
 
 /**
  * Class AbstractConfigAttribute
+ *
  * @package OutputDataConfigToolkitBundle\ConfigAttribute
  */
 abstract class AbstractConfigAttribute implements IConfigAttribute
@@ -44,11 +46,13 @@ abstract class AbstractConfigAttribute implements IConfigAttribute
 
     /**
      * @param string|null $label
+     *
      * @return AbstractConfigAttribute
      */
-    public function setLabel(?string $label): AbstractConfigAttribute
+    public function setLabel(?string $label): self
     {
         $this->label = $label;
+
         return $this;
     }
 
@@ -62,11 +66,13 @@ abstract class AbstractConfigAttribute implements IConfigAttribute
 
     /**
      * @param string|null $type
+     *
      * @return AbstractConfigAttribute
      */
-    public function setType(?string $type): AbstractConfigAttribute
+    public function setType(?string $type): self
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -80,11 +86,13 @@ abstract class AbstractConfigAttribute implements IConfigAttribute
 
     /**
      * @param string|null $class
+     *
      * @return AbstractConfigAttribute
      */
-    public function setClass(?string $class): AbstractConfigAttribute
+    public function setClass(?string $class): self
     {
         $this->class = $class;
+
         return $this;
     }
 
@@ -98,11 +106,13 @@ abstract class AbstractConfigAttribute implements IConfigAttribute
 
     /**
      * @param AbstractConfigAttribute[] $childs
+     *
      * @return AbstractConfigAttribute
      */
-    public function setChilds(array $childs): AbstractConfigAttribute
+    public function setChilds(array $childs): self
     {
         $this->childs = $childs;
+
         return $this;
     }
 }

@@ -1,17 +1,17 @@
 <?php
+
 /**
  * Pimcore
  *
  * This source file is available under two different licenses:
  * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Enterprise License (PEL)
+ * - Pimcore Commercial License (PCL)
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- * @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- * @license    http://www.pimcore.org/license     GPLv3 and PEL
+ *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
+ *  @license    http://www.pimcore.org/license     GPLv3 and PCL
  */
-
 
 namespace OutputDataConfigToolkitBundle\Controller;
 
@@ -30,11 +30,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class AdminController
+ *
  * @Route("/admin")
  */
 class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminController
 {
-
     /* @var string[] $defaultGridClasses */
     private $defaultGridClasses = [];
 
@@ -43,17 +43,18 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
     /**
      * @param Request $request
+     *
      * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
      *
      * @Route("/initialize")
      */
     public function initializeAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {
-        $objectId = $request->get("id");
+        $objectId = $request->get('id');
         $object = AbstractObject::getById($objectId);
 
         if (!$object) {
-            $this->adminJson(array("error" => true, "object" => (object)[]));
+            $this->adminJson(['error' => true, 'object' => (object)[]]);
         }
 
         $event = new InitializeEvent($object);
@@ -61,16 +62,17 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
         if ($event->getHideConfigTab() || !$event->getObject()) {
             // do not show output config tab
-            return $this->adminJson(array("success" => true, "object" => false));
+            return $this->adminJson(['success' => true, 'object' => false]);
         }
 
-        $data = ["id" => $event->getObject()->getId()];
+        $data = ['id' => $event->getObject()->getId()];
 
-        return $this->adminJson(array("success" => true, "object" => $data));
+        return $this->adminJson(['success' => true, 'object' => $data]);
     }
 
     /**
      * @param Request $request
+     *
      * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
      *
      * @Route("/get-output-configs")
@@ -80,40 +82,42 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         Service::initChannelsForRootobject();
         $channels = Service::getChannels();
 
-        $objectId = $request->get("object_id");
+        $objectId = $request->get('object_id');
         $object = AbstractObject::getById($objectId);
 
         $classList = $this->getFilteredClassDefinitionList($request);
 
         if ($this->getOrderByName()) {
-            $classList->setOrderKey("name");
-            $classList->setOrder("ASC");
+            $classList->setOrderKey('name');
+            $classList->setOrder('ASC');
         }
 
         $classList = $classList->load();
 
-        $translator = $this->get("translator");
+        $translator = $this->get('translator');
 
-        $outputDefinitions = array();
+        $outputDefinitions = [];
         foreach ($classList as $class) {
             foreach ($channels as $channel) {
                 $def = $this->getOutputDefinitionForObjectAndChannel($object, $class->getId(), $channel);
-                $outputDefinitions[] = array(
-                    "id" => $def->getId(),
-                    "classname" => $translator->trans($class->getName(), [], 'admin'),
-                    "channel" => $translator->trans($channel, [], 'admin'),
-                    "object_id" => $def->getO_Id(),
-                    "is_inherited" => $def->getO_Id() != $objectId
-                );
+                $outputDefinitions[] = [
+                    'id' => $def->getId(),
+                    'classname' => $translator->trans($class->getName(), [], 'admin'),
+                    'channel' => $translator->trans($channel, [], 'admin'),
+                    'object_id' => $def->getO_Id(),
+                    'is_inherited' => $def->getO_Id() != $objectId
+                ];
             }
         }
-        return $this->adminJson(array("success" => true, "data" => $outputDefinitions));
+
+        return $this->adminJson(['success' => true, 'data' => $outputDefinitions]);
     }
 
     /**
      * @param $object
      * @param $classId
      * @param $channel
+     *
      * @return OutputDefinition
      */
     private function getOutputDefinitionForObjectAndChannel($object, $classId, $channel)
@@ -125,11 +129,13 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                 return $this->getOutputDefinitionForObjectAndChannel($parent, $classId, $channel);
             }
         }
+
         return $outputDefinition;
     }
 
     /**
      * @param Request $request
+     *
      * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
      *
      * @Route("/reset-output-config")
@@ -137,17 +143,20 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     public function resetOutputConfigAction(Request $request)
     {
         try {
-            $config = OutputDefinition::getByID($request->get("config_id"));
+            $config = OutputDefinition::getByID($request->get('config_id'));
             $config->delete();
-            return $this->adminJson(array("success" => true));
+
+            return $this->adminJson(['success' => true]);
         } catch (\Exception $e) {
             Logger::err($e->getMessage(), $e);
-            return $this->adminJson(array("success" => false, "message" => $e->getMessage()));
+
+            return $this->adminJson(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
     /**
      * @param Request $request
+     *
      * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
      *
      * @Route("/get-output-config")
@@ -155,22 +164,25 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     public function getOutputConfigAction(Request $request)
     {
         try {
-            $config = OutputDefinition::getByID($request->get("config_id"));
+            $config = OutputDefinition::getByID($request->get('config_id'));
 
             $objectClass = ClassDefinition::getById($config->getO_ClassId());
             $configuration = json_decode($config->getConfiguration());
             $configuration = $this->doGetAttributeLabels($configuration, $objectClass);
 
             $config->setConfiguration($configuration);
-            return $this->adminJson(array("success" => true, "outputConfig" => $config));
+
+            return $this->adminJson(['success' => true, 'outputConfig' => $config]);
         } catch (\Exception $e) {
             Logger::err($e);
-            return $this->adminJson(array("success" => false, "message" => $e->getMessage()));
+
+            return $this->adminJson(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
     /**
      * @param Request $request
+     *
      * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
      *
      * @Route("/get-or-create-output-config")
@@ -178,19 +190,18 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     public function getOrCreateOutputConfigAction(Request $request)
     {
         try {
-            $config = OutputDefinition::getByID($request->get("config_id"));
+            $config = OutputDefinition::getByID($request->get('config_id'));
             if (!$config) {
-
-                if (is_numeric($request->get("class_id"))) {
-                    $class = ClassDefinition::getById($request->get("class_id"));
+                if (is_numeric($request->get('class_id'))) {
+                    $class = ClassDefinition::getById($request->get('class_id'));
                 } else {
-                    $class = ClassDefinition::getByName($request->get("class_id"));
+                    $class = ClassDefinition::getByName($request->get('class_id'));
                 }
                 if (!$class) {
-                    throw new \Exception("Class " . $request->get("class_id") . " not found.");
+                    throw new \Exception('Class ' . $request->get('class_id') . ' not found.');
                 }
 
-                $config = OutputDefinition::getByO_IdClassIdChannel($request->get("o_id"), $class->getId(), $request->get("channel"));
+                $config = OutputDefinition::getByO_IdClassIdChannel($request->get('o_id'), $class->getId(), $request->get('channel'));
             }
 
             if ($config) {
@@ -198,31 +209,33 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                 $configuration = json_decode($config->getConfiguration());
                 $configuration = $this->doGetAttributeLabels($configuration, $objectClass);
                 $config->setConfiguration($configuration);
-                return $this->adminJson(array("success" => true, "outputConfig" => $config));
+
+                return $this->adminJson(['success' => true, 'outputConfig' => $config]);
             } else {
                 $config = new OutputDefinition();
-                $config->setChannel($request->get("channel"));
+                $config->setChannel($request->get('channel'));
                 $config->setO_ClassId($class->getId());
-                $config->setO_Id($request->get("o_id"));
+                $config->setO_Id($request->get('o_id'));
                 $config->save();
 
-                return $this->adminJson(array("success" => true, "outputConfig" => $config));
+                return $this->adminJson(['success' => true, 'outputConfig' => $config]);
             }
-
         } catch (\Exception $e) {
             Logger::err($e->getMessage(), $e);
-            return $this->adminJson(array("success" => false, "message" => $e->getMessage()));
+
+            return $this->adminJson(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
     /**
      * @param $configuration
      * @param $objectClass
+     *
      * @return array
      */
     private function doGetAttributeLabels($configuration, $objectClass, bool $sort = false)
     {
-        $newConfiguration = array();
+        $newConfiguration = [];
         if (!empty($configuration)) {
             foreach ($configuration as $c) {
                 $newConfig = $c;
@@ -231,11 +244,11 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                 } else {
                     $def = $this->getFieldDefinition($newConfig->attribute, $objectClass);
                     if ($def) {
-                        $translator = $this->get("translator");
-                        $newConfig->text = $translator->trans($def->getTitle(), [], "admin");
+                        $translator = $this->get('translator');
+                        $newConfig->text = $translator->trans($def->getTitle(), [], 'admin');
                     }
 
-                    if ($newConfig->dataType == "system") {
+                    if ($newConfig->dataType == 'system') {
                         $newConfig->text = $newConfig->attribute;
                     }
                 }
@@ -257,53 +270,57 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         return $newConfiguration;
     }
 
-    private function sortAttributes(array &$attributes) {
+    private function sortAttributes(array &$attributes)
+    {
         //@todo only sort if enabled in config...
-        usort($attributes, function($a1, $a2) {
+        usort($attributes, function ($a1, $a2) {
             return strcmp($a1->text, $a2->text);
         });
     }
 
     /**
      * @param Request $request
+     *
      * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
      *
      * @Route("/get-attribute-labels")
      */
     public function getAttributeLabelsAction(Request $request)
     {
-        $configration = json_decode($request->get("configuration"));
-        $class = ClassDefinition::getById($request->get("classId"));
+        $configration = json_decode($request->get('configuration'));
+        $class = ClassDefinition::getById($request->get('classId'));
 
         $configration = $this->doGetAttributeLabels($configration, $class);
-        return $this->adminJson(array("configuration" => $configration));
+
+        return $this->adminJson(['configuration' => $configration]);
     }
 
     /**
      * @param $attributeName
      * @param $objectClass
+     *
      * @return mixed|ClassDefinition\Data|null
      */
     private function getFieldDefinition($attributeName, $objectClass)
     {
         $label = null;
         $brickKey = null;
-        $attributeParts = explode("~", $attributeName);
+        $attributeParts = explode('~', $attributeName);
 
-        if (substr($attributeName, 0, 1) == "~") {
+        if (substr($attributeName, 0, 1) == '~') {
             // key value, ignore for now
-        } else if (count($attributeParts) > 1) {
+        } elseif (count($attributeParts) > 1) {
             $brickType = $attributeParts[0];
             $brickKey = $attributeParts[1];
         }
 
         $def = null;
         $brickInfos = null;
-        $classificationPrefix = "#cs#";
+        $classificationPrefix = '#cs#';
 
         if (substr($attributeName, 0, strlen($classificationPrefix)) == $classificationPrefix) {
             $attributeName = substr($attributeName, strlen($classificationPrefix));
-            $classificationKeyParts = explode("#", $attributeName);
+            $classificationKeyParts = explode('#', $attributeName);
             $classificationKeyId = $classificationKeyParts[0];
             $classificationKeyName = $classificationKeyParts[1];
 
@@ -319,8 +336,8 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             try {
                 $brickDef = \Pimcore\Model\DataObject\Objectbrick\Definition::getByKey($containerKey);
                 $def = $brickDef->getFieldDefinition($brickKey);
-                if (empty($def) && $brickDef->getFieldDefinition("localizedfields")) {
-                    $def = $brickDef->getFieldDefinition("localizedfields")->getFieldDefinition($brickfield);
+                if (empty($def) && $brickDef->getFieldDefinition('localizedfields')) {
+                    $def = $brickDef->getFieldDefinition('localizedfields')->getFieldDefinition($brickfield);
                 }
             } catch (\Exception $e) {
                 Logger::err($e);
@@ -338,49 +355,49 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             }
         }
 
-        if (empty($def) && $objectClass->getFieldDefinition("localizedfields")) {
-            $def = $objectClass->getFieldDefinition("localizedfields")->getFieldDefinition($attributeName);
+        if (empty($def) && $objectClass->getFieldDefinition('localizedfields')) {
+            $def = $objectClass->getFieldDefinition('localizedfields')->getFieldDefinition($attributeName);
         }
 
         return $def;
     }
 
-
     /**
      * @param Request $request
      * @Route("/get-field-definition")
+     *
      * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
      */
     public function getFieldDefinitionAction(Request $request)
     {
-
         try {
-            $objectClass = \Pimcore\Model\Object\ClassDefinition::getById($request->get("class_id"));
-            $def = $this->getFieldDefinition($request->get("key"), $objectClass);
-            return $this->adminJson(array("success" => true, "fieldDefinition" => $def));
+            $objectClass = \Pimcore\Model\Object\ClassDefinition::getById($request->get('class_id'));
+            $def = $this->getFieldDefinition($request->get('key'), $objectClass);
+
+            return $this->adminJson(['success' => true, 'fieldDefinition' => $def]);
         } catch (\Exception $e) {
             Logger::err($e->getMessage(), $e);
-            return $this->adminJson(array("success" => false, "message" => $e->getMessage()));
-        }
 
+            return $this->adminJson(['success' => false, 'message' => $e->getMessage()]);
+        }
     }
 
     /**
      * @param Request $request
      * @Route("/save-output-config")
+     *
      * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
      */
     public function saveOutputConfigAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {
         try {
-            $config = OutputDefinition::getByID($request->get("config_id"));
+            $config = OutputDefinition::getByID($request->get('config_id'));
 
-            $object = AbstractObject::getById($request->get("object_id"));
+            $object = AbstractObject::getById($request->get('object_id'));
             if (empty($object)) {
-                throw new \Exception("Data Object with ID" . $request->get("object_id") . " not found.");
+                throw new \Exception('Data Object with ID' . $request->get('object_id') . ' not found.');
             }
-            if ($config->getO_Id() == $request->get("object_id")) {
-
+            if ($config->getO_Id() == $request->get('object_id')) {
             } else {
                 $newConfig = new OutputDefinition();
                 $newConfig->setChannel($config->getChannel());
@@ -389,9 +406,8 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                 $config = $newConfig;
             }
 
-            $configJson = $request->get("config");
+            $configJson = $request->get('config');
             $config->setConfiguration($configJson);
-
 
             $event = new SaveConfigEvent($config);
             $eventDispatcher->dispatch($event, OutputDataConfigToolkitEvents::SAVE_CONFIG_EVENT);
@@ -405,47 +421,51 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             }
             $config->save();
 
-
-            return $this->adminJson(array("success" => true));
+            return $this->adminJson(['success' => true]);
         } catch (\Exception $e) {
             Logger::err($e->getMessage(), $e);
-            return $this->adminJson(array("success" => false, "message" => $e->getMessage()));
+
+            return $this->adminJson(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
     /**
      * @param Request $request
+     *
      * @return ClassDefinition\Listing
      */
     private function getFilteredClassDefinitionList(Request $request): ClassDefinition\Listing
     {
         $classList = new \Pimcore\Model\DataObject\ClassDefinition\Listing();
 
-        if ($request->get("class_id")) {
-            $classList->setCondition("id = ?", $request->get("class_id"));
-        } else if (!empty($this->defaultGridClasses)) {
+        if ($request->get('class_id')) {
+            $classList->setCondition('id = ?', $request->get('class_id'));
+        } elseif (!empty($this->defaultGridClasses)) {
             $allowedClassIds = [];
             foreach ($this->defaultGridClasses as $allowedClass) {
-                $classNamespace = "Pimcore\\Model\\DataObject\\";
+                $classNamespace = 'Pimcore\\Model\\DataObject\\';
                 $allowedClassFull = $classNamespace . array_pop(explode('\\', $allowedClass));
                 if (class_exists($allowedClassFull)) {
-                    $allowedClassIds[] = call_user_func([$allowedClassFull, "classId"]);
+                    $allowedClassIds[] = call_user_func([$allowedClassFull, 'classId']);
                 } else {
                     $allowedClassIds[] = $allowedClass;
                 }
             }
             $classList->addConditionParam("id IN ('" . implode("','", $allowedClassIds) . "')");
         }
+
         return $classList;
     }
 
     /**
      * @param string[] $defaultGridClasses
+     *
      * @return AdminController
      */
     public function setDefaultGridClasses(array $defaultGridClasses): self
     {
         $this->defaultGridClasses = $defaultGridClasses;
+
         return $this;
     }
 
@@ -467,12 +487,13 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
     /**
      * @param bool $orderByName
+     *
      * @return AdminController
      */
     public function setOrderByName(bool $orderByName): self
     {
         $this->orderByName = $orderByName;
+
         return $this;
     }
-
 }

@@ -1,15 +1,16 @@
 <?php
+
 /**
  * Pimcore
  *
  * This source file is available under two different licenses:
  * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Enterprise License (PEL)
+ * - Pimcore Commercial License (PCL)
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- * @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- * @license    http://www.pimcore.org/license     GPLv3 and PEL
+ *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
+ *  @license    http://www.pimcore.org/license     GPLv3 and PCL
  */
 
 namespace OutputDataConfigToolkitBundle\ConfigAttribute;
@@ -18,6 +19,7 @@ use Pimcore\Model\DataObject\Classificationstore\KeyConfig;
 
 /**
  * Class AbstractConfigAttributeValue
+ *
  * @package OutputDataConfigToolkitBundle\ConfigAttribute
  */
 abstract class AbstractConfigAttributeValue extends AbstractConfigAttribute
@@ -36,12 +38,13 @@ abstract class AbstractConfigAttributeValue extends AbstractConfigAttribute
 
     /**
      * @param KeyConfig $keyConfig
+     *
      * @return AbstractConfigAttributeValue
      */
     public function applyFromClassificationKeyConfig(KeyConfig $keyConfig)
     {
         return $this
-            ->setAttribute("#cs#" . implode("#", [$keyConfig->getId(), $keyConfig->getName()]))
+            ->setAttribute('#cs#' . implode('#', [$keyConfig->getId(), $keyConfig->getName()]))
             ->setText($keyConfig->getName())
             ->setDataType($keyConfig->getType());
     }
@@ -56,11 +59,13 @@ abstract class AbstractConfigAttributeValue extends AbstractConfigAttribute
 
     /**
      * @param string|null $attribute
+     *
      * @return AbstractConfigAttributeValue
      */
-    public function setAttribute(?string $attribute): AbstractConfigAttributeValue
+    public function setAttribute(?string $attribute): self
     {
         $this->attribute = $attribute;
+
         return $this;
     }
 
@@ -74,11 +79,13 @@ abstract class AbstractConfigAttributeValue extends AbstractConfigAttribute
 
     /**
      * @param string|null $dataType
+     *
      * @return AbstractConfigAttributeValue
      */
-    public function setDataType(?string $dataType): AbstractConfigAttributeValue
+    public function setDataType(?string $dataType): self
     {
         $this->dataType = $dataType;
+
         return $this;
     }
 
@@ -92,11 +99,13 @@ abstract class AbstractConfigAttributeValue extends AbstractConfigAttribute
 
     /**
      * @param string|null $icon
+     *
      * @return AbstractConfigAttributeValue
      */
-    public function setIcon(?string $icon): AbstractConfigAttributeValue
+    public function setIcon(?string $icon): self
     {
         $this->icon = $icon;
+
         return $this;
     }
 
@@ -110,13 +119,13 @@ abstract class AbstractConfigAttributeValue extends AbstractConfigAttribute
 
     /**
      * @param string|null $text
+     *
      * @return AbstractConfigAttributeValue
      */
-    public function setText(?string $text): AbstractConfigAttributeValue
+    public function setText(?string $text): self
     {
         $this->text = $text;
+
         return $this;
     }
-
-
 }
