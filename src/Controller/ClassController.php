@@ -1,15 +1,16 @@
 <?php
+
 /**
  * Pimcore
  *
  * This source file is available under two different licenses:
  * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Enterprise License (PEL)
+ * - Pimcore Commercial License (PCL)
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- * @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- * @license    http://www.pimcore.org/license     GPLv3 and PEL
+ *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
+ *  @license    http://www.pimcore.org/license     GPLv3 and PCL
  */
 
 namespace OutputDataConfigToolkitBundle\Controller;
@@ -26,6 +27,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class ClassController
+ *
  * @package OutputDataConfigToolkitBundle\Controller
  *
  */
@@ -40,6 +42,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
      * @param Request $request
      *
      * @return JsonResponse
+     *
      * @throws \Exception
      */
     public function getClassDefinitionForColumnConfigAction(Request $request)
@@ -125,7 +128,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                 try {
                     // @todo: is there a better way to check if a classification group is assigned to the class?
                     $enrichment = Db::get()->fetchOne("SELECT EXISTS (SELECT * FROM object_classificationstore_groups_{$class->getId()} WHERE o_id = '{$targetObjectId}')");
-                    if($enrichment){
+                    if ($enrichment) {
                         DataObject\Service::enrichLayoutDefinition($result['objectColumns']['childs'][0], $targetObject);
                     }
                 } catch (TableNotFoundException $exception) {
@@ -143,16 +146,16 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                 $definition = Classificationstore\Service::getFieldDefinitionFromKeyConfig($keyConfig);
                 $definition->setTooltip($definition->getName() . ' - ' . $keyConfig->getDescription());
                 $keyConfigDefinitions[] = [
-                    "definition" => $definition,
-                    "id" => $keyConfig->getId(),
-                    "name" => $keyConfig->getName()
+                    'definition' => $definition,
+                    'id' => $keyConfig->getId(),
+                    'name' => $keyConfig->getName()
                 ];
             }
 
-            $result["classificationColumns"] = [
-                "nodeType" => "classificationstore",
-                "nodeLabel" => "classificationstore",
-                "childs" => $keyConfigDefinitions,
+            $result['classificationColumns'] = [
+                'nodeType' => 'classificationstore',
+                'nodeLabel' => 'classificationstore',
+                'childs' => $keyConfigDefinitions,
             ];
         }
     }
@@ -172,5 +175,4 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     {
         return $this->classificationDisplayMode;
     }
-
 }
