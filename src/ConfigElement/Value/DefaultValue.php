@@ -18,6 +18,7 @@ namespace OutputDataConfigToolkitBundle\ConfigElement\Value;
 use OutputDataConfigToolkitBundle\ConfigElement\AbstractConfigElement;
 use Pimcore\Bundle\EcommerceFrameworkBundle\Model\DefaultMockup;
 use Pimcore\Model\DataObject\AbstractObject;
+use Pimcore\Model\DataObject\Classificationstore;
 
 class DefaultValue extends AbstractConfigElement
 {
@@ -63,6 +64,41 @@ class DefaultValue extends AbstractConfigElement
                 $brickTypeGetter = 'get' . ucfirst($brickType);
                 $brickGetter = 'get' . ucfirst($brickKey);
             }
+        } elseif (substr($this->attribute, 0, 4) == '#cs#') {
+            // checking classification store fieldname
+            if (!$this->classificationstore) {
+                return null;
+            }
+            $getter = 'get' . ucfirst($this->classificationstore);
+            // checking classification sote group
+            if (!$this->classificationstore_group) {
+                return null;
+            }
+            $groupDef = Classificationstore\GroupConfig::getByName($this->classificationstore_group);
+
+            // classification store
+            $attribute = str_replace('#cs#', '', $this->attribute);
+            list($keyId) = explode('#', $attribute);
+
+            $value = $object->$getter()->getLocalizedKeyValue($groupDef->getId(), $keyId);
+
+            $result = new \stdClass();
+            $result->value = $value;
+            $result->label = $this->label;
+            $result->attribute = $this->attribute;
+
+            $config = Classificationstore\KeyConfig::getById($keyId);
+            if ($config) {
+                $result->def = \Pimcore\Model\DataObject\Classificationstore\Service::getFieldDefinitionFromKeyConfig($config);
+            }
+
+            if (empty($value) || (is_object($value) && method_exists($value, 'isEmpty') && $value->isEmpty())) {
+                $result->empty = true;
+            } else {
+                $result->empty = false;
+            }
+
+            return $result;
         }
         if (method_exists($object, $getter) || $object instanceof DefaultMockup) {
             $value = $object->$getter();
