@@ -371,7 +371,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     public function getFieldDefinitionAction(Request $request)
     {
         try {
-            $objectClass = \Pimcore\Model\Object\ClassDefinition::getById($request->get('class_id'));
+            $objectClass = ClassDefinition::getById($request->get('class_id'));
             $def = $this->getFieldDefinition($request->get('key'), $objectClass);
 
             return $this->adminJson(['success' => true, 'fieldDefinition' => $def]);
@@ -436,7 +436,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
      */
     private function getFilteredClassDefinitionList(Request $request): ClassDefinition\Listing
     {
-        $classList = new \Pimcore\Model\DataObject\ClassDefinition\Listing();
+        $classList = new ClassDefinition\Listing();
 
         if ($request->get('class_id')) {
             $classList->setCondition('id = ?', $request->get('class_id'));
@@ -444,7 +444,8 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             $allowedClassIds = [];
             foreach ($this->defaultGridClasses as $allowedClass) {
                 $classNamespace = 'Pimcore\\Model\\DataObject\\';
-                $allowedClassFull = $classNamespace . array_pop(explode('\\', $allowedClass));
+                $allowedClass = explode('\\', $allowedClass);
+                $allowedClassFull = $classNamespace . array_pop($allowedClass);
                 if (class_exists($allowedClassFull)) {
                     $allowedClassIds[] = call_user_func([$allowedClassFull, 'classId']);
                 } else {
