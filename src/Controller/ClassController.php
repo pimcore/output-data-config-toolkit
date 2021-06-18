@@ -57,7 +57,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         $filteredFieldDefinition = isset($filteredDefinitions['fieldDefinition']) ? $filteredDefinitions['fieldDefinition'] : false;
 
         $fieldDefinitions = $class->getFieldDefinitions();
-        $class->setFieldDefinitions(null);
+        $class->setFieldDefinitions([]);
 
         $result = [];
 
@@ -65,8 +65,8 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         $result['objectColumns']['nodeLabel'] = 'object_columns';
         $result['objectColumns']['nodeType'] = 'object';
 
-        // array("id", "fullpath", "published", "creationDate", "modificationDate", "filename", "classname");
-        $systemColumnNames = DataObject\Concrete::$systemColumnNames;
+        //DataObject\Concrete::SYSTEM_COLUMN_NAMES
+        $systemColumnNames = ['id', 'fullpath', 'key', 'published', 'creationDate', 'modificationDate', 'filename', 'classname'];
         $systemColumns = [];
         foreach ($systemColumnNames as $systemColumn) {
             $systemColumns[] = ['title' => $systemColumn, 'name' => $systemColumn, 'datatype' => 'data', 'fieldtype' => 'system'];
