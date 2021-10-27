@@ -246,7 +246,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                     if (isset($newConfig->attribute)) {
                         $def = $this->getFieldDefinition($newConfig->attribute, $objectClass);
                     }
-                    
+
                     if ($def) {
                         $translator = $this->get('translator');
                         $newConfig->text = $translator->trans($def->getTitle(), [], 'admin');
