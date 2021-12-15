@@ -328,8 +328,10 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             $classificationKeyId = $classificationKeyParts[0];
             $classificationKeyName = $classificationKeyParts[1];
 
-            if ($keyConfig = KeyConfig::getById($classificationKeyId)) {
-                $def = \Pimcore\Model\DataObject\Classificationstore\Service::getFieldDefinitionFromKeyConfig($keyConfig);
+            if (!empty($classificationKeyId)) { // for localized classification store attributes, such as #cs##Ba the key will be empty.
+                if ($keyConfig = KeyConfig::getById($classificationKeyId)) {
+                    $def = \Pimcore\Model\DataObject\Classificationstore\Service::getFieldDefinitionFromKeyConfig($keyConfig);
+                }
             }
         } elseif ($brickKey && strpos($brickType, '?') === 0) {
             $definitionJson = substr($brickType, 1);
