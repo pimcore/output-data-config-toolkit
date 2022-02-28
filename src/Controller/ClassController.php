@@ -61,7 +61,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
         $result = [];
 
-        $result['objectColumns']['childs'] = $layoutDefinitions->getChilds();
+        $result['objectColumns']['children'] = $layoutDefinitions->getChildren();
         $result['objectColumns']['nodeLabel'] = 'object_columns';
         $result['objectColumns']['nodeType'] = 'object';
 
@@ -73,7 +73,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         }
         $result['systemColumns']['nodeLabel'] = 'system_columns';
         $result['systemColumns']['nodeType'] = 'system';
-        $result['systemColumns']['childs'] = $systemColumns;
+        $result['systemColumns']['children'] = $systemColumns;
 
         $list = new DataObject\Objectbrick\Definition\Listing();
         $list = $list->load();
@@ -93,7 +93,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                         $result[$key]['nodeLabel'] = $key;
                         $result[$key]['brickField'] = $fieldName;
                         $result[$key]['nodeType'] = 'objectbricks';
-                        $result[$key]['childs'] = $brickDefinition->getLayoutdefinitions()->getChildren();
+                        $result[$key]['chilren'] = $brickDefinition->getLayoutdefinitions()->getChildren();
                         break;
                     }
                 }
@@ -129,7 +129,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                     // @todo: is there a better way to check if a classification group is assigned to the class?
                     $enrichment = Db::get()->fetchOne("SELECT EXISTS (SELECT * FROM object_classificationstore_groups_{$class->getId()} WHERE o_id = '{$targetObjectId}')");
                     if ($enrichment) {
-                        DataObject\Service::enrichLayoutDefinition($result['objectColumns']['childs'][0], $targetObject);
+                        DataObject\Service::enrichLayoutDefinition($result['objectColumns']['children'][0], $targetObject);
                     }
                 } catch (TableNotFoundException $exception) {
                     $enrichment = false;
@@ -155,7 +155,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             $result['classificationColumns'] = [
                 'nodeType' => 'classificationstore',
                 'nodeLabel' => 'classificationstore',
-                'childs' => $keyConfigDefinitions,
+                'children' => $keyConfigDefinitions,
             ];
         }
     }
