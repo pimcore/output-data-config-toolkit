@@ -93,7 +93,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                         $result[$key]['nodeLabel'] = $key;
                         $result[$key]['brickField'] = $fieldName;
                         $result[$key]['nodeType'] = 'objectbricks';
-                        $result[$key]['chilren'] = $brickDefinition->getLayoutdefinitions()->getChildren();
+                        $result[$key]['children'] = $brickDefinition->getLayoutdefinitions()->getChildren();
                         break;
                     }
                 }
