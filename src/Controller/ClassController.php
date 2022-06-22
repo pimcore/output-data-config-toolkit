@@ -119,6 +119,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             return;
         }
 
+        $enrichment = false;
         if ($displayMode == ColumnConfigDisplayMode::DATA_OBJECT || $displayMode == ColumnConfigDisplayMode::RELEVANT) {
             $targetObjectId = $request->get('target_oid');
 
