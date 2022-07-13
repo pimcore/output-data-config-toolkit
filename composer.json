@@ -3,7 +3,7 @@
   "license": "GPL-3.0+",
   "type": "pimcore-bundle",
   "require": {
-    "pimcore/pimcore": "^10.4.5",
+    "pimcore/pimcore": "^10.5",
     "symfony/config": "4.3 || ^5.0",
     "symfony/dependency-injection": "4.3 || ^5.0",
     "symfony/event-dispatcher": "4.3 || ^5.0",
