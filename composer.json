@@ -8,10 +8,10 @@
     "symfony/dependency-injection": "^5.0",
     "symfony/event-dispatcher": "^5.0",
     "symfony/event-dispatcher-contracts": "^2.2",
-    "symfony/http-foundation": "^5.0",
-    "symfony/http-kernel": "^5.0",
-    "symfony/routing": "^5.0",
-    "symfony/templating": "^5.0"
+    "symfony/http-foundation": "^5.3",
+    "symfony/http-kernel": "^5.3",
+    "symfony/routing": "^5.3",
+    "symfony/templating": "^5.3"
   },
   "autoload": {
     "psr-4": {
