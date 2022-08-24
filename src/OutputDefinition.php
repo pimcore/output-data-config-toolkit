@@ -16,6 +16,7 @@
 namespace OutputDataConfigToolkitBundle;
 
 use OutputDataConfigToolkitBundle\OutputDefinition\Dao;
+use Pimcore\Cache\RuntimeCache;
 use Pimcore\Logger;
 
 class OutputDefinition extends \Pimcore\Model\AbstractModel
@@ -34,13 +35,13 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel
         $cacheKey = self::getCacheKey($o_id, $classId, $channel);
 
         try {
-            $config = \Pimcore\Cache\Runtime::get($cacheKey);
+            $config = RuntimeCache::get($cacheKey);
         } catch (\Exception $e) {
             try {
                 $config = new self();
                 try {
                     $config->getDao()->getByO_IdClassIdChannel($o_id, $classId, $channel);
-                    \Pimcore\Cache\Runtime::set($cacheKey, $config);
+                    RuntimeCache::set($cacheKey, $config);
                 } catch (\Exception $e) {
                     Logger::info($e->getMessage());
                     $config = null;
@@ -101,7 +102,7 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel
     public function delete()
     {
         $cacheKey = self::getCacheKey($this->getO_id(), $this->getO_ClassId(), $this->getChannel());
-        \Pimcore\Cache\Runtime::set($cacheKey, null);
+        RuntimeCache::set($cacheKey, null);
 
         $this->getDao()->delete();
     }
