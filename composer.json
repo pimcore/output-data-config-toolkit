@@ -3,15 +3,15 @@
   "license": "GPL-3.0+",
   "type": "pimcore-bundle",
   "require": {
-    "pimcore/pimcore": "^6.8 || ^10.0",
-    "symfony/config": "4.3 || ^5.0",
-    "symfony/dependency-injection": "4.3 || ^5.0",
-    "symfony/event-dispatcher": "4.3 || ^5.0",
+    "pimcore/pimcore": "^10.0",
+    "symfony/config": "^5.3",
+    "symfony/dependency-injection": "^5.3",
+    "symfony/event-dispatcher": "^5.3",
     "symfony/event-dispatcher-contracts": "^2.2",
-    "symfony/http-foundation": "4.3 || ^5.0",
-    "symfony/http-kernel": "4.3 || ^5.0",
-    "symfony/routing": "4.3 || ^5.0",
-    "symfony/templating": "4.3 || ^5.0"
+    "symfony/http-foundation": "^5.3",
+    "symfony/http-kernel": "^5.3",
+    "symfony/routing": "^5.3",
+    "symfony/templating": "^5.3"
   },
   "autoload": {
     "psr-4": {

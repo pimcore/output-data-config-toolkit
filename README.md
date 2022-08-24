@@ -14,7 +14,6 @@ An output data configuration consists of
 - [Events](#events)  
 - [Adding new operators](#adding-new-operators)  
 - [Defining output data configuration programmatically](#defining-output-data-configuration-programmatically)  
-- [Running with Pimcore < 5.4](#running-with-pimcore--54)  
 - [Migration from Pimcore 4](#migration-from-pimcore-4)  
 
 ## Configuration
@@ -236,13 +235,6 @@ $newConfig->setConfiguration($serializer->serialize($config, 'json'));
 $newConfig->save();
 ```
 
-## Running with Pimcore < 5.4
-With Pimcore 5.4 the location of static Pimcore files like icons has changed. In order to make this bundle work 
-with Pimcore < 5.4, please add following rewrite rule to your `.htaccess`.
-```
-    # rewrite rule for pre pimcore 5.4 core static files
-    RewriteRule ^bundles/pimcoreadmin/(.*) /pimcore/static6/$1 [PT,L]
-``` 
 ### Support for textual class ids
 Execute the following statement:
 
