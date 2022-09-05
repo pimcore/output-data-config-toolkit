@@ -63,4 +63,4 @@ pimcore.bundle.outputDataConfigToolkit.Bundle = Class.create({
     }
 });
 
-new pimcore.bundle.outputDataConfigToolkit.Bundle();
+var outputDataConfigToolkitPlugin = new pimcore.bundle.outputDataConfigToolkit.Bundle();
