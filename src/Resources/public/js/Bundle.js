@@ -14,14 +14,14 @@
 
 pimcore.registerNS("pimcore.bundle.outputDataConfigToolkit.Bundle");
 
-pimcore.bundle.outputDataConfigToolkit.Bundle = Class.create(pimcore.plugin.admin, {
+pimcore.bundle.outputDataConfigToolkit.Bundle = Class.create({
 
     getClassName: function () {
         return "pimcore.bundle.outputDataConfigToolkit.Bundle";
     },
 
     initialize: function() {
-        pimcore.plugin.broker.registerPlugin(this);
+        document.addEventListener(pimcore.events.postOpenObject, this.onPostOpenObject.bind(this));
     },
 
 
@@ -29,7 +29,10 @@ pimcore.bundle.outputDataConfigToolkit.Bundle = Class.create(pimcore.plugin.admi
         
     },
 
-    postOpenObject: function (object, type) {
+    onPostOpenObject: function (e) {
+        let object = e.detail.object;
+        let type = e.detail.type;
+
         if (pimcore.globalmanager.get("user").isAllowed("bundle_outputDataConfigToolkit")) {
             Ext.Ajax.request({
                 url: "/admin/outputdataconfig/admin/initialize",
@@ -60,4 +63,4 @@ pimcore.bundle.outputDataConfigToolkit.Bundle = Class.create(pimcore.plugin.admi
     }
 });
 
-new pimcore.bundle.outputDataConfigToolkit.Bundle();
+var outputDataConfigToolkitPlugin = new pimcore.bundle.outputDataConfigToolkit.Bundle();
