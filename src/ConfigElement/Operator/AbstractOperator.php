@@ -25,14 +25,6 @@ abstract class AbstractOperator extends AbstractConfigElement
      */
     protected $childs;
 
-    public function __construct($config, $context = null)
-    {
-        $this->label = $config->label;
-        $this->childs = $config->childs;
-
-        $this->context = $context;
-    }
-
     /**
      * @return IConfigElement
      */
