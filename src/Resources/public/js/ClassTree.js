@@ -134,7 +134,7 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
 
                 var groupNode = clazz.addLayoutChild.call(newNode, "keys", {
                     title: activeGroupDefinition.name + " (" + groupId + ")",
-                    childs: activeGroupDefinition.keys
+                    children: activeGroupDefinition.keys
                 }, clazz);
 
                 Ext.Array.forEach(activeGroupDefinition.keys, function (keyData) {
