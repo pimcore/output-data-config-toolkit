@@ -29,7 +29,7 @@ class Installer extends AbstractInstaller
         }
 
         $db = \Pimcore\Db::get();
-        $db->query('CREATE TABLE `' . Dao::TABLE_NAME . '` (
+        $db->executeQuery('CREATE TABLE `' . Dao::TABLE_NAME . '` (
               `id` int(11) NOT NULL AUTO_INCREMENT,
               `o_id` int(11) NOT NULL,
               `o_classId` varchar(50) NOT NULL,
@@ -40,7 +40,7 @@ class Installer extends AbstractInstaller
             ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
         ');
 
-        $db->query("INSERT INTO users_permission_definitions (`key`) VALUES ('bundle_outputDataConfigToolkit');");
+        $db->executeQuery("INSERT INTO users_permission_definitions (`key`) VALUES ('bundle_outputDataConfigToolkit');");
 
         if ($this->isInstalled()) {
             return true;
@@ -78,9 +78,9 @@ class Installer extends AbstractInstaller
     public function uninstall()
     {
         $db = \Pimcore\Db::get();
-        $db->query('DROP TABLE IF EXISTS `' . Dao::TABLE_NAME . '`;');
+        $db->executeQuery('DROP TABLE IF EXISTS `' . Dao::TABLE_NAME . '`;');
 
-        $db->query("DELETE FROM users_permission_definitions WHERE `key` = 'bundle_outputDataConfigToolkit'");
+        $db->executeQuery("DELETE FROM users_permission_definitions WHERE `key` = 'bundle_outputDataConfigToolkit'");
         if (self::isInstalled()) {
             throw new InstallationException('Could not be uninstalled.');
         }
