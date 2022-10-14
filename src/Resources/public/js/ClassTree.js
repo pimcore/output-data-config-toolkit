@@ -21,7 +21,7 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
         var keys = Object.keys(data);
         for (var i = 0; i < keys.length; i++) {
             if (data[keys[i]]) {
-                if (data[keys[i]].childs) {
+                if (data[keys[i]].children) {
                     var nodeData = data[keys[i]],
                         text = t(nodeData.nodeLabel),
                         brickDescriptor = {},
@@ -48,8 +48,8 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
                     };
 
                     baseNode = tree.getRootNode().appendChild(baseNode);
-                    for (var j = 0; j < data[keys[i]].childs.length; j++) {
-                        var newChild = data[keys[i]].childs[j];
+                    for (let j = 0; j < data[keys[i]].children.length; j++) {
+                        let newChild = data[keys[i]].children[j];
 
                         if (nodeType === "classificationstore") {
                             classificationDescriptor = {
@@ -86,9 +86,9 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
 
         newNode = fn();
 
-        if (con.childs) {
-            for (var i = 0; i < con.childs.length; i++) {
-                this.recursiveAddNode(con.childs[i], newNode, brickDescriptor);
+        if (con.children) {
+            for (let i = 0; i < con.children.length; i++) {
+                this.recursiveAddNode(con.children[i], newNode, brickDescriptor);
             }
         }
 
@@ -112,10 +112,10 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
                 ? Object.values(initData.activeGroupDefinitions)
                 : [];
         } else {
-            children = initData.childs;
+            children = initData.children;
         }
 
-        var newNode = {
+        let newNode = {
             type: "layout",
             expanded: true,
             expandable: children.length,
@@ -134,7 +134,7 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
 
                 var groupNode = clazz.addLayoutChild.call(newNode, "keys", {
                     title: activeGroupDefinition.name + " (" + groupId + ")",
-                    childs: activeGroupDefinition.keys
+                    children: activeGroupDefinition.keys
                 }, clazz);
 
                 Ext.Array.forEach(activeGroupDefinition.keys, function (keyData) {
