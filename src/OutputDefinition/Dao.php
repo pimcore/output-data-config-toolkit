@@ -118,8 +118,7 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao
                 $data[$key] = $value;
             }
         }
-        $this->db->update (self::TABLE_NAME, Helper::quoteDataIdentifiers ($this->db, $data), ['id' => $this->model->getId ()]);
-
+        $this->db->update(self::TABLE_NAME, Helper::quoteDataIdentifiers($this->db, $data), ['id' => $this->model->getId()]);
     }
 
     /**
