@@ -48,7 +48,7 @@ class Dao extends \Pimcore\Model\Listing\Dao\AbstractDao
     public function getTotalCount()
     {
         $params = array_column($this->model->getConditionParams() ?: [], 'value');
-        $amount = $this->db->fetchRow('SELECT COUNT(*) as amount FROM `' . OutputDefinition\Dao::TABLE_NAME . '`' . $this->getCondition(), $params);
+        $amount = $this->db->fetchAssociative('SELECT COUNT(*) as amount FROM `' . OutputDefinition\Dao::TABLE_NAME . '`' . $this->getCondition(), $params);
 
         return $amount['amount'];
     }
