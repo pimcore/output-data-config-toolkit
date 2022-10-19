@@ -31,7 +31,7 @@ class Concatenator extends AbstractConfigAttributeOperator
     private $formatNumbers;
 
     /**
-     * @return Concatenator
+     * @return $this
      */
     public function applyDefaults()
     {
@@ -50,9 +50,9 @@ class Concatenator extends AbstractConfigAttributeOperator
     /**
      * @param string|null $glue
      *
-     * @return Concatenator
+     * @return $this
      */
-    public function setGlue(?string $glue): self
+    public function setGlue(?string $glue): static
     {
         $this->glue = $glue;
 
@@ -70,9 +70,9 @@ class Concatenator extends AbstractConfigAttributeOperator
     /**
      * @param bool $forceValue
      *
-     * @return Concatenator
+     * @return $this
      */
-    public function setForceValue(bool $forceValue): self
+    public function setForceValue(bool $forceValue): static
     {
         $this->forceValue = $forceValue;
 
@@ -90,9 +90,9 @@ class Concatenator extends AbstractConfigAttributeOperator
     /**
      * @param bool $formatNumbers
      *
-     * @return Concatenator
+     * @return $this
      */
-    public function setFormatNumbers(bool $formatNumbers): self
+    public function setFormatNumbers(bool $formatNumbers): static
     {
         $this->formatNumbers = $formatNumbers;
 

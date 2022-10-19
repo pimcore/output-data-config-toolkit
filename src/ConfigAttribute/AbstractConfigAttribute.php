@@ -47,9 +47,9 @@ abstract class AbstractConfigAttribute implements IConfigAttribute
     /**
      * @param string|null $label
      *
-     * @return AbstractConfigAttribute
+     * @return $this
      */
-    public function setLabel(?string $label): self
+    public function setLabel(?string $label): static
     {
         $this->label = $label;
 
@@ -67,9 +67,9 @@ abstract class AbstractConfigAttribute implements IConfigAttribute
     /**
      * @param string|null $type
      *
-     * @return AbstractConfigAttribute
+     * @return $this
      */
-    public function setType(?string $type): self
+    public function setType(?string $type): static
     {
         $this->type = $type;
 
@@ -87,9 +87,9 @@ abstract class AbstractConfigAttribute implements IConfigAttribute
     /**
      * @param string|null $class
      *
-     * @return AbstractConfigAttribute
+     * @return $this
      */
-    public function setClass(?string $class): self
+    public function setClass(?string $class): static
     {
         $this->class = $class;
 
@@ -107,9 +107,9 @@ abstract class AbstractConfigAttribute implements IConfigAttribute
     /**
      * @param AbstractConfigAttribute[] $childs
      *
-     * @return AbstractConfigAttribute
+     * @return $this
      */
-    public function setChilds(array $childs): self
+    public function setChilds(array $childs): static
     {
         $this->childs = $childs;
 

@@ -18,6 +18,9 @@ namespace OutputDataConfigToolkitBundle\OutputDefinition;
 use OutputDataConfigToolkitBundle\OutputDefinition;
 use Pimcore\Db\Helper;
 
+/**
+ * @property OutputDefinition $model
+ */
 class Dao extends \Pimcore\Model\Dao\AbstractDao
 {
     const TABLE_NAME = 'bundle_outputdataconfigtoolkit_outputdefinition';
@@ -42,7 +45,6 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao
     /**
      * @return void
      *
-     * @throws \Doctrine\DBAL\DBALException
      * @throws \Exception
      */
     public function getByO_IdClassIdChannel($o_id, $classId, $channel)
@@ -57,7 +59,6 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao
     /**
      * @return void
      *
-     * @throws \Doctrine\DBAL\DBALException
      * @throws \Exception
      */
     public function getById($id)
@@ -95,10 +96,10 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao
         }
 
         if ($this->model->getId()) {
-            return $this->update();
+            $this->update();
         }
 
-        return $this->create();
+        $this->create();
     }
 
     /**
@@ -107,6 +108,7 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao
     public function update()
     {
         $class = get_object_vars($this->model);
+        $data = [];
 
         foreach ($class as $key => $value) {
             if (in_array($key, $this->validColumns)) {

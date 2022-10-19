@@ -60,9 +60,9 @@ abstract class AbstractConfigAttributeValue extends AbstractConfigAttribute
     /**
      * @param string|null $attribute
      *
-     * @return AbstractConfigAttributeValue
+     * @return $this
      */
-    public function setAttribute(?string $attribute): self
+    public function setAttribute(?string $attribute): static
     {
         $this->attribute = $attribute;
 
@@ -80,9 +80,9 @@ abstract class AbstractConfigAttributeValue extends AbstractConfigAttribute
     /**
      * @param string|null $dataType
      *
-     * @return AbstractConfigAttributeValue
+     * @return $this
      */
-    public function setDataType(?string $dataType): self
+    public function setDataType(?string $dataType): static
     {
         $this->dataType = $dataType;
 
@@ -100,9 +100,9 @@ abstract class AbstractConfigAttributeValue extends AbstractConfigAttribute
     /**
      * @param string|null $icon
      *
-     * @return AbstractConfigAttributeValue
+     * @return $this
      */
-    public function setIcon(?string $icon): self
+    public function setIcon(?string $icon): static
     {
         $this->icon = $icon;
 
@@ -120,9 +120,9 @@ abstract class AbstractConfigAttributeValue extends AbstractConfigAttribute
     /**
      * @param string|null $text
      *
-     * @return AbstractConfigAttributeValue
+     * @return $this
      */
-    public function setText(?string $text): self
+    public function setText(?string $text): static
     {
         $this->text = $text;
 

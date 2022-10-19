@@ -34,7 +34,7 @@ class CellFormater extends AbstractOperator
     public function getLabeledValue($object)
     {
         $childs = $this->getChilds();
-        if ($childs[0]) {
+        if ($childs) {
             return $childs[0]->getLabeledValue($object);
         }
 

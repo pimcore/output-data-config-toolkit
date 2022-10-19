@@ -2,6 +2,14 @@
 Thumbs.db
 *.log
 
+/bin
+/config
+/kernel
+/public
+/templates
+/var
+/.env
+
 /phpunit.xml
 
 # PHP-CS-Fixer

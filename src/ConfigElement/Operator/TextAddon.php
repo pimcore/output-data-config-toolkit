@@ -29,7 +29,7 @@ class TextAddon extends AbstractOperator
     public function getLabeledValue($object)
     {
         $childs = $this->getChilds();
-        if ($childs[0]) {
+        if ($childs) {
             $value = $childs[0]->getLabeledValue($object);
 
             if (!is_null($value->value)) {
@@ -51,7 +51,7 @@ class TextAddon extends AbstractOperator
     }
 
     /**
-     * @param mixed $prefix
+     * @param mixed $addon
      */
     public function setAddon($addon)
     {

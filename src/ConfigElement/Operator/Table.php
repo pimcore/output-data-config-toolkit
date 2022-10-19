@@ -35,6 +35,7 @@ class Table extends AbstractOperator
         $value->type = 'Operator_Table';
 
         $isEmpty = false;
+        $valueArray = [];
         foreach ($childs as $c) {
             $row = $c->getLabeledValue($object);
             $valueArray[] = $row;

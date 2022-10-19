@@ -16,7 +16,6 @@
 namespace OutputDataConfigToolkitBundle\Event;
 
 use Pimcore\Model\DataObject\AbstractObject;
-use Pimcore\Model\DataObject\Concrete;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -25,7 +24,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 class InitializeEvent extends Event
 {
     /**
-     * @var Concrete
+     * @var AbstractObject
      */
     private $object;
 
