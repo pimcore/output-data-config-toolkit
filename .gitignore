@@ -3,12 +3,16 @@ Thumbs.db
 *.log
 
 /bin
+/cache
 /config
 /kernel
 /public
 /templates
 /var
+/vendor
 /.env
+/auth.json
+/config.json
 
 /phpunit.xml
 
