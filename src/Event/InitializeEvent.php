@@ -16,7 +16,6 @@
 namespace OutputDataConfigToolkitBundle\Event;
 
 use Pimcore\Model\DataObject\AbstractObject;
-use Pimcore\Model\DataObject\Concrete;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -25,7 +24,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 class InitializeEvent extends Event
 {
     /**
-     * @var Concrete
+     * @var AbstractObject
      */
     private $object;
 
@@ -56,9 +55,9 @@ class InitializeEvent extends Event
     /**
      * @param AbstractObject $object
      *
-     * @return InitializeEvent
+     * @return $this
      */
-    public function setObject(AbstractObject $object): self
+    public function setObject(AbstractObject $object): static
     {
         $this->object = $object;
 
@@ -76,9 +75,9 @@ class InitializeEvent extends Event
     /**
      * @param bool $hideConfigTab
      *
-     * @return InitializeEvent
+     * @return $this
      */
-    public function setHideConfigTab(bool $hideConfigTab): self
+    public function setHideConfigTab(bool $hideConfigTab): static
     {
         $this->hideConfigTab = $hideConfigTab;
 

@@ -29,7 +29,7 @@ class TranslateValue extends AbstractOperator
     public function getLabeledValue($object)
     {
         $childs = $this->getChilds();
-        if ($childs[0]) {
+        if ($childs) {
             $translator = \Pimcore::getContainer()->get('translator');
 
             $value = $childs[0]->getLabeledValue($object);

@@ -27,7 +27,7 @@ use OutputDataConfigToolkitBundle\Tools\Util;
 class DefaultValue extends AbstractConfigAttributeValue
 {
     /**
-     * @return DefaultValue
+     * @return $this
      */
     public function applyDefaults()
     {

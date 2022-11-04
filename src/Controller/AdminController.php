@@ -24,6 +24,7 @@ use Pimcore\Logger;
 use Pimcore\Model\DataObject\AbstractObject;
 use Pimcore\Model\DataObject\ClassDefinition;
 use Pimcore\Model\DataObject\Classificationstore\KeyConfig;
+use Pimcore\Model\DataObject\Objectbrick\Definition;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -60,7 +61,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         $event = new InitializeEvent($object);
         $eventDispatcher->dispatch($event, OutputDataConfigToolkitEvents::INITIALIZE);
 
-        if ($event->getHideConfigTab() || !$event->getObject()) {
+        if ($event->getHideConfigTab()) {
             // do not show output config tab
             return $this->adminJson(['success' => true, 'object' => false]);
         }
@@ -148,7 +149,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
             return $this->adminJson(['success' => true]);
         } catch (\Exception $e) {
-            Logger::err($e->getMessage(), $e);
+            Logger::err($e->getMessage());
 
             return $this->adminJson(['success' => false, 'message' => $e->getMessage()]);
         }
@@ -191,6 +192,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     {
         try {
             $config = OutputDefinition::getByID($request->get('config_id'));
+            $class = null;
             if (!$config) {
                 if (is_numeric($request->get('class_id'))) {
                     $class = ClassDefinition::getById($request->get('class_id'));
@@ -221,15 +223,15 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                 return $this->adminJson(['success' => true, 'outputConfig' => $config]);
             }
         } catch (\Exception $e) {
-            Logger::err($e->getMessage(), $e);
+            Logger::err($e->getMessage());
 
             return $this->adminJson(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
     /**
-     * @param $configuration
-     * @param $objectClass
+     * @param \stdClass[]|null $configuration
+     * @param ClassDefinition $objectClass
      *
      * @return array
      */
@@ -300,14 +302,14 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     }
 
     /**
-     * @param $attributeName
-     * @param $objectClass
+     * @param string $attributeName
+     * @param ClassDefinition $objectClass
      *
-     * @return mixed|ClassDefinition\Data|null
+     * @return ClassDefinition\Data|null
      */
     private function getFieldDefinition($attributeName, $objectClass)
     {
-        $label = null;
+        $brickType = null;
         $brickKey = null;
         $attributeParts = explode('~', $attributeName);
 
@@ -319,17 +321,15 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         }
 
         $def = null;
-        $brickInfos = null;
         $classificationPrefix = '#cs#';
 
         if (substr($attributeName, 0, strlen($classificationPrefix)) == $classificationPrefix) {
             $attributeName = substr($attributeName, strlen($classificationPrefix));
             $classificationKeyParts = explode('#', $attributeName);
             $classificationKeyId = $classificationKeyParts[0];
-            $classificationKeyName = $classificationKeyParts[1];
 
             if (!empty($classificationKeyId)) { // for localized classification store attributes, such as #cs##Ba the key will be empty.
-                if ($keyConfig = KeyConfig::getById($classificationKeyId)) {
+                if ($keyConfig = KeyConfig::getById((int) $classificationKeyId)) {
                     $def = \Pimcore\Model\DataObject\Classificationstore\Service::getFieldDefinitionFromKeyConfig($keyConfig);
                 }
             }
@@ -337,13 +337,15 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             $definitionJson = substr($brickType, 1);
             $brickInfos = json_decode($definitionJson);
             $containerKey = $brickInfos->containerKey;
-            $fieldName = $brickInfos->fieldname;
             $brickfield = $brickInfos->brickfield;
             try {
-                $brickDef = \Pimcore\Model\DataObject\Objectbrick\Definition::getByKey($containerKey);
+                $brickDef = Definition::getByKey($containerKey);
                 $def = $brickDef->getFieldDefinition($brickKey);
-                if (empty($def) && $brickDef->getFieldDefinition('localizedfields')) {
-                    $def = $brickDef->getFieldDefinition('localizedfields')->getFieldDefinition($brickfield);
+                if (empty($def)) {
+                    $lf = $brickDef->getFieldDefinition('localizedfields');
+                    if ($lf instanceof ClassDefinition\Data\Localizedfields) {
+                        $def = $lf->getFieldDefinition($brickfield);
+                    }
                 }
             } catch (\Exception $e) {
                 Logger::err($e);
@@ -354,15 +356,18 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
         if (!$def && !empty($brickType)) {
             try {
-                $def = \Pimcore\Model\DataObject\Objectbrick\Definition::getByKey($brickType);
+                $def = Definition::getByKey($brickType);
                 $def = $def->getFieldDefinition($brickKey);
             } catch (\Exception $e) {
                 Logger::err($e);
             }
         }
 
-        if (empty($def) && $objectClass->getFieldDefinition('localizedfields')) {
-            $def = $objectClass->getFieldDefinition('localizedfields')->getFieldDefinition($attributeName);
+        if (empty($def)) {
+            $lf = $objectClass->getFieldDefinition('localizedfields');
+            if ($lf instanceof ClassDefinition\Data\Localizedfields) {
+                $def = $lf->getFieldDefinition($attributeName);
+            }
         }
 
         return $def;
@@ -382,7 +387,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
             return $this->adminJson(['success' => true, 'fieldDefinition' => $def]);
         } catch (\Exception $e) {
-            Logger::err($e->getMessage(), $e);
+            Logger::err($e->getMessage());
 
             return $this->adminJson(['success' => false, 'message' => $e->getMessage()]);
         }
@@ -429,7 +434,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
             return $this->adminJson(['success' => true]);
         } catch (\Exception $e) {
-            Logger::err($e->getMessage(), $e);
+            Logger::err($e->getMessage());
 
             return $this->adminJson(['success' => false, 'message' => $e->getMessage()]);
         }
@@ -467,9 +472,9 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     /**
      * @param string[] $defaultGridClasses
      *
-     * @return AdminController
+     * @return $this
      */
-    public function setDefaultGridClasses(array $defaultGridClasses): self
+    public function setDefaultGridClasses(array $defaultGridClasses): static
     {
         $this->defaultGridClasses = $defaultGridClasses;
 
@@ -495,9 +500,9 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     /**
      * @param bool $orderByName
      *
-     * @return AdminController
+     * @return $this
      */
-    public function setOrderByName(bool $orderByName): self
+    public function setOrderByName(bool $orderByName): static
     {
         $this->orderByName = $orderByName;
 

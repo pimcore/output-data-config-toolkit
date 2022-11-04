@@ -19,6 +19,9 @@ use OutputDataConfigToolkitBundle\OutputDefinition\Dao;
 use Pimcore\Cache\RuntimeCache;
 use Pimcore\Logger;
 
+/**
+ * @method OutputDefinition\Dao getDao()
+ */
 class OutputDefinition extends \Pimcore\Model\AbstractModel
 {
     public $id;
@@ -28,7 +31,7 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel
     public $configuration;
 
     /**
-     * @return OutputDefinition
+     * @return OutputDefinition|null
      */
     public static function getByO_IdClassIdChannel($o_id, $classId, $channel)
     {

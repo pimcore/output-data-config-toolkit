@@ -33,7 +33,7 @@ class TableCol extends AbstractOperator
         $value = null;
 
         $childs = $this->getChilds();
-        if ($childs[0]) {
+        if ($childs) {
             $value = $childs[0]->getLabeledValue($object);
             $value->colSpan = $this->colspan;
             $value->headline = $this->headline;

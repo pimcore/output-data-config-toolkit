@@ -23,7 +23,7 @@ namespace OutputDataConfigToolkitBundle\ConfigAttribute;
 abstract class AbstractConfigAttributeOperator extends AbstractConfigAttribute
 {
     /**
-     * @return AbstractConfigAttribute
+     * @return $this
      */
     public function applyDefaults()
     {

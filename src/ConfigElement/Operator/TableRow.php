@@ -32,6 +32,7 @@ class TableRow extends AbstractOperator
 
         $isEmpty = true;
         $childs = $this->getChilds();
+        $valueArray = [];
 
         foreach ($childs as $c) {
             $col = $c->getLabeledValue($object);

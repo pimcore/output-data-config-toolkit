@@ -18,29 +18,41 @@ namespace OutputDataConfigToolkitBundle\ConfigElement\Value;
 use OutputDataConfigToolkitBundle\ConfigElement\AbstractConfigElement;
 use Pimcore\Bundle\EcommerceFrameworkBundle\Model\DefaultMockup;
 use Pimcore\Model\DataObject\AbstractObject;
+use Pimcore\Model\DataObject\ClassDefinition\Data\Localizedfields;
 use Pimcore\Model\DataObject\Classificationstore;
+use Pimcore\Model\DataObject\Concrete;
+use Pimcore\Model\DataObject\Objectbrick\Definition;
+use Pimcore\Model\DataObject\Service;
 
 class DefaultValue extends AbstractConfigElement
 {
+    /** @var string|null */
     protected $icon;
-    private $localized;
+
+    /** @var string|null */
+    public $classificationstore;
+
+    /** @var string|null */
+    public $classificationstore_group;
 
     public function __construct($config, $context = null)
     {
         parent::__construct($config, $context);
         $this->icon = $config->icon ?? null;
-        $this->localized = false;
     }
 
     public function getLabeledValue($object)
     {
-        $this->localized = false;
         $attributeParts = explode('~', $this->attribute);
         $label = $this->label;
 
         $getter = 'get' . ucfirst($this->attribute);
 
+        $brickType = null;
+        $brickKey = null;
         $brickInfos = null;
+        $brickfield = null;
+        $brickTypeGetter = null;
         if (substr($this->attribute, 0, 1) == '~') {
             // key value, ignore for now
         } elseif (count($attributeParts) > 1) {
@@ -59,8 +71,8 @@ class DefaultValue extends AbstractConfigElement
                 $getter = 'get'.ucfirst($fieldName);
                 $brickTypeGetter = 'get'.ucfirst($brickType);
                 $brickGetter = 'get'.ucfirst($brickfield);
-            } elseif ($object instanceof DefaultMockup || $object instanceof AbstractObject) {
-                $getter = 'get' . ucfirst(\Pimcore\Model\DataObject\Service::getFieldForBrickType($object->getClass(), $brickType));
+            } elseif ($object instanceof Concrete) {
+                $getter = 'get' . ucfirst(Service::getFieldForBrickType($object->getClass(), $brickType));
                 $brickTypeGetter = 'get' . ucfirst($brickType);
                 $brickGetter = 'get' . ucfirst($brickKey);
             }
@@ -87,9 +99,9 @@ class DefaultValue extends AbstractConfigElement
             $result->label = $this->label;
             $result->attribute = $this->attribute;
 
-            $config = Classificationstore\KeyConfig::getById($keyId);
+            $config = Classificationstore\KeyConfig::getById((int) $keyId);
             if ($config) {
-                $result->def = \Pimcore\Model\DataObject\Classificationstore\Service::getFieldDefinitionFromKeyConfig($config);
+                $result->def = Classificationstore\Service::getFieldDefinitionFromKeyConfig($config);
             }
 
             if (empty($value) || (is_object($value) && method_exists($value, 'isEmpty') && $value->isEmpty())) {
@@ -102,18 +114,16 @@ class DefaultValue extends AbstractConfigElement
         }
         if (method_exists($object, $getter) || $object instanceof DefaultMockup) {
             $value = $object->$getter();
+            $def = null;
 
             if ($object instanceof DefaultMockup || $object instanceof AbstractObject) {
-                $def = $object->getClass()->getFieldDefinition($this->attribute);
-                if (!$def && method_exists($object, 'getClass')) {
-                    /**
-                     * @var \Pimcore\Model\DataObject\ClassDefinition\Data\Localizedfields $lf
-                     */
-                    $lf = $object->getClass()->getFieldDefinition('localizedfields');
-                    if ($lf) {
-                        $def = $lf->getFieldDefinition($this->attribute);
-                        if ($def) {
-                            $this->localized = true;
+                if ($object instanceof Concrete) {
+                    $class = $object->getClass();
+                    $def = $class->getFieldDefinition($this->attribute);
+                    if (!$def) {
+                        $lf = $class->getFieldDefinition('localizedfields');
+                        if ($lf instanceof Localizedfields) {
+                            $def = $lf->getFieldDefinition($this->attribute);
                         }
                     }
                 }
@@ -125,22 +135,16 @@ class DefaultValue extends AbstractConfigElement
                 }
 
                 if (!empty($value) && !empty($brickGetter)) {
-                    $brickDef = \Pimcore\Model\DataObject\Objectbrick\Definition::getByKey($brickType);
+                    $brickDef = Definition::getByKey($brickType);
                     $def = $brickDef->getFieldDefinition($brickKey);
                     if (!$def) {
-                        /**
-                         * @var \Pimcore\Model\DataObject\ClassDefinition\Data\Localizedfields $lf
-                         */
                         $lf = $brickDef->getFieldDefinition('localizedfields');
-                        if ($lf) {
+                        if ($lf instanceof Localizedfields) {
                             $def = $lf->getFieldDefinition($brickInfos ? $brickfield : $this->attribute);
-                            if ($def) {
-                                $this->localized = true;
-                            }
                         }
                     }
 
-                    if (empty($label) && !empty($value)) {
+                    if (empty($label)) {
                         if ($def) {
                             $label = $def->getTitle();
                         }
@@ -154,7 +158,6 @@ class DefaultValue extends AbstractConfigElement
                         } elseif ($brickInfos && !is_null($value)) {
                             $lfs = $value->getLocalizedfields();
                             $value = $lfs->getLocalizedValue($brickfield);
-                            $this->localized = true;
                         } else {
                             $value = null;
                         }

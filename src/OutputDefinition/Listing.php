@@ -32,7 +32,7 @@ class Listing extends \Pimcore\Model\Listing\AbstractListing
     public $outputDefinitions;
 
     /**
-     * @var array
+     * @param string $key
      *
      * @return bool
      */

@@ -21,6 +21,8 @@ use OutputDataConfigToolkitBundle\OutputDefinition;
  * Class Dao
  *
  * @package OutputDataConfigToolkitBundle\OutputDefinition\Listing
+ *
+ * @property OutputDefinition\Listing $model
  */
 class Dao extends \Pimcore\Model\Listing\Dao\AbstractDao
 {
@@ -33,8 +35,11 @@ class Dao extends \Pimcore\Model\Listing\Dao\AbstractDao
 
         $params = array_column($this->model->getConditionParams() ?: [], 'value');
 
-        $unitIds = $this->db->fetchAll('SELECT o_id, id, o_classId, channel FROM ' . OutputDefinition\Dao::TABLE_NAME .
-            $this->getCondition() . $this->getOrder() . $this->getOffsetLimit(), $params);
+        $unitIds = $this->db->fetchAllAssociative(
+            'SELECT o_id, id, o_classId, channel FROM ' . OutputDefinition\Dao::TABLE_NAME .
+            $this->getCondition() . $this->getOrder() . $this->getOffsetLimit(),
+            $params
+        );
 
         foreach ($unitIds as $row) {
             $configs[] = OutputDefinition::getByO_IdClassIdChannel($row['o_id'], $row['o_classId'], $row['channel']);

@@ -43,12 +43,17 @@ class SaveConfigEvent extends Event
     /**
      * @param bool $sortAttributes
      *
-     * @return SaveConfigEvent
+     * @return $this
      */
-    public function setSortAttributes(bool $sortAttributes): self
+    public function setSortAttributes(bool $sortAttributes): static
     {
         $this->sortAttributes = $sortAttributes;
 
         return $this;
+    }
+
+    public function getConfig(): OutputDefinition
+    {
+        return $this->config;
     }
 }

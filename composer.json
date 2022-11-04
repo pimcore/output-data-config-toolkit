@@ -3,7 +3,7 @@
   "license": "GPL-3.0+",
   "type": "pimcore-bundle",
   "require": {
-    "pimcore/pimcore": "^10.5",
+    "pimcore/pimcore": "^11@dev",
     "symfony/config": "^5.3",
     "symfony/dependency-injection": "^5.3",
     "symfony/event-dispatcher": "^5.3",
@@ -12,6 +12,10 @@
     "symfony/http-kernel": "^5.3",
     "symfony/routing": "^5.3",
     "symfony/templating": "^5.3"
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^1.8.2",
+    "phpstan/phpstan-symfony": "^1.2.9"
   },
   "autoload": {
     "psr-4": {

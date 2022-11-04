@@ -21,12 +21,12 @@ use OutputDataConfigToolkitBundle\ConfigElement\IConfigElement;
 abstract class AbstractOperator extends AbstractConfigElement
 {
     /**
-     * @var IConfigElement
+     * @var IConfigElement[]
      */
     protected $childs;
 
     /**
-     * @return IConfigElement
+     * @return IConfigElement[]
      */
     public function getChilds()
     {

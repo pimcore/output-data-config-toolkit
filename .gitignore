@@ -2,17 +2,23 @@
 Thumbs.db
 *.log
 
+/bin
+/cache
+/config
+/kernel
+/public
+/templates
+/var
+/vendor
+/.env
+/auth.json
+/composer.lock
+/config.json
 /phpunit.xml
 
 # PHP-CS-Fixer
 /.php_cs
 /.php_cs.cache
-
-# composer
-/composer.lock
-!/vendor
-/vendor/*
-!/vendor/.gitkeep
 
 # PhpStorm / IDEA
 .idea
