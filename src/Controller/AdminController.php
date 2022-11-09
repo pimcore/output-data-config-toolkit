@@ -455,8 +455,8 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             $allowedClassIds = [];
             foreach ($this->defaultGridClasses as $allowedClass) {
                 $classNamespace = 'Pimcore\\Model\\DataObject\\';
-                $allowedClass = explode('\\', $allowedClass);
-                $allowedClassFull = $classNamespace . array_pop($allowedClass);
+                $allowedClassArr = explode('\\', $allowedClass);
+                $allowedClassFull = $classNamespace . array_pop($allowedClassArr);
                 if (class_exists($allowedClassFull)) {
                     $allowedClassIds[] = call_user_func([$allowedClassFull, 'classId']);
                 } else {
