@@ -15,8 +15,8 @@
 
 namespace OutputDataConfigToolkitBundle\OutputDefinition;
 
+use Doctrine\DBAL\Connection;
 use OutputDataConfigToolkitBundle\OutputDefinition;
-use Pimcore\Db\Helper;
 
 /**
  * @property OutputDefinition $model
@@ -120,7 +120,7 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao
                 $data[$key] = $value;
             }
         }
-        $this->db->update(self::TABLE_NAME, Helper::quoteDataIdentifiers($this->db, $data), ['id' => $this->model->getId()]);
+        $this->db->update(self::TABLE_NAME, self::quoteDataIdentifiers($this->db, $data), ['id' => $this->model->getId()]);
     }
 
     /**
@@ -131,5 +131,15 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao
     public function delete()
     {
         $this->db->delete(self::TABLE_NAME, ['id' => $this->db->quote($this->model->getId())]);
+    }
+
+    public static function quoteDataIdentifiers(Connection $db, array $data): array
+    {
+        $newData = [];
+        foreach ($data as $key => $value) {
+            $newData[$db->quoteIdentifier($key)] = $value;
+        }
+
+        return $newData;
     }
 }

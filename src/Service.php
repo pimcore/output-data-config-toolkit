@@ -62,9 +62,8 @@ class Service
     {
         $config = [];
         $jsonConfig = json_decode($outputDataConfig->getConfiguration());
-        $config = self::doBuildConfig($jsonConfig, $config, $context);
 
-        return $config;
+        return self::doBuildConfig($jsonConfig, $config, $context);
     }
 
     private static function locateOperatorConfigClass($configElement): string
