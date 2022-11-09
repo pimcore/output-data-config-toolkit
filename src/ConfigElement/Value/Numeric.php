@@ -24,8 +24,8 @@ class Numeric extends DefaultValue
     {
         parent::__construct($config, $context);
 
-        $this->formatNumber = ($config->formatNumber ? $config->formatNumber : null);
-        $this->precision = ($config->precision ? $config->precision : null);
+        $this->formatNumber = ($config->formatNumber ?? null);
+        $this->precision = ($config->precision ?? null);
     }
 
     public function getLabeledValue($object)

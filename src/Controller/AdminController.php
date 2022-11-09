@@ -95,7 +95,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
         $classList = $classList->load();
 
-        $translator = $this->get('translator');
+        $translator = $this->getTranslator();
 
         $outputDefinitions = [];
         foreach ($classList as $class) {
@@ -250,7 +250,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                     }
 
                     if ($def) {
-                        $translator = $this->get('translator');
+                        $translator = $this->getTranslator();
                         $newConfig->text = $translator->trans($def->getTitle(), [], 'admin');
                     }
 

@@ -35,7 +35,7 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
                             brickField: nodeData.brickField
                         };
 
-                        text = ts(nodeData.nodeLabel) + " " + t("columns");
+                        text = t(nodeData.nodeLabel) + " " + t("columns");
 
                     }
 
@@ -191,7 +191,7 @@ pimcore.bundle.outputDataConfigToolkit.ClassTree = Class.create(pimcore.object.h
                 key = "#cs#" + classificationDescriptor.keyConfig.id + "#" + classificationDescriptor.keyConfig.name
             }
 
-            var text = ts(initData.title);
+            var text = t(initData.title);
             if (showFieldname) {
                 if (brickDescriptor && brickDescriptor.insideBrick && brickDescriptor.insideLocalizedFields) {
                     text = text + "(" + brickDescriptor.brickType + "." + initData.name + ")";

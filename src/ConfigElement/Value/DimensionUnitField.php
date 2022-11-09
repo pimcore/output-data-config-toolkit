@@ -68,5 +68,7 @@ class DimensionUnitField extends DefaultValue
 
             return $result;
         }
+
+        return null;
     }
 }

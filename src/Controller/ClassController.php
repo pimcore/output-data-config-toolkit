@@ -16,7 +16,6 @@
 namespace OutputDataConfigToolkitBundle\Controller;
 
 use Doctrine\DBAL\Exception\TableNotFoundException;
-use Doctrine\DBAL\Schema\Column;
 use OutputDataConfigToolkitBundle\Constant\ColumnConfigDisplayMode;
 use Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse;
 use Pimcore\Db;
