@@ -33,10 +33,8 @@ class Listing extends \Pimcore\Model\Listing\AbstractListing
 
     /**
      * @param string $key
-     *
-     * @return bool
      */
-    public function isValidOrderKey($key)
+    public function isValidOrderKey($key): bool
     {
         if ($key == 'o_id' || $key == 'o_classId' || $key == 'channel') {
             return true;
