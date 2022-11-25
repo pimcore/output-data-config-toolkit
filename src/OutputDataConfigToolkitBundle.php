@@ -28,17 +28,14 @@ class OutputDataConfigToolkitBundle extends AbstractPimcoreBundle
         return 'pimcore/output-data-config-toolkit-bundle';
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getCssPaths()
+    public function getCssPaths(): array
     {
         return [
             '/bundles/outputdataconfigtoolkit/css/admin.css'
         ];
     }
 
-    public function getJsPaths()
+    public function getJsPaths(): array
     {
         return [
             '/bundles/outputdataconfigtoolkit/js/Bundle.js',
@@ -64,10 +61,7 @@ class OutputDataConfigToolkitBundle extends AbstractPimcoreBundle
         ];
     }
 
-    /**
-     * @return Installer
-     */
-    public function getInstaller()
+    public function getInstaller(): Installer
     {
         return new Installer();
     }

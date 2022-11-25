@@ -49,12 +49,12 @@ class Installer extends AbstractInstaller
         }
     }
 
-    public function needsReloadAfterInstall()
+    public function needsReloadAfterInstall(): bool
     {
         return true;
     }
 
-    public function isInstalled()
+    public function isInstalled(): bool
     {
         try {
             $check = \Pimcore\Db::get()->fetchOne('SELECT `id` FROM ' . Dao::TABLE_NAME . ' LIMIT 1;');
@@ -65,12 +65,12 @@ class Installer extends AbstractInstaller
         }
     }
 
-    public function canBeInstalled()
+    public function canBeInstalled(): bool
     {
         return !$this->isInstalled();
     }
 
-    public function canBeUninstalled()
+    public function canBeUninstalled(): bool
     {
         return true;
     }

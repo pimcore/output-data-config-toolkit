@@ -15,6 +15,7 @@
 
 namespace OutputDataConfigToolkitBundle\OutputDefinition\Listing;
 
+use Doctrine\DBAL\Exception;
 use OutputDataConfigToolkitBundle\OutputDefinition;
 
 /**
@@ -27,9 +28,9 @@ use OutputDataConfigToolkitBundle\OutputDefinition;
 class Dao extends \Pimcore\Model\Listing\Dao\AbstractDao
 {
     /**
-     * @return array
+     * @throws Exception
      */
-    public function load()
+    public function load(): array
     {
         $configs = [];
 
@@ -50,11 +51,10 @@ class Dao extends \Pimcore\Model\Listing\Dao\AbstractDao
         return $configs;
     }
 
-    public function getTotalCount()
+    public function getTotalCount(): int
     {
         $params = array_column($this->model->getConditionParams() ?: [], 'value');
-        $amount = $this->db->fetchAssociative('SELECT COUNT(*) as amount FROM `' . OutputDefinition\Dao::TABLE_NAME . '`' . $this->getCondition(), $params);
 
-        return $amount['amount'];
+        return (int)$this->db->fetchAssociative('SELECT COUNT(*) as amount FROM `' . OutputDefinition\Dao::TABLE_NAME . '`' . $this->getCondition(), $params);
     }
 }
