@@ -71,6 +71,7 @@ class Service
     {
         $namespaces = [
             '\\OutputDataConfigToolkitBundle\\ConfigElement\\Operator\\',
+            '\\App\\OutputDataConfigToolkit\\ConfigElement\\Operator\\',
             '\\AppBundle\\OutputDataConfigToolkit\\ConfigElement\\Operator\\'
         ];
 
