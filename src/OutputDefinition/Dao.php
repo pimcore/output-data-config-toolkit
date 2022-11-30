@@ -90,7 +90,7 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao
      */
     public function save()
     {
-        $other = OutputDefinition::getByO_IdClassIdChannel($this->model->getId(), $this->model->getClassId(), $this->model->getChannel());
+        $other = OutputDefinition::getByObjectIdClassIdChannel($this->model->getId(), $this->model->getClassId(), $this->model->getChannel());
         if ($other) {
             $this->model->setId($other->getId());
         }
