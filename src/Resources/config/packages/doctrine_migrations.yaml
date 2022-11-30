@@ -1,0 +1,4 @@
+doctrine_migrations:
+    connection: default
+    migrations_paths:
+        'OutputDataConfigToolkitBundle\Migrations': '@OutputDataConfigToolkitBundle/Migrations'

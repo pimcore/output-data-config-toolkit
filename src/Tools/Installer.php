@@ -42,11 +42,7 @@ class Installer extends AbstractInstaller
 
         $db->executeQuery("INSERT INTO users_permission_definitions (`key`) VALUES ('bundle_outputDataConfigToolkit');");
 
-        if ($this->isInstalled()) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->isInstalled();
     }
 
     public function needsReloadAfterInstall(): bool

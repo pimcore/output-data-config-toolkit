@@ -1,3 +1,4 @@
 imports:
     - { resource: services.yaml }
     - { resource: system.yml }
+    - { resource: packages/doctrine_migrations.yaml }
