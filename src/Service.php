@@ -42,11 +42,11 @@ class Service
             $objectClass = $object->getClass();
         }
 
-        $outputDataConfig = OutputDefinition::getByO_IdClassIdChannel($object->getId(), $objectClass->getId(), $channel);
+        $outputDataConfig = OutputDefinition::getByObjectIdClassIdChannel($object->getId(), $objectClass->getId(), $channel);
         if (empty($outputDataConfig)) {
             while (empty($outputDataConfig) && !empty($object)) {
                 $object = $object->getParent();
-                $outputDataConfig = OutputDefinition::getByO_IdClassIdChannel($object->getId(), $objectClass->getId(), $channel);
+                $outputDataConfig = OutputDefinition::getByObjectIdClassIdChannel($object->getId(), $objectClass->getId(), $channel);
             }
         }
 
@@ -121,11 +121,11 @@ class Service
 
         foreach ($classList as $class) {
             foreach ($channels as $channel) {
-                $def = OutputDefinition::getByO_IdClassIdChannel(1, $class->getId(), $channel);
+                $def = OutputDefinition::getByObjectIdClassIdChannel(1, $class->getId(), $channel);
                 if (empty($def)) {
                     $def = new OutputDefinition();
-                    $def->setO_Id(1);
-                    $def->setO_ClassId($class->getId());
+                    $def->setId(1);
+                    $def->setClassId($class->getId());
                     $def->setChannel($channel);
                     $def->save();
                 }

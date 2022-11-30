@@ -229,8 +229,8 @@ $config->applyFromClassificationKeyConfig($keyConfig);
 // create definition for channel and add value 
 $newConfig = new \OutputDataConfigToolkitBundle\OutputDefinition();
 $newConfig->setChannel("my_channel");
-$newConfig->setO_ClassId($classId);
-$newConfig->setO_Id(12345);
+$newConfig->setClassId($classId);
+$newConfig->setObjectId(12345);
 $newConfig->setConfiguration($serializer->serialize($config, 'json'));
 $newConfig->save();
 ```
@@ -239,7 +239,7 @@ $newConfig->save();
 Execute the following statement:
 
 ```mysql
-ALTER TABLE bundle_outputdataconfigtoolkit_outputdefinition MODIFY `o_classId` varchar(50);
+ALTER TABLE bundle_outputdataconfigtoolkit_outputdefinition MODIFY `classId` varchar(50);
 ```
 
 ## Migration from Pimcore 4

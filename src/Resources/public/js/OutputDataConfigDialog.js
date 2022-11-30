@@ -304,13 +304,13 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
     getConfigElement: function(configAttributes) {
         var element = null;
         if(configAttributes && configAttributes.class && configAttributes.type) {
-            element = new pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements[configAttributes.type][configAttributes.class](this.outputConfig.o_classId);
+            element = new pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements[configAttributes.type][configAttributes.class](this.outputConfig.classId);
         } else {
             var dataType = configAttributes.dataType.charAt(0).toUpperCase() + configAttributes.dataType.slice(1);
             if(pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value[dataType]) {
-                element = new pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value[dataType](this.outputConfig.o_classId);
+                element = new pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value[dataType](this.outputConfig.classId);
             } else {
-                element = new pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.DefaultValue(this.outputConfig.o_classId);
+                element = new pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.DefaultValue(this.outputConfig.classId);
             }
         }
         return element;
@@ -332,7 +332,7 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
         if (!this.leftPanel) {
 
             var items = [
-                this.getClassTree("/admin/outputdataconfig/get-class-definition-for-column-config", this.outputConfig.o_classId, this.targetObjectId),
+                this.getClassTree("/admin/outputdataconfig/get-class-definition-for-column-config", this.outputConfig.classId, this.targetObjectId),
                 this.getOperatorTree()
             ];
 

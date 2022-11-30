@@ -32,11 +32,11 @@ class Installer extends AbstractInstaller
         $db->executeQuery('CREATE TABLE `' . Dao::TABLE_NAME . '` (
               `id` int(11) NOT NULL AUTO_INCREMENT,
               `o_id` int(11) NOT NULL,
-              `o_classId` varchar(50) NOT NULL,
+              `classId` varchar(50) NOT NULL,
               `channel` varchar(255) COLLATE utf8_bin NOT NULL,
               `configuration` longtext CHARACTER SET latin1,
               PRIMARY KEY (`id`),
-              UNIQUE KEY `Unique` (`o_id`,`o_classId`,`channel`)
+              UNIQUE KEY `Unique` (`o_id`,`classId`,`channel`)
             ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
         ');
 

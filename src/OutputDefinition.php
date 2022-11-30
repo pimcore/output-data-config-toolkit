@@ -43,7 +43,7 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel
             try {
                 $config = new self();
                 try {
-                    $config->getDao()->getByO_IdClassIdChannel($objectId, $classId, $channel);
+                    $config->getDao()->getByObjectIdClassIdChannel($objectId, $classId, $channel);
                     RuntimeCache::set($cacheKey, $config);
                 } catch (\Exception $e) {
                     Logger::info($e->getMessage());

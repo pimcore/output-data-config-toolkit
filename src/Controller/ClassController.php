@@ -127,7 +127,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
                 try {
                     // @todo: is there a better way to check if a classification group is assigned to the class?
-                    $enrichment = Db::get()->fetchOne("SELECT EXISTS (SELECT * FROM object_classificationstore_groups_{$class->getId()} WHERE o_id = '{$targetObjectId}')");
+                    $enrichment = Db::get()->fetchOne("SELECT EXISTS (SELECT * FROM object_classificationstore_groups_{$class->getId()} WHERE id = '{$targetObjectId}')");
                     if ($enrichment) {
                         DataObject\Service::enrichLayoutDefinition($result['objectColumns']['children'][0], $targetObject);
                     }

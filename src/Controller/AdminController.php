@@ -105,8 +105,8 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                     'id' => $def->getId(),
                     'classname' => $translator->trans($class->getName(), [], 'admin'),
                     'channel' => $translator->trans($channel, [], 'admin'),
-                    'object_id' => $def->getO_Id(),
-                    'is_inherited' => $def->getO_Id() != $objectId
+                    'object_id' => $def->getId(),
+                    'is_inherited' => $def->getId() != $objectId
                 ];
             }
         }
@@ -123,7 +123,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
      */
     private function getOutputDefinitionForObjectAndChannel($object, $classId, $channel)
     {
-        $outputDefinition = OutputDefinition::getByO_IdClassIdChannel($object->getId(), $classId, $channel);
+        $outputDefinition = OutputDefinition::getByObjectIdClassIdChannel($object->getId(), $classId, $channel);
         if (empty($outputDefinition)) {
             $parent = $object->getParent();
             if (!empty($parent)) {
@@ -167,7 +167,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         try {
             $config = OutputDefinition::getByID($request->get('config_id'));
 
-            $objectClass = ClassDefinition::getById($config->getO_ClassId());
+            $objectClass = ClassDefinition::getById($config->getClassId());
             $configuration = json_decode($config->getConfiguration());
             $configuration = $this->doGetAttributeLabels($configuration, $objectClass);
 
@@ -203,11 +203,11 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                     throw new \Exception('Class ' . $request->get('class_id') . ' not found.');
                 }
 
-                $config = OutputDefinition::getByO_IdClassIdChannel($request->get('o_id'), $class->getId(), $request->get('channel'));
+                $config = OutputDefinition::getByObjectIdClassIdChannel($request->get('o_id'), $class->getId(), $request->get('channel'));
             }
 
             if ($config) {
-                $objectClass = ClassDefinition::getById($config->getO_ClassId());
+                $objectClass = ClassDefinition::getById($config->getClassId());
                 $configuration = json_decode($config->getConfiguration());
                 $configuration = $this->doGetAttributeLabels($configuration, $objectClass);
                 $config->setConfiguration($configuration);
@@ -216,8 +216,8 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             } else {
                 $config = new OutputDefinition();
                 $config->setChannel($request->get('channel'));
-                $config->setO_ClassId($class->getId());
-                $config->setO_Id($request->get('o_id'));
+                $config->setClassId($class->getId());
+                $config->setObjectId($request->get('o_id'));
                 $config->save();
 
                 return $this->adminJson(['success' => true, 'outputConfig' => $config]);
@@ -408,12 +408,11 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             if (empty($object)) {
                 throw new \Exception('Data Object with ID' . $request->get('object_id') . ' not found.');
             }
-            if ($config->getO_Id() == $request->get('object_id')) {
-            } else {
+            if ($config->getObjectId() != $request->get('object_id')) {
                 $newConfig = new OutputDefinition();
                 $newConfig->setChannel($config->getChannel());
-                $newConfig->setO_ClassId($config->getO_ClassId());
-                $newConfig->setO_Id($object->getId());
+                $newConfig->setClassId($config->getClassId());
+                $newConfig->setObjectId($object->getId());
                 $config = $newConfig;
             }
 
@@ -424,7 +423,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             $eventDispatcher->dispatch($event, OutputDataConfigToolkitEvents::SAVE_CONFIG_EVENT);
 
             if ($event->doSortAttributes()) {
-                $objectClass = ClassDefinition::getById($config->getO_ClassId());
+                $objectClass = ClassDefinition::getById($config->getClassId());
                 $configuration = json_decode($configJson);
                 $configuration = $this->doGetAttributeLabels($configuration, $objectClass, true);
                 $configJson = json_encode($configuration);
