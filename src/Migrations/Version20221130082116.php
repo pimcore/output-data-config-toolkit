@@ -2,6 +2,19 @@
 
 declare(strict_types=1);
 
+/**
+ * Pimcore
+ *
+ * This source file is available under two different licenses:
+ * - GNU General Public License version 3 (GPLv3)
+ * - Pimcore Commercial License (PCL)
+ * Full copyright and license information is available in
+ * LICENSE.md which is distributed with this source code.
+ *
+ *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
+ *  @license    http://www.pimcore.org/license     GPLv3 and PCL
+ */
+
 namespace OutputDataConfigToolkitBundle\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
@@ -22,9 +35,8 @@ final class Version20221130082116 extends AbstractMigration
         $table = $schema->getTable('bundle_outputdataconfigtoolkit_outputdefinition');
 
         $query = 'ALTER TABLE `%s` RENAME COLUMN `%s` TO `%s`';
-
+        
         $this->addSql(sprintf($query, $table->getName(), 'o_classId', 'classId'));
-
     }
 
     public function down(Schema $schema): void
@@ -34,6 +46,5 @@ final class Version20221130082116 extends AbstractMigration
         $query = 'ALTER TABLE `%s` RENAME COLUMN `%s` TO `%s`';
 
         $this->addSql(sprintf($query, $table->getName(), 'classId', 'o_classId'));
-
     }
 }
