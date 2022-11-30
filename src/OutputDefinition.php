@@ -26,16 +26,16 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel
 {
     public $id;
     public $o_id;
-    public $o_classId;
+    public $classId;
     public $channel;
     public $configuration;
 
     /**
      * @return OutputDefinition|null
      */
-    public static function getByO_IdClassIdChannel($o_id, $classId, $channel)
+    public static function getByObjectIdClassIdChannel($objectId, $classId, $channel)
     {
-        $cacheKey = self::getCacheKey($o_id, $classId, $channel);
+        $cacheKey = self::getCacheKey($objectId, $classId, $channel);
 
         try {
             $config = RuntimeCache::get($cacheKey);
@@ -43,7 +43,7 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel
             try {
                 $config = new self();
                 try {
-                    $config->getDao()->getByO_IdClassIdChannel($o_id, $classId, $channel);
+                    $config->getDao()->getByO_IdClassIdChannel($objectId, $classId, $channel);
                     RuntimeCache::set($cacheKey, $config);
                 } catch (\Exception $e) {
                     Logger::info($e->getMessage());
@@ -73,9 +73,9 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel
         }
     }
 
-    private static function getCacheKey($o_id, $classId, $channel)
+    private static function getCacheKey($objectId, $classId, $channel)
     {
-        return Dao::TABLE_NAME . '_' . $o_id . '_' . $classId . '_' . $channel;
+        return Dao::TABLE_NAME . '_' . $objectId . '_' . $classId . '_' . $channel;
     }
 
     /**
@@ -104,7 +104,7 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel
      */
     public function delete()
     {
-        $cacheKey = self::getCacheKey($this->getO_id(), $this->getO_ClassId(), $this->getChannel());
+        $cacheKey = self::getCacheKey($this->getObjectId(), $this->getClassId(), $this->getChannel());
         RuntimeCache::set($cacheKey, null);
 
         $this->getDao()->delete();
@@ -130,22 +130,22 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel
         return $this->configuration;
     }
 
-    public function setO_ClassId($o_classId)
+    public function setClassId($classId)
     {
-        $this->o_classId = $o_classId;
+        $this->classId = $classId;
     }
 
-    public function getO_ClassId()
+    public function getClassId()
     {
-        return $this->o_classId;
+        return $this->classId;
     }
 
-    public function setO_Id($o_id)
+    public function setObjectId($id)
     {
-        $this->o_id = $o_id;
+        $this->o_id = $id;
     }
 
-    public function getO_Id()
+    public function getObjectId()
     {
         return $this->o_id;
     }
