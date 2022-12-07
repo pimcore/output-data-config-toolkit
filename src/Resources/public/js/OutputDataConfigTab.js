@@ -123,9 +123,8 @@ pimcore.bundle.outputDataConfigToolkit.Tab = Class.create({
                             return "pimcore_hidden";
                         }
                     }.bind(this),
-                    handler: function (grid, rowIndex) {
-                        var data = grid.getStore().getAt(rowIndex);
-                        Ext.MessageBox.confirm(t('reset_outputdataconfig'), t('reset_outputdataconfig_text'), this.resetOutputDataConfig.bind(this, data.data.id), this);
+                    handler: function (grid, rowIndex, colIndex, item, event, record) {
+                        Ext.MessageBox.confirm(t('reset_outputdataconfig'), t('reset_outputdataconfig_text'), this.resetOutputDataConfig.bind(this, record.data.id), this);
                     }.bind(this)
                 }
             ]

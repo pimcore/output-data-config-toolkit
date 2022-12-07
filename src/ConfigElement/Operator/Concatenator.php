@@ -25,8 +25,8 @@ class Concatenator extends AbstractOperator
     {
         parent::__construct($config, $context);
         $this->glue = $config->glue;
-        $this->forceValue = $config->forceValue;
-        $this->formatNumbers = $config->formatNumbers;
+        $this->forceValue = $config->forceValue ?? false;
+        $this->formatNumbers = $config->formatNumbers ?? false;
     }
 
     public function getLabeledValue($object)
