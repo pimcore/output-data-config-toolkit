@@ -47,8 +47,10 @@ class Concatenator extends AbstractOperator
             $value = $c->getLabeledValue($object) ? $c->getLabeledValue($object)->value : null;
 
             if (!$hasValue) {
-                if (!empty($value) || (is_object($value) && (method_exists($value, 'isEmpty') && !$value->isEmpty()))) {
-                    $hasValue = true;
+                if (is_object($value) && method_exists($value, 'isEmpty')) {
+                    $hasValue = !$value->isEmpty();
+                } else {
+                    $hasValue = !empty($value);
                 }
             }
 
