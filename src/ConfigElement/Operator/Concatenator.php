@@ -32,6 +32,7 @@ class Concatenator extends AbstractOperator
     public function getLabeledValue($object)
     {
         $result = new \stdClass();
+        $result->value = null;
         $result->label = $this->label;
 
         $hasValue = true;
@@ -46,7 +47,7 @@ class Concatenator extends AbstractOperator
             $value = $c->getLabeledValue($object) ? $c->getLabeledValue($object)->value : null;
 
             if (!$hasValue) {
-                if (!empty($value) || ((method_exists($value, 'isEmpty') && !$value->isEmpty()))) {
+                if (!empty($value) || (is_object($value) && (method_exists($value, 'isEmpty') && !$value->isEmpty()))) {
                     $hasValue = true;
                 }
             }
