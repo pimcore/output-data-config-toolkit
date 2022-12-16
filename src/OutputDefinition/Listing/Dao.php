@@ -37,9 +37,8 @@ class Dao extends \Pimcore\Model\Listing\Dao\AbstractDao
 
         $params = array_column($this->model->getConditionParams() ?: [], 'value');
 
-        $classIdField = Service::getVersionDependentDatabaseColumnName('classId');
         $unitIds = $this->db->fetchAllAssociative(
-            'SELECT o_id, id, '. $classIdField .', channel FROM ' . OutputDefinition\Dao::TABLE_NAME .
+            'SELECT o_id, id, classId, channel FROM ' . OutputDefinition\Dao::TABLE_NAME .
             $this->getCondition() . $this->getOrder() . $this->getOffsetLimit(),
             $params
         );
