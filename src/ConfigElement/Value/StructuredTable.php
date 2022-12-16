@@ -38,6 +38,7 @@ class StructuredTable extends DefaultValue
             $wholeResult = parent::getLabeledValue($object);
 
             $label = $wholeResult->label;
+            $value = null;
 
             if (!empty($wholeResult->value)) {
                 $getter = 'get' . ucfirst($this->row . '__' . $this->col);
