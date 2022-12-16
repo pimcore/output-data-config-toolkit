@@ -17,7 +17,6 @@ namespace OutputDataConfigToolkitBundle\OutputDefinition\Listing;
 
 use Doctrine\DBAL\Exception;
 use OutputDataConfigToolkitBundle\OutputDefinition;
-use Pimcore\Model\DataObject\Service;
 
 /**
  * Class Dao
