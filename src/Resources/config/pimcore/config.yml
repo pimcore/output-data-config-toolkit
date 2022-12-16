@@ -1,3 +1,6 @@
+imports:
+    - { resource: ../packages/doctrine_migrations.yaml }
+
 output_data_config_toolkit:
 
     # possible values are [all, object, relevant, none]

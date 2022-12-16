@@ -47,11 +47,11 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao
      *
      * @throws \Exception
      */
-    public function getByO_IdClassIdChannel($o_id, $classId, $channel)
+    public function getByObjectIdClassIdChannel($id, $classId, $channel)
     {
-        $outputDefinitionRaw = $this->db->fetchAssociative('SELECT * FROM ' . self::TABLE_NAME . ' WHERE o_id=? AND o_classId = ? AND channel = ?', [$o_id, $classId, $channel]);
+        $outputDefinitionRaw = $this->db->fetchAssociative('SELECT * FROM ' . self::TABLE_NAME . ' WHERE o_id=? AND o_classId = ? AND channel = ?', [$id, $classId, $channel]);
         if (empty($outputDefinitionRaw)) {
-            throw new \Exception('OutputDefinition ' . $o_id . ' - ' . $classId  . ' - ' . $channel . ' not found.');
+            throw new \Exception('OutputDefinition ' . $id . ' - ' . $classId  . ' - ' . $channel . ' not found.');
         }
         $this->assignVariablesToModel($outputDefinitionRaw);
     }
@@ -90,7 +90,7 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao
      */
     public function save()
     {
-        $other = OutputDefinition::getByO_IdClassIdChannel($this->model->getO_Id(), $this->model->getO_ClassId(), $this->model->getChannel());
+        $other = OutputDefinition::getByObjectIdClassIdChannel($this->model->getId(), $this->model->getClassId(), $this->model->getChannel());
         if ($other) {
             $this->model->setId($other->getId());
         }
