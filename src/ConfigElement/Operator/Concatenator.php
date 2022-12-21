@@ -32,6 +32,7 @@ class Concatenator extends AbstractOperator
     public function getLabeledValue($object)
     {
         $result = new \stdClass();
+        $result->value = null;
         $result->label = $this->label;
 
         $hasValue = true;
