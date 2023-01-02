@@ -95,16 +95,14 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
         $classList = $classList->load();
 
-        $translator = $this->getTranslator();
-
         $outputDefinitions = [];
         foreach ($classList as $class) {
             foreach ($channels as $channel) {
                 $def = $this->getOutputDefinitionForObjectAndChannel($object, $class->getId(), $channel);
                 $outputDefinitions[] = [
                     'id' => $def->getId(),
-                    'classname' => $translator->trans($class->getName(), [], 'admin'),
-                    'channel' => $translator->trans($channel, [], 'admin'),
+                    'classname' => $this->translator->trans($class->getName(), [], 'admin'),
+                    'channel' => $this->translator->trans($channel, [], 'admin'),
                     'object_id' => $def->getId(),
                     'is_inherited' => $def->getId() != $objectId
                 ];
@@ -250,8 +248,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                     }
 
                     if ($def) {
-                        $translator = $this->getTranslator();
-                        $newConfig->text = $translator->trans($def->getTitle(), [], 'admin');
+                        $newConfig->text = $this->translator->trans($def->getTitle(), [], 'admin');
                     }
 
                     if (isset($newConfig->dataType) && $newConfig->dataType == 'system' && isset($newConfig->attribute)) {
