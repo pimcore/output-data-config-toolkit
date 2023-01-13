@@ -21,7 +21,7 @@ use Pimcore\Extension\Bundle\Installer\Exception\InstallationException;
 
 class Installer extends AbstractInstaller
 {
-    public function install()
+    public function install(): void
     {
         if (!file_exists(PIMCORE_CUSTOM_CONFIGURATION_DIRECTORY . '/outputdataconfig')) {
             \Pimcore\File::mkdir(PIMCORE_CUSTOM_CONFIGURATION_DIRECTORY . '/outputdataconfig');
@@ -41,8 +41,6 @@ class Installer extends AbstractInstaller
         ');
 
         $db->executeQuery("INSERT INTO users_permission_definitions (`key`) VALUES ('bundle_outputDataConfigToolkit');");
-
-        return $this->isInstalled();
     }
 
     public function needsReloadAfterInstall(): bool
@@ -71,7 +69,7 @@ class Installer extends AbstractInstaller
         return true;
     }
 
-    public function uninstall()
+    public function uninstall(): void
     {
         $db = \Pimcore\Db::get();
         $db->executeQuery('DROP TABLE IF EXISTS `' . Dao::TABLE_NAME . '`;');
