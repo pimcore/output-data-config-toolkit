@@ -46,7 +46,7 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao
      */
     public function getByO_IdClassIdChannel($o_id, $classId, $channel)
     {
-        $outputDefinitionRaw = $this->db->fetchRow('SELECT * FROM ' . self::TABLE_NAME . ' WHERE o_id=? AND o_classId = ? AND channel = ?', [$o_id, $classId, $channel]);
+        $outputDefinitionRaw = $this->db->fetchRow('SELECT * FROM ' . self::TABLE_NAME . ' WHERE o_id=? AND o_classId = ? AND ' . $this->db->quoteIdentifier('channel') . ' = ?', [$o_id, $classId, $channel]);
         if (empty($outputDefinitionRaw)) {
             throw new \Exception('OutputDefinition ' . $o_id . ' - ' . $classId  . ' - ' . $channel . ' not found.');
         }
