@@ -125,7 +125,7 @@ class Service
                 $def = OutputDefinition::getByObjectIdClassIdChannel(1, $class->getId(), $channel);
                 if (empty($def)) {
                     $def = new OutputDefinition();
-                    $def->setId(1);
+                    $def->setObjectId(1);
                     $def->setClassId($class->getId());
                     $def->setChannel($channel);
                     $def->save();

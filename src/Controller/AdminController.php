@@ -103,7 +103,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                     'id' => $def->getId(),
                     'classname' => $this->translator->trans($class->getName(), [], 'admin'),
                     'channel' => $this->translator->trans($channel, [], 'admin'),
-                    'object_id' => $def->getId(),
+                    'object_id' => $def->getObjectId(),
                     'is_inherited' => $def->getId() != $objectId
                 ];
             }
