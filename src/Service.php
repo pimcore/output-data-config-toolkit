@@ -157,7 +157,7 @@ class Service
             $config = include($file);
         } else {
             $filesystem = new Filesystem();
-            $filesystem->put($file, to_php_data_file_format([]));
+            $filesystem->dumpFile($file, to_php_data_file_format([]));
             $config = [];
         }
 
