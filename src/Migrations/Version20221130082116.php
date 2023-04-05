@@ -34,17 +34,19 @@ final class Version20221130082116 extends AbstractMigration
     {
         $table = $schema->getTable('bundle_outputdataconfigtoolkit_outputdefinition');
 
-        $query = 'ALTER TABLE `%s` RENAME COLUMN `%s` TO `%s`';
-
-        $this->addSql(sprintf($query, $table->getName(), 'o_classId', 'classId'));
+        if ($table->hasColumn('o_classId')) {
+            $query = 'ALTER TABLE `%s` RENAME COLUMN `%s` TO `%s`';
+            $this->addSql(sprintf($query, $table->getName(), 'o_classId', 'classId'));
+        }
     }
 
     public function down(Schema $schema): void
     {
         $table = $schema->getTable('bundle_outputdataconfigtoolkit_outputdefinition');
 
-        $query = 'ALTER TABLE `%s` RENAME COLUMN `%s` TO `%s`';
-
-        $this->addSql(sprintf($query, $table->getName(), 'classId', 'o_classId'));
+        if ($table->hasColumn('classId')) {
+            $query = 'ALTER TABLE `%s` RENAME COLUMN `%s` TO `%s`';
+            $this->addSql(sprintf($query, $table->getName(), 'classId', 'o_classId'));
+        }
     }
 }
