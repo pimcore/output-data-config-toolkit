@@ -17,7 +17,7 @@ jobs:
         strategy:
             matrix:
                 include:
-                    - { php-version: "8.1", dependencies: "lowest" }
+                    #- { php-version: "8.1", dependencies: "lowest" } #reenable if Pimcore 11 is released
                     - { php-version: "8.1", dependencies: "highest" }
         steps:
             - name: "Checkout code"
