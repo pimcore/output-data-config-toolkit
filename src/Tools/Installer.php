@@ -18,13 +18,16 @@ namespace OutputDataConfigToolkitBundle\Tools;
 use OutputDataConfigToolkitBundle\OutputDefinition\Dao;
 use Pimcore\Extension\Bundle\Installer\AbstractInstaller;
 use Pimcore\Extension\Bundle\Installer\Exception\InstallationException;
+use Symfony\Component\Filesystem\Filesystem;
 
 class Installer extends AbstractInstaller
 {
     public function install(): void
     {
+        $fileSystem = new Filesystem();
+
         if (!file_exists(PIMCORE_CUSTOM_CONFIGURATION_DIRECTORY . '/outputdataconfig')) {
-            \Pimcore\File::mkdir(PIMCORE_CUSTOM_CONFIGURATION_DIRECTORY . '/outputdataconfig');
+            $fileSystem->mkdir(PIMCORE_CUSTOM_CONFIGURATION_DIRECTORY . '/outputdataconfig', 0775);
             copy(__DIR__ . '/../../install/config.php', PIMCORE_CUSTOM_CONFIGURATION_DIRECTORY . '/outputdataconfig/config.php');
         }
 

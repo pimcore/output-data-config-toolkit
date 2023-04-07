@@ -17,6 +17,7 @@ namespace OutputDataConfigToolkitBundle;
 
 use OutputDataConfigToolkitBundle\ConfigElement\IConfigElement;
 use Pimcore\Model\DataObject\ClassDefinition;
+use Symfony\Component\Filesystem\Filesystem;
 
 class Service
 {
@@ -155,7 +156,8 @@ class Service
         if (file_exists($file)) {
             $config = include($file);
         } else {
-            \Pimcore\File::put($file, to_php_data_file_format([]));
+            $filesystem = new Filesystem();
+            $filesystem->dumpFile($file, to_php_data_file_format([]));
             $config = [];
         }
 
