@@ -14,7 +14,7 @@
     "symfony/http-kernel": "^6.2",
     "symfony/routing": "^6.2",
     "symfony/templating": "^6.2",
-    "pimcore/ecommerce-framework-bundle": "1.x-dev"
+    "pimcore/ecommerce-framework-bundle": "1.0"
   },
   "require-dev": {
     "phpstan/phpstan": "^1.10.5",
