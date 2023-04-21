@@ -17,10 +17,12 @@ namespace OutputDataConfigToolkitBundle\Controller;
 
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use OutputDataConfigToolkitBundle\Constant\ColumnConfigDisplayMode;
-use Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse;
+use Pimcore\Controller\Traits\JsonHelperTrait;
+use Pimcore\Controller\UserAwareController;
 use Pimcore\Db;
 use Pimcore\Model\DataObject;
 use Pimcore\Model\DataObject\Classificationstore;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -30,8 +32,10 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package OutputDataConfigToolkitBundle\Controller
  *
  */
-class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminController
+class ClassController extends UserAwareController
 {
+    use JsonHelperTrait;
+
     /* @var string $classificationDisplayMode */
     protected $classificationDisplayMode;
 
@@ -101,7 +105,7 @@ class ClassController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
         $this->considerClassificationStoreForColumnConfig($request, $class, $fieldDefinitions, $result);
 
-        return $this->adminJson($result);
+        return $this->jsonResponse($result);
     }
 
     /**
