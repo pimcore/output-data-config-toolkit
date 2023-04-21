@@ -31,6 +31,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class AdminController
@@ -40,6 +41,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends UserAwareController
 {
     use JsonHelperTrait;
+
+    public function __construct(protected TranslatorInterface $translator)
+    {
+    }
 
     /* @var string[] $defaultGridClasses */
     private $defaultGridClasses = [];
