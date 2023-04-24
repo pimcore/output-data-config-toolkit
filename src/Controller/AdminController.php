@@ -20,22 +20,32 @@ use OutputDataConfigToolkitBundle\Event\OutputDataConfigToolkitEvents;
 use OutputDataConfigToolkitBundle\Event\SaveConfigEvent;
 use OutputDataConfigToolkitBundle\OutputDefinition;
 use OutputDataConfigToolkitBundle\Service;
+use Pimcore\Controller\Traits\JsonHelperTrait;
+use Pimcore\Controller\UserAwareController;
 use Pimcore\Logger;
 use Pimcore\Model\DataObject\AbstractObject;
 use Pimcore\Model\DataObject\ClassDefinition;
 use Pimcore\Model\DataObject\Classificationstore\KeyConfig;
 use Pimcore\Model\DataObject\Objectbrick\Definition;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class AdminController
  *
  * @Route("/admin")
  */
-class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminController
+class AdminController extends UserAwareController
 {
+    use JsonHelperTrait;
+
+    public function __construct(protected TranslatorInterface $translator)
+    {
+    }
+
     /* @var string[] $defaultGridClasses */
     private $defaultGridClasses = [];
 
@@ -45,7 +55,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     /**
      * @param Request $request
      *
-     * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
+     * @return JsonResponse
      *
      * @Route("/initialize")
      */
@@ -55,7 +65,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
         $object = AbstractObject::getById($objectId);
 
         if (!$object) {
-            $this->adminJson(['error' => true, 'object' => (object)[]]);
+            $this->jsonResponse(['error' => true, 'object' => (object)[]]);
         }
 
         $event = new InitializeEvent($object);
@@ -63,18 +73,18 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
         if ($event->getHideConfigTab()) {
             // do not show output config tab
-            return $this->adminJson(['success' => true, 'object' => false]);
+            return $this->jsonResponse(['success' => true, 'object' => false]);
         }
 
         $data = ['id' => $event->getObject()->getId()];
 
-        return $this->adminJson(['success' => true, 'object' => $data]);
+        return $this->jsonResponse(['success' => true, 'object' => $data]);
     }
 
     /**
      * @param Request $request
      *
-     * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
+     * @return JsonResponse
      *
      * @Route("/get-output-configs")
      */
@@ -109,7 +119,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             }
         }
 
-        return $this->adminJson(['success' => true, 'data' => $outputDefinitions]);
+        return $this->jsonResponse(['success' => true, 'data' => $outputDefinitions]);
     }
 
     /**
@@ -135,7 +145,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     /**
      * @param Request $request
      *
-     * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
+     * @return JsonResponse
      *
      * @Route("/reset-output-config")
      */
@@ -145,18 +155,18 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             $config = OutputDefinition::getByID($request->get('config_id'));
             $config->delete();
 
-            return $this->adminJson(['success' => true]);
+            return $this->jsonResponse(['success' => true]);
         } catch (\Exception $e) {
             Logger::err($e->getMessage());
 
-            return $this->adminJson(['success' => false, 'message' => $e->getMessage()]);
+            return $this->jsonResponse(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
     /**
      * @param Request $request
      *
-     * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
+     * @return JsonResponse
      *
      * @Route("/get-output-config")
      */
@@ -171,18 +181,18 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
             $config->setConfiguration($configuration);
 
-            return $this->adminJson(['success' => true, 'outputConfig' => $config]);
+            return $this->jsonResponse(['success' => true, 'outputConfig' => $config]);
         } catch (\Exception $e) {
             Logger::err($e);
 
-            return $this->adminJson(['success' => false, 'message' => $e->getMessage()]);
+            return $this->jsonResponse(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
     /**
      * @param Request $request
      *
-     * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
+     * @return JsonResponse
      *
      * @Route("/get-or-create-output-config")
      */
@@ -210,7 +220,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                 $configuration = $this->doGetAttributeLabels($configuration, $objectClass);
                 $config->setConfiguration($configuration);
 
-                return $this->adminJson(['success' => true, 'outputConfig' => $config]);
+                return $this->jsonResponse(['success' => true, 'outputConfig' => $config]);
             } else {
                 $config = new OutputDefinition();
                 $config->setChannel($request->get('channel'));
@@ -218,12 +228,12 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
                 $config->setObjectId($request->get('o_id'));
                 $config->save();
 
-                return $this->adminJson(['success' => true, 'outputConfig' => $config]);
+                return $this->jsonResponse(['success' => true, 'outputConfig' => $config]);
             }
         } catch (\Exception $e) {
             Logger::err($e->getMessage());
 
-            return $this->adminJson(['success' => false, 'message' => $e->getMessage()]);
+            return $this->jsonResponse(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
@@ -284,7 +294,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     /**
      * @param Request $request
      *
-     * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
+     * @return JsonResponse
      *
      * @Route("/get-attribute-labels")
      */
@@ -295,7 +305,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
 
         $configration = $this->doGetAttributeLabels($configration, $class);
 
-        return $this->adminJson(['configuration' => $configration]);
+        return $this->jsonResponse(['configuration' => $configration]);
     }
 
     /**
@@ -374,7 +384,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
      * @param Request $request
      * @Route("/get-field-definition")
      *
-     * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function getFieldDefinitionAction(Request $request)
     {
@@ -382,11 +392,11 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             $objectClass = ClassDefinition::getById($request->get('class_id'));
             $def = $this->getFieldDefinition($request->get('key'), $objectClass);
 
-            return $this->adminJson(['success' => true, 'fieldDefinition' => $def]);
+            return $this->jsonResponse(['success' => true, 'fieldDefinition' => $def]);
         } catch (\Exception $e) {
             Logger::err($e->getMessage());
 
-            return $this->adminJson(['success' => false, 'message' => $e->getMessage()]);
+            return $this->jsonResponse(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
@@ -394,7 +404,7 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
      * @param Request $request
      * @Route("/save-output-config")
      *
-     * @return \Pimcore\Bundle\AdminBundle\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function saveOutputConfigAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {
@@ -428,11 +438,11 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
             }
             $config->save();
 
-            return $this->adminJson(['success' => true]);
+            return $this->jsonResponse(['success' => true]);
         } catch (\Exception $e) {
             Logger::err($e->getMessage());
 
-            return $this->adminJson(['success' => false, 'message' => $e->getMessage()]);
+            return $this->jsonResponse(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 

@@ -16,14 +16,14 @@
 namespace OutputDataConfigToolkitBundle;
 
 use OutputDataConfigToolkitBundle\Tools\Installer;
-use Pimcore\Bundle\AdminBundle\Support\BundleAdminSupportTrait;
-use Pimcore\Bundle\AdminBundle\Support\PimcoreBundleAdminSupportInterface;
 use Pimcore\Extension\Bundle\AbstractPimcoreBundle;
+use Pimcore\Extension\Bundle\PimcoreBundleAdminClassicInterface;
+use Pimcore\Extension\Bundle\Traits\BundleAdminClassicTrait;
 use Pimcore\Extension\Bundle\Traits\PackageVersionTrait;
 
-class OutputDataConfigToolkitBundle extends AbstractPimcoreBundle implements PimcoreBundleAdminSupportInterface
+class OutputDataConfigToolkitBundle extends AbstractPimcoreBundle implements PimcoreBundleAdminClassicInterface
 {
-    use BundleAdminSupportTrait;
+    use BundleAdminClassicTrait;
     use PackageVersionTrait;
 
     protected function getComposerPackageName(): string
