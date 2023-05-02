@@ -117,7 +117,8 @@ class DefaultValue extends AbstractConfigElement
             $value = $object->$getter();
             $def = null;
 
-            if ($object instanceof DefaultMockup || $object instanceof AbstractObject) {
+            if ((class_exists(DefaultMockup::class) && $object instanceof DefaultMockup)
+                || $object instanceof AbstractObject) {
                 if ($object instanceof Concrete) {
                     $class = $object->getClass();
                     $def = $class->getFieldDefinition($this->attribute);
