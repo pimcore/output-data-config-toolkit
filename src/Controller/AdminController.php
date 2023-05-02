@@ -117,7 +117,7 @@ class AdminController extends UserAwareController
                     'classname' => $this->translator->trans($class->getName(), [], 'admin'),
                     'channel' => $this->translator->trans($channel, [], 'admin'),
                     'object_id' => $def->getObjectId(),
-                    'is_inherited' => $def->getId() != $objectId
+                    'is_inherited' => $def->getObjectId() != $objectId
                 ];
             }
         }
