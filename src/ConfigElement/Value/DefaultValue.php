@@ -112,7 +112,8 @@ class DefaultValue extends AbstractConfigElement
 
             return $result;
         }
-        if (method_exists($object, $getter) || $object instanceof DefaultMockup) {
+        if (method_exists($object, $getter)
+            || (class_exists(DefaultMockup::class) && $object instanceof DefaultMockup)) {
             $value = $object->$getter();
             $def = null;
 
