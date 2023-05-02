@@ -130,7 +130,7 @@ class AdminController extends UserAwareController
      * @param $classId
      * @param $channel
      *
-     * @return OutputDefinition
+     * @return OutputDefinition|null
      */
     private function getOutputDefinitionForObjectAndChannel($object, $classId, $channel)
     {
