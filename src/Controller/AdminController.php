@@ -155,7 +155,7 @@ class AdminController extends UserAwareController
     public function resetOutputConfigAction(Request $request)
     {
         try {
-            $config = OutputDefinition::getByID($request->get('config_id'));
+            $config = OutputDefinition::getById($request->get('config_id'));
             $config->delete();
 
             return $this->jsonResponse(['success' => true]);
@@ -176,7 +176,7 @@ class AdminController extends UserAwareController
     public function getOutputConfigAction(Request $request)
     {
         try {
-            $config = OutputDefinition::getByID($request->get('config_id'));
+            $config = OutputDefinition::getById($request->get('config_id'));
 
             $objectClass = ClassDefinition::getById($config->getClassId());
             $configuration = json_decode($config->getConfiguration());
@@ -202,7 +202,7 @@ class AdminController extends UserAwareController
     public function getOrCreateOutputConfigAction(Request $request)
     {
         try {
-            $config = OutputDefinition::getByID($request->get('config_id'));
+            $config = OutputDefinition::getById($request->get('config_id'));
             $class = null;
             if (!$config) {
                 if (is_numeric($request->get('class_id'))) {
@@ -412,7 +412,7 @@ class AdminController extends UserAwareController
     public function saveOutputConfigAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {
         try {
-            $config = OutputDefinition::getByID($request->get('config_id'));
+            $config = OutputDefinition::getById($request->get('config_id'));
 
             $object = AbstractObject::getById($request->get('object_id'));
             if (empty($object)) {
