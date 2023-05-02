@@ -141,7 +141,7 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao
      */
     public function delete()
     {
-        $this->db->delete(self::TABLE_NAME, ['id' => $this->db->quote($this->model->getId())]);
+        $this->db->delete(self::TABLE_NAME, ['id' => (int) $this->model->getId()]);
     }
 
     public static function quoteDataIdentifiers(Connection $db, array $data): array
