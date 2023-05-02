@@ -25,7 +25,7 @@ use Pimcore\Logger;
 class OutputDefinition extends \Pimcore\Model\AbstractModel
 {
     public $id;
-    public $o_id;
+    public $objectId;
     public $classId;
     public $channel;
     public $configuration;
@@ -142,12 +142,12 @@ class OutputDefinition extends \Pimcore\Model\AbstractModel
 
     public function setObjectId($id)
     {
-        $this->o_id = $id;
+        $this->objectId = $id;
     }
 
     public function getObjectId()
     {
-        return $this->o_id;
+        return $this->objectId;
     }
 
     public function setId($id)
