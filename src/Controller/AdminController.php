@@ -109,7 +109,7 @@ class AdminController extends UserAwareController
         foreach ($classList as $class) {
             foreach ($channels as $channel) {
                 $def = $this->getOutputDefinitionForObjectAndChannel($object, $class->getId(), $channel);
-                if (!$def) {
+                if ($def === null) {
                     continue;
                 }
                 $outputDefinitions[] = [
