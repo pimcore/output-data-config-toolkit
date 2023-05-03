@@ -38,6 +38,11 @@ final class Version20221130082116 extends AbstractMigration
             $query = 'ALTER TABLE `%s` RENAME COLUMN `%s` TO `%s`';
             $this->addSql(sprintf($query, $table->getName(), 'o_classId', 'classId'));
         }
+        
+        if ($table->hasColumn('o_id')) {
+            $query = 'ALTER TABLE `%s` RENAME COLUMN `%s` TO `%s`';
+            $this->addSql(sprintf($query, $table->getName(), 'o_id', 'objectId'));
+        }
     }
 
     public function down(Schema $schema): void
@@ -47,6 +52,11 @@ final class Version20221130082116 extends AbstractMigration
         if ($table->hasColumn('classId')) {
             $query = 'ALTER TABLE `%s` RENAME COLUMN `%s` TO `%s`';
             $this->addSql(sprintf($query, $table->getName(), 'classId', 'o_classId'));
+        }
+
+        if ($table->hasColumn('objectId')) {
+            $query = 'ALTER TABLE `%s` RENAME COLUMN `%s` TO `%s`';
+            $this->addSql(sprintf($query, $table->getName(), 'objectId', 'o_id'));
         }
     }
 }
