@@ -109,12 +109,15 @@ class AdminController extends UserAwareController
         foreach ($classList as $class) {
             foreach ($channels as $channel) {
                 $def = $this->getOutputDefinitionForObjectAndChannel($object, $class->getId(), $channel);
+                if ($def === null) {
+                    continue;
+                }
                 $outputDefinitions[] = [
                     'id' => $def->getId(),
                     'classname' => $this->translator->trans($class->getName(), [], 'admin'),
                     'channel' => $this->translator->trans($channel, [], 'admin'),
                     'object_id' => $def->getObjectId(),
-                    'is_inherited' => $def->getId() != $objectId
+                    'is_inherited' => $def->getObjectId() != $objectId
                 ];
             }
         }
@@ -127,7 +130,7 @@ class AdminController extends UserAwareController
      * @param $classId
      * @param $channel
      *
-     * @return OutputDefinition
+     * @return OutputDefinition|null
      */
     private function getOutputDefinitionForObjectAndChannel($object, $classId, $channel)
     {
@@ -152,7 +155,7 @@ class AdminController extends UserAwareController
     public function resetOutputConfigAction(Request $request)
     {
         try {
-            $config = OutputDefinition::getByID($request->get('config_id'));
+            $config = OutputDefinition::getById($request->get('config_id'));
             $config->delete();
 
             return $this->jsonResponse(['success' => true]);
@@ -173,7 +176,7 @@ class AdminController extends UserAwareController
     public function getOutputConfigAction(Request $request)
     {
         try {
-            $config = OutputDefinition::getByID($request->get('config_id'));
+            $config = OutputDefinition::getById($request->get('config_id'));
 
             $objectClass = ClassDefinition::getById($config->getClassId());
             $configuration = json_decode($config->getConfiguration());
@@ -199,7 +202,7 @@ class AdminController extends UserAwareController
     public function getOrCreateOutputConfigAction(Request $request)
     {
         try {
-            $config = OutputDefinition::getByID($request->get('config_id'));
+            $config = OutputDefinition::getById($request->get('config_id'));
             $class = null;
             if (!$config) {
                 if (is_numeric($request->get('class_id'))) {
@@ -211,7 +214,7 @@ class AdminController extends UserAwareController
                     throw new \Exception('Class ' . $request->get('class_id') . ' not found.');
                 }
 
-                $config = OutputDefinition::getByObjectIdClassIdChannel($request->get('o_id'), $class->getId(), $request->get('channel'));
+                $config = OutputDefinition::getByObjectIdClassIdChannel($request->get('objectId'), $class->getId(), $request->get('channel'));
             }
 
             if ($config) {
@@ -225,7 +228,7 @@ class AdminController extends UserAwareController
                 $config = new OutputDefinition();
                 $config->setChannel($request->get('channel'));
                 $config->setClassId($class->getId());
-                $config->setObjectId($request->get('o_id'));
+                $config->setObjectId($request->get('objectId'));
                 $config->save();
 
                 return $this->jsonResponse(['success' => true, 'outputConfig' => $config]);
@@ -409,7 +412,7 @@ class AdminController extends UserAwareController
     public function saveOutputConfigAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {
         try {
-            $config = OutputDefinition::getByID($request->get('config_id'));
+            $config = OutputDefinition::getById($request->get('config_id'));
 
             $object = AbstractObject::getById($request->get('object_id'));
             if (empty($object)) {

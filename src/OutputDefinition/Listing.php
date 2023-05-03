@@ -36,7 +36,7 @@ class Listing extends \Pimcore\Model\Listing\AbstractListing
      */
     public function isValidOrderKey($key): bool
     {
-        if ($key == 'o_id' || $key == 'classId' || $key == 'channel') {
+        if ($key == 'objectId' || $key == 'classId' || $key == 'channel') {
             return true;
         }
 

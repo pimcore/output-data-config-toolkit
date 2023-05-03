@@ -32,4 +32,10 @@ abstract class AbstractOperator extends AbstractConfigElement
     {
         return $this->childs;
     }
+
+    public function __construct($config, $context = null)
+    {
+        parent::__construct($config, $context);
+        $this->childs = $config->childs ?? [];
+    }
 }

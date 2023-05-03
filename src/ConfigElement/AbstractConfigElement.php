@@ -24,7 +24,7 @@ abstract class AbstractConfigElement implements IConfigElement
 
     public function __construct($config, $context = null)
     {
-        $this->attribute = $config->attribute;
+        $this->attribute = $config->attribute ?? null;
         $this->label = $config->label;
 
         $this->context = $context;

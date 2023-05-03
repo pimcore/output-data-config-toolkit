@@ -49,7 +49,7 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao
      */
     public function getByObjectIdClassIdChannel($id, $classId, $channel)
     {
-        $outputDefinitionRaw = $this->db->fetchAssociative('SELECT * FROM ' . self::TABLE_NAME . ' WHERE o_id=? AND o_classId = ? AND channel = ?', [$id, $classId, $channel]);
+        $outputDefinitionRaw = $this->db->fetchAssociative('SELECT * FROM ' . self::TABLE_NAME . ' WHERE objectId=? AND classId = ? AND channel = ?', [$id, $classId, $channel]);
         if (empty($outputDefinitionRaw)) {
             throw new \Exception('OutputDefinition ' . $id . ' - ' . $classId  . ' - ' . $channel . ' not found.');
         }
@@ -77,10 +77,21 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao
      */
     public function create()
     {
-        $this->db->insert(self::TABLE_NAME, []);
-        $this->model->setId($this->db->lastInsertId());
+        $class = get_object_vars($this->model);
+        $data = [];
 
-        $this->save();
+        foreach ($class as $key => $value) {
+            if (in_array($key, $this->validColumns)) {
+                if (is_array($value) || is_object($value)) {
+                    $value = serialize($value);
+                } elseif (is_bool($value)) {
+                    $value = (int)$value;
+                }
+                $data[$key] = $value;
+            }
+        }
+        $this->db->insert(self::TABLE_NAME, self::quoteDataIdentifiers($this->db, $data));
+        $this->model->setId($this->db->lastInsertId());
     }
 
     /**
@@ -130,7 +141,7 @@ class Dao extends \Pimcore\Model\Dao\AbstractDao
      */
     public function delete()
     {
-        $this->db->delete(self::TABLE_NAME, ['id' => $this->db->quote($this->model->getId())]);
+        $this->db->delete(self::TABLE_NAME, ['id' => (int) $this->model->getId()]);
     }
 
     public static function quoteDataIdentifiers(Connection $db, array $data): array
