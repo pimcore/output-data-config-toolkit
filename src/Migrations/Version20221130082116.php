@@ -38,7 +38,7 @@ final class Version20221130082116 extends AbstractMigration
             $query = 'ALTER TABLE `%s` RENAME COLUMN `%s` TO `%s`';
             $this->addSql(sprintf($query, $table->getName(), 'o_classId', 'classId'));
         }
-        
+
         if ($table->hasColumn('o_id')) {
             $query = 'ALTER TABLE `%s` RENAME COLUMN `%s` TO `%s`';
             $this->addSql(sprintf($query, $table->getName(), 'o_id', 'objectId'));
