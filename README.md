@@ -20,7 +20,7 @@ An output data configuration consists of
 ## Configuration
 
 ### Channel Config
-After installing the bundle, a config file is located at `/var/config/outputdataconfig/config.php`. In this config file available output channels can be configured as follows:
+After installing the bundle, a config file is located at `config/pimcore/outputdataconfig/config.php`. In this config file available output channels can be configured as follows:
 
 ```php
 <?php
