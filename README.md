@@ -101,9 +101,6 @@ app.templating.helper.productDetailSpecification:
         - { name: templating.helper, alias: productDetailSpecification }
 ```
 
-### used by projects for example
-- E-Commerce-Demo (http://ecommercedemo.pimcore.org)
-
 ## Events
 | Event | Description |
 | ----- | ----------- |
@@ -235,32 +232,3 @@ $newConfig->setO_Id(12345);
 $newConfig->setConfiguration($serializer->serialize($config, 'json'));
 $newConfig->save();
 ```
-
-## Running with Pimcore < 5.4
-With Pimcore 5.4 the location of static Pimcore files like icons has changed. In order to make this bundle work 
-with Pimcore < 5.4, please add following rewrite rule to your `.htaccess`.
-```
-    # rewrite rule for pre pimcore 5.4 core static files
-    RewriteRule ^bundles/pimcoreadmin/(.*) /pimcore/static6/$1 [PT,L]
-``` 
-### Support for textual class ids
-Execute the following statement:
-
-```mysql
-ALTER TABLE bundle_outputdataconfigtoolkit_outputdefinition MODIFY `o_classId` varchar(50);
-```
-
-## Migration from Pimcore 4
-- Change table name from `plugin_outputdataconfigtoolkit_outputdefinition` to 
-`bundle_outputdataconfigtoolkit_outputdefinition`.
-```sql
-RENAME TABLE plugin_outputdataconfigtoolkit_outputdefinition TO bundle_outputdataconfigtoolkit_outputdefinition; 
-```
-- Change namespace from `Elements\OutputDataConfigToolkit` to `OutputDataConfigToolkitBundle`.
-- Removed key value support.
-- Changed permission key to `bundle_outputDataConfigToolkit`, execute following SQL statement
-```sql
-UPDATE users_permission_definitions SET `key` = REPLACE(`key`, 'plugin_outputDataConfigToolkit', 'bundle_outputDataConfigToolkit');
-UPDATE users SET permissions = REPLACE(`permissions`, 'plugin_outputDataConfigToolkit', 'bundle_outputDataConfigToolkit');
-```
-- namespaces for custom operators and values changed from `pimcore.plugin.outputDataConfigToolkit.*` to `pimcore.bundle.outputDataConfigToolkit.*`  
