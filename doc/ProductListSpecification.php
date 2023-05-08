@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Templating\Helper;
+namespace App\Templating\Helper;
 
 
 use OutputDataConfigToolkitBundle\ConfigElement\Operator\Concatenator;
