@@ -2,8 +2,6 @@
   "name": "pimcore/output-data-config-toolkit-bundle",
   "license": "GPL-3.0+",
   "type": "pimcore-bundle",
-  "prefer-stable": true,
-  "minimum-stability": "dev",
   "require": {
     "pimcore/pimcore": "^11.0",
     "symfony/config": "^6.2",
