@@ -17,9 +17,9 @@ jobs:
         strategy:
             matrix:
                 include:
-                    #- { php-version: "8.1", dependencies: "lowest", pimcore_version: "", phpstan_args: "", experimental: false } #reenable if Pimcore 11 is released
-                    - { php-version: "8.1", dependencies: "highest", pimcore_version: "", phpstan_args: "", experimental: false }
-                    - { php-version: "8.1", dependencies: "highest", pimcore_version: "11.x-dev as 11.99.9", phpstan_args: "", experimental: true }
+                    - { php-version: "8.1", dependencies: "lowest", pimcore_version: "", phpstan_args: "", experimental: false }
+                    - { php-version: "8.2", dependencies: "highest", pimcore_version: "", phpstan_args: "", experimental: false }
+                    - { php-version: "8.2", dependencies: "highest", pimcore_version: "11.x-dev as 11.99.9", phpstan_args: "", experimental: true }
         steps:
             - name: "Checkout code"
               uses: "actions/checkout@v2"
