@@ -35,12 +35,12 @@ final class Version20221130082116 extends AbstractMigration
         $table = $schema->getTable('bundle_outputdataconfigtoolkit_outputdefinition');
 
         if ($table->hasColumn('o_classId')) {
-            $query = 'ALTER TABLE `%s` RENAME COLUMN `%s` TO `%s`';
+            $query = 'ALTER TABLE `%s` CHANGE COLUMN `%s` `%s` varchar(50) NOT NULL';
             $this->addSql(sprintf($query, $table->getName(), 'o_classId', 'classId'));
         }
 
         if ($table->hasColumn('o_id')) {
-            $query = 'ALTER TABLE `%s` RENAME COLUMN `%s` TO `%s`';
+            $query = 'ALTER TABLE `%s` CHANGE COLUMN `%s` `%s` int(11) NOT NULL';
             $this->addSql(sprintf($query, $table->getName(), 'o_id', 'objectId'));
         }
     }
@@ -50,12 +50,12 @@ final class Version20221130082116 extends AbstractMigration
         $table = $schema->getTable('bundle_outputdataconfigtoolkit_outputdefinition');
 
         if ($table->hasColumn('classId')) {
-            $query = 'ALTER TABLE `%s` RENAME COLUMN `%s` TO `%s`';
+            $query = 'ALTER TABLE `%s` CHANGE COLUMN `%s` `%s` varchar(50) NOT NULL';
             $this->addSql(sprintf($query, $table->getName(), 'classId', 'o_classId'));
         }
 
         if ($table->hasColumn('objectId')) {
-            $query = 'ALTER TABLE `%s` RENAME COLUMN `%s` TO `%s`';
+            $query = 'ALTER TABLE `%s` CHANGE COLUMN `%s` `%s` int(11) NOT NULL';
             $this->addSql(sprintf($query, $table->getName(), 'objectId', 'o_id'));
         }
     }
