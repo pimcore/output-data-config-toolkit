@@ -1,0 +1,66 @@
+---
+reset: "Vissza\xE1ll\xEDt\xE1s"
+operator_concatenator: Operator Concatenator
+operator_text: Operator Text
+operator_translate_value: Operator Translate Value
+class_definition: Class definition
+operators: Operators
+operator_group: Operator Group
+output_channel_definition: Output Channel Definition
+output_channel_definition_for: Output Channel Definition for
+channel: Channel
+objectid: Object ID
+overwrite/edit: Overwrite/Edit
+outputdataconfig: Output Data Configuration
+attribute_settings: Attribute Settings
+config_title: Title
+config_title_original: Original Title
+config_title_custom: Custom Title
+custom_title: Custom Title
+custom_icon: Custom Icon
+dimension_unit_mode: Dimension Unit Mode
+value_with_unit: Value with Unit
+raw_data: Raw Data
+only_value: Only Value
+config_table: Config Table
+config_whole_table: Get Whole Table
+config_specific_field: Get Specific Field
+row: Row
+column: Column
+text_operator_settings: Operator Text Settings
+glue: Glue
+concatenator_operator_settings: Operator Concatenator Settings
+group_operator_settings: Operator Group Settings
+reset_outputdataconfig: Reset Output Data Config
+reset_outputdataconfig_text: Reset Output Data Config and use it from parent data
+  object.
+error_reseting_output_config: Error during resetting Output Config Data.
+error_opening_output_config: Error during opening Output Config Data.
+output_config_saved: Output Config Data saved successfully
+error_saving_output_config: Error during saving Output Config Data.
+error_getting_field_definition: Error during getting Field Definition.
+operator_table: Operator Table
+table_operator_settings: Operator Table Settings
+operator_tablerow: Operator Table Row
+operator_tablecol: Operator Table Column
+tablecol_operator_settings: Operator Table Column Settings
+colspan: Column span
+permissions_bundle_outputDataConfigToolkit: Output Data Configurations
+bundle_outputDataConfigToolkit: Output Data Configurations
+headline: Headline
+tablerow_operator_settings: Operator Table Row Settings
+force_value: Force Value
+keyvalue_tag_col_group_description: Group Description
+keyvalue_selected_keys: Selected Keys
+format_number: Format number
+precision: Precision
+operator_translate_value_settings: Operator Translate Value Settings
+operator_translate_value_prefix: Prefix
+operator_cell_formater: Operator Cell Formater
+operator_cell_formater_settings: Operator 'Cell Formater' Settings
+operator_cell_formater_css_class: CSS Class
+operator_cell_formater_css_styles: CSS Style
+operator_textaddon: Operator Text Addon
+operator_textaddon_addon: Text Addon
+add_all: Add all
+...
