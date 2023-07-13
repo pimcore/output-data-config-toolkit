@@ -27,6 +27,7 @@ use Pimcore\Model\DataObject\Classificationstore\KeyConfig;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class AdminController
@@ -41,6 +42,16 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     /* @var bool $orderByName */
     private $orderByName = false;
 
+    /**
+    * @return string[]
+    */
+    public static function getSubscribedServices()
+    {
+        $services = parent::getSubscribedServices();
+        $services['translator'] = TranslatorInterface::class;
+        return $services;
+    }
+    
     /**
      * @param Request $request
      *
