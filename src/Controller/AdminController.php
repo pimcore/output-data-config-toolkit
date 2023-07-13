@@ -43,15 +43,16 @@ class AdminController extends \Pimcore\Bundle\AdminBundle\Controller\AdminContro
     private $orderByName = false;
 
     /**
-    * @return string[]
-    */
+     * @return string[]
+     */
     public static function getSubscribedServices()
     {
         $services = parent::getSubscribedServices();
         $services['translator'] = TranslatorInterface::class;
+
         return $services;
     }
-    
+
     /**
      * @param Request $request
      *
