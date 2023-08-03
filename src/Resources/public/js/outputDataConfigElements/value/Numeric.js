@@ -24,6 +24,7 @@ pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.Numeric = 
             draggable: true,
             iconCls: "pimcore_icon_" + configAttributes.dataType,
             text: configAttributes.text,
+            qtip: configAttributes.attribute,
             configAttributes: configAttributes,
             isTarget: true,
             leaf: true
@@ -39,6 +40,7 @@ pimcore.bundle.outputDataConfigToolkit.outputDataConfigElements.value.Numeric = 
             isTarget: true,
             leaf: true,
             dataType: source.data.dataType,
+            qtip: source.data.key,
             configAttributes: {
                 label: null,
                 type: this.type,
