@@ -19,7 +19,7 @@ An output data configuration consists of
 ## Configuration
 
 ### Channel Config
-After installing the bundle, a config file is located at `/var/config/outputdataconfig/config.php`. In this config file available output channels can be configured as follows:
+After installing the bundle, a config file is located at `config/pimcore/outputdataconfig/config.php`. In this config file available output channels can be configured as follows:
 
 ```php
 <?php
@@ -94,14 +94,11 @@ A sample template helper see `doc/ProductListSpecification.php`, the needed serv
 ```yml
 # Product Detail Specification Template Helper
 app.templating.helper.productDetailSpecification:
-    class: AppBundle\Templating\Helper\ProductDetailSpecification
+    class: App\Templating\Helper\ProductDetailSpecification
     arguments: ['@translator', '@Pimcore\Localization\IntlFormatter']
     tags:
         - { name: templating.helper, alias: productDetailSpecification }
 ```
-
-### used by projects for example
-- E-Commerce-Demo (http://ecommercedemo.pimcore.org)
 
 ## Events
 | Event | Description |

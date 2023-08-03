@@ -53,6 +53,17 @@ class AdminController extends UserAwareController
     private $orderByName = false;
 
     /**
+     * @return string[]
+     */
+    public static function getSubscribedServices()
+    {
+        $services = parent::getSubscribedServices();
+        $services['translator'] = TranslatorInterface::class;
+
+        return $services;
+    }
+
+    /**
      * @param Request $request
      *
      * @return JsonResponse
