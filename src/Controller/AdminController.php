@@ -55,7 +55,7 @@ class AdminController extends UserAwareController
     /**
      * @return string[]
      */
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         $services = parent::getSubscribedServices();
         $services['translator'] = TranslatorInterface::class;
