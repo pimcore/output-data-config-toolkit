@@ -51,7 +51,7 @@ headline: "\xDCberschrift"
 tablerow_operator_settings: Operator Table Zeile Einstellungen
 force_value: immer Wert anzeigen
 keyvalue_tag_col_group_description: Gruppenbeschreibung
-keyvalue_selected_keys: "Ausgew\xE4hlte Attribute"
+keyvalue_selected_keys: "Ausgew\xE4hlte Schl\xFCssel"
 format_number: Zahl formatieren
 precision: Nachkommastellen
 operator_translate_value_settings: "Operator Wert \xFCbersetzen Einstellungen"
