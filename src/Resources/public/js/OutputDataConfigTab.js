@@ -55,6 +55,7 @@ pimcore.bundle.outputDataConfigToolkit.Tab = Class.create({
                 layout: "fit",
                 iconCls: "bundle_outputdataconfig_icon_material pimcore_material_icon",
                 tbar: toolbarConfig,
+                tooltip: t("outputdataconfig"),
                 listeners: {
                     afterrender: function(){
                         this.layout.insert(this.layout.items.length, this.getGrid());
