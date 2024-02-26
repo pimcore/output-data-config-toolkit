@@ -46,7 +46,6 @@ pimcore.bundle.outputDataConfigToolkit.OutputDataConfigDialog = Class.create(pim
             width: 850,
             height: 650,
             modal: true,
-            iconCls: "bundle_outputdataconfig_icon",
             title: t('output_channel_definition_for') + " " + t(this.outputConfig.channel),
             layout: "fit",
             items: [this.configPanel]
