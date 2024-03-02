@@ -43,8 +43,10 @@ class Numeric extends DefaultValue
         if ($this->formatNumber) {
             $formatter = \Pimcore::getContainer()->get(\Pimcore\Localization\IntlFormatter::class);
 
-            //TODO consider precision
-            $labeledValue->value = $formatter->formatNumber($labeledValue->value);
+            if (!$labeledValue->empty) {
+                //TODO consider precision
+                $labeledValue->value = $formatter->formatNumber((float)$labeledValue->value);
+            }
         }
 
         return $labeledValue;
