@@ -67,12 +67,12 @@ class Service
         return self::doBuildConfig($jsonConfig, $config, $context);
     }
 
-    private static function locateOperatorConfigClass($configElement): string
+    private static function locateConfigClass(string $type,$configElement): string
     {
         $namespaces = [
-            '\\OutputDataConfigToolkitBundle\\ConfigElement\\Operator\\',
-            '\\App\\OutputDataConfigToolkit\\ConfigElement\\Operator\\',
-            '\\AppBundle\\OutputDataConfigToolkit\\ConfigElement\\Operator\\'
+            '\\AppBundle\\OutputDataConfigToolkit\\ConfigElement\\' . $type . '\\',
+            '\\App\\OutputDataConfigToolkit\\ConfigElement\\' . $type . '\\',
+            '\\OutputDataConfigToolkitBundle\\ConfigElement\\' . $type . '\\',
         ];
 
         foreach ($namespaces as $namespace) {
@@ -90,13 +90,13 @@ class Service
         if (!empty($jsonConfig)) {
             foreach ($jsonConfig as $configElement) {
                 if ($configElement->type == 'value') {
-                    $name = '\\OutputDataConfigToolkitBundle\\ConfigElement\\Value\\' . ucfirst($configElement->class);
+                    $name = self::locateConfigClass('Value' , $configElement);
 
                     if (class_exists($name)) {
                         $config[] = new $name($configElement, $context);
                     }
                 } elseif ($configElement->type == 'operator') {
-                    $className = self::locateOperatorConfigClass($configElement);
+                    $className = self::locateConfigClass('Operator' , $configElement);
                     if (!empty($configElement->childs)) {
                         $configElement->childs = self::doBuildConfig($configElement->childs, [], $context);
                     }
