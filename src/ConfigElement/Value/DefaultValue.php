@@ -154,7 +154,8 @@ class DefaultValue extends AbstractConfigElement
         return null;
     }
 
-    protected function getLabeledValueForClassificationStore($object): ?object {
+    protected function getLabeledValueForClassificationStore($object): ?object
+    {
         // checking classification store fieldname
         if (!$this->classificationstore) {
             return null;
