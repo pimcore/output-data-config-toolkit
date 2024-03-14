@@ -15,6 +15,8 @@
 
 namespace OutputDataConfigToolkitBundle\ConfigElement\Operator;
 
+use OutputDataConfigToolkitBundle\ConfigElement\AbstractConfigElement;
+
 class TranslateValue extends AbstractOperator
 {
     private $prefix;
@@ -31,8 +33,12 @@ class TranslateValue extends AbstractOperator
         $childs = $this->getChilds();
         if ($childs) {
             $translator = \Pimcore::getContainer()->get('translator');
-
-            $value = $childs[0]->getLabeledValue($object);
+            $c = $childs[0];
+            if ($c instanceof AbstractConfigElement) {
+                $c->setClassificationstore($this->getClassificationstore());
+                $c->setClassificationstoreGroup($this->getClassificationstoreGroup());
+            }
+            $value = $c->getLabeledValue($object);
             if ($value->value) {
                 $value->value = $translator->trans($this->prefix . $value->value);
             }

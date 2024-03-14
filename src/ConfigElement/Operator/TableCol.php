@@ -15,6 +15,8 @@
 
 namespace OutputDataConfigToolkitBundle\ConfigElement\Operator;
 
+use OutputDataConfigToolkitBundle\ConfigElement\AbstractConfigElement;
+
 class TableCol extends AbstractOperator
 {
     protected $colspan;
@@ -34,7 +36,12 @@ class TableCol extends AbstractOperator
 
         $childs = $this->getChilds();
         if ($childs) {
-            $value = $childs[0]->getLabeledValue($object);
+            $c = $childs[0];
+            if ($c instanceof AbstractConfigElement) {
+                $c->setClassificationstore($this->getClassificationstore());
+                $c->setClassificationstoreGroup($this->getClassificationstoreGroup());
+            }
+            $value = $c->getLabeledValue($object);
             $value->colSpan = $this->colspan;
             $value->headline = $this->headline;
 

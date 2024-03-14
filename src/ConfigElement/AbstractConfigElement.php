@@ -22,6 +22,12 @@ abstract class AbstractConfigElement implements IConfigElement
 
     protected $context;
 
+    /** @var string|null */
+    public ?string $classificationstore = null;
+
+    /** @var string|null */
+    public ?string $classificationstore_group = null;
+
     public function __construct($config, $context = null)
     {
         $this->attribute = $config->attribute ?? null;
@@ -33,5 +39,25 @@ abstract class AbstractConfigElement implements IConfigElement
     public function getLabel()
     {
         return $this->label;
+    }
+
+    public function getClassificationstore(): ?string
+    {
+        return $this->classificationstore;
+    }
+
+    public function getClassificationstoreGroup(): ?string
+    {
+        return $this->classificationstore_group;
+    }
+
+    public function setClassificationstore(?string $classificationstore): void
+    {
+        $this->classificationstore = $classificationstore;
+    }
+
+    public function setClassificationstoreGroup(?string $classificationstore_group): void
+    {
+        $this->classificationstore_group = $classificationstore_group;
     }
 }

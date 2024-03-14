@@ -15,6 +15,8 @@
 
 namespace OutputDataConfigToolkitBundle\ConfigElement\Operator;
 
+use OutputDataConfigToolkitBundle\ConfigElement\AbstractConfigElement;
+
 class TextAddon extends AbstractOperator
 {
     private $addon;
@@ -30,7 +32,12 @@ class TextAddon extends AbstractOperator
     {
         $childs = $this->getChilds();
         if (!empty($childs)) {
-            $value = $childs[0]->getLabeledValue($object);
+            $c = $childs[0];
+            if ($c instanceof AbstractConfigElement) {
+                $c->setClassificationstore($this->getClassificationstore());
+                $c->setClassificationstoreGroup($this->getClassificationstoreGroup());
+            }
+            $value = $c->getLabeledValue($object);
 
             if (!is_null($value->value)) {
                 $value->value = $value->value.$this->getAddon();

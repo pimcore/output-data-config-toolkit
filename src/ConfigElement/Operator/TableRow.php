@@ -15,6 +15,8 @@
 
 namespace OutputDataConfigToolkitBundle\ConfigElement\Operator;
 
+use OutputDataConfigToolkitBundle\ConfigElement\AbstractConfigElement;
+
 class TableRow extends AbstractOperator
 {
     protected $headline;
@@ -35,6 +37,10 @@ class TableRow extends AbstractOperator
         $valueArray = [];
 
         foreach ($childs as $c) {
+            if ($c instanceof AbstractConfigElement) {
+                $c->setClassificationstore($this->getClassificationstore());
+                $c->setClassificationstoreGroup($this->getClassificationstoreGroup());
+            }
             $col = $c->getLabeledValue($object);
             if (!empty($col) && (!$col->empty && !($c instanceof \OutputDataConfigToolkitBundle\ConfigElement\Operator\Text))) {
                 $isEmpty = false;
