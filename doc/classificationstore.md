@@ -16,7 +16,10 @@ different display modes for classification store keys in the output definition c
 for eq. 
 ```php
     $outputDataConfig = OutputDataConfigToolkitBundle\Service::getOutputDataConfig($object, 'Output config channel');
-    $outputDataConfig[0]->classificationstore = 'Attributes';     ### classificationstore field name in object 
-    $outputDataConfig[0]->classificationstore_group = 'Product';  ### Classificationstore group name
+    $outputDataConfig[0]->setClassificationstore('Attributes');     ### classificationstore field name in object 
+    $outputDataConfig[0]->setClassificationstoreGroup('Product');  ### Classificationstore group name
+    # the old way was access the values directly
+    // $outputDataConfig[0]->classificationstore = 'Attributes';     ### classificationstore field name in object 
+    // $outputDataConfig[0]->classificationstore_group = 'Product';  ### Classificationstore group name
     $outputDataConfig[0]->getLabeledValue($object);
 ```

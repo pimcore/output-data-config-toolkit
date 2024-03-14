@@ -15,6 +15,8 @@
 
 namespace OutputDataConfigToolkitBundle\ConfigElement\Operator;
 
+use OutputDataConfigToolkitBundle\ConfigElement\AbstractConfigElement;
+
 class Table extends AbstractOperator
 {
     protected $tooltip;
@@ -37,6 +39,10 @@ class Table extends AbstractOperator
         $isEmpty = false;
         $valueArray = [];
         foreach ($childs as $c) {
+            if ($c instanceof AbstractConfigElement) {
+                $c->setClassificationstore($this->getClassificationstore());
+                $c->setClassificationstoreGroup($this->getClassificationstoreGroup());
+            }
             $row = $c->getLabeledValue($object);
             $valueArray[] = $row;
             $isEmpty = $row->empty;

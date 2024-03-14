@@ -15,6 +15,8 @@
 
 namespace OutputDataConfigToolkitBundle\ConfigElement\Operator;
 
+use OutputDataConfigToolkitBundle\ConfigElement\AbstractConfigElement;
+
 class Group extends AbstractOperator
 {
     public function getLabeledValue($object)
@@ -23,6 +25,10 @@ class Group extends AbstractOperator
 
         $childs = $this->getChilds();
         foreach ($childs as $c) {
+            if ($c instanceof AbstractConfigElement) {
+                $c->setClassificationstore($this->getClassificationstore());
+                $c->setClassificationstoreGroup($this->getClassificationstoreGroup());
+            }
             $value = $c->getLabeledValue($object);
             if (!empty($value) && !$value->empty && (!method_exists($value, 'isEmpty') || !$value->isEmpty())) {
                 $valueArray[] = $value;
