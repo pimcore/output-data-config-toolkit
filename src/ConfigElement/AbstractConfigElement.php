@@ -35,7 +35,8 @@ abstract class AbstractConfigElement implements IConfigElement
         return $this->label;
     }
 
-    public function getAttribute() {
+    public function getAttribute()
+    {
         return $this->attribute;
     }
 }
