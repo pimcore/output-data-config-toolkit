@@ -77,40 +77,7 @@ class DefaultValue extends AbstractConfigElement
                 $brickGetter = 'get' . ucfirst($brickKey);
             }
         } elseif (substr($this->attribute, 0, 4) == '#cs#') {
-            // checking classification store fieldname
-            if (!$this->classificationstore) {
-                return null;
-            }
-            $getter = 'get' . ucfirst($this->classificationstore);
-            // checking classification sote group
-            if (!$this->classificationstore_group) {
-                return null;
-            }
-            $groupDef = Classificationstore\GroupConfig::getByName($this->classificationstore_group);
-
-            // classification store
-            $attribute = str_replace('#cs#', '', $this->attribute);
-            list($keyId) = explode('#', $attribute);
-
-            $value = $object->$getter()->getLocalizedKeyValue($groupDef->getId(), $keyId);
-
-            $result = new \stdClass();
-            $result->value = $value;
-            $result->label = $this->label;
-            $result->attribute = $this->attribute;
-
-            $config = Classificationstore\KeyConfig::getById((int) $keyId);
-            if ($config) {
-                $result->def = Classificationstore\Service::getFieldDefinitionFromKeyConfig($config);
-            }
-
-            if (empty($value) || (is_object($value) && method_exists($value, 'isEmpty') && $value->isEmpty())) {
-                $result->empty = true;
-            } else {
-                $result->empty = false;
-            }
-
-            return $result;
+            return $this->getLabeledValueForClassificationStore($object);
         }
         if (method_exists($object, $getter)
             || (class_exists(DefaultMockup::class) && $object instanceof DefaultMockup)) {
@@ -185,5 +152,43 @@ class DefaultValue extends AbstractConfigElement
         }
 
         return null;
+    }
+
+    protected function getLabeledValueForClassificationStore($object): ?object
+    {
+        // checking classification store fieldname
+        if (!$this->classificationstore) {
+            return null;
+        }
+        $getter = 'get' . ucfirst($this->classificationstore);
+        // checking classification sote group
+        if (!$this->classificationstore_group) {
+            return null;
+        }
+        $groupDef = Classificationstore\GroupConfig::getByName($this->classificationstore_group);
+
+        // classification store
+        $attribute = str_replace('#cs#', '', $this->attribute);
+        list($keyId) = explode('#', $attribute);
+
+        $value = $object->$getter()->getLocalizedKeyValue($groupDef->getId(), $keyId);
+
+        $result = new \stdClass();
+        $result->value = $value;
+        $result->label = $this->label;
+        $result->attribute = $this->attribute;
+
+        $config = Classificationstore\KeyConfig::getById((int) $keyId);
+        if ($config) {
+            $result->def = Classificationstore\Service::getFieldDefinitionFromKeyConfig($config);
+        }
+
+        if (empty($value) || (is_object($value) && method_exists($value, 'isEmpty') && $value->isEmpty())) {
+            $result->empty = true;
+        } else {
+            $result->empty = false;
+        }
+
+        return $result;
     }
 }
