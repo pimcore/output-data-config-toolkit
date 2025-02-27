@@ -15,11 +15,13 @@
 
 namespace OutputDataConfigToolkitBundle;
 
+use OutputDataConfigToolkitBundle\DependencyInjection\OutputDataConfigToolkitExtension;
 use OutputDataConfigToolkitBundle\Tools\Installer;
 use Pimcore\Extension\Bundle\AbstractPimcoreBundle;
 use Pimcore\Extension\Bundle\PimcoreBundleAdminClassicInterface;
 use Pimcore\Extension\Bundle\Traits\BundleAdminClassicTrait;
 use Pimcore\Extension\Bundle\Traits\PackageVersionTrait;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 
 class OutputDataConfigToolkitBundle extends AbstractPimcoreBundle implements PimcoreBundleAdminClassicInterface
 {
@@ -29,6 +31,11 @@ class OutputDataConfigToolkitBundle extends AbstractPimcoreBundle implements Pim
     protected function getComposerPackageName(): string
     {
         return 'pimcore/output-data-config-toolkit-bundle';
+    }
+
+    public function getContainerExtension(): ExtensionInterface
+    {
+        return new OutputDataConfigToolkitExtension();
     }
 
     public function getCssPaths(): array
