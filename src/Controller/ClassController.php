@@ -138,7 +138,7 @@ class ClassController extends UserAwareController
 
                 try {
                     // @todo: is there a better way to check if a classification group is assigned to the class?
-                    $idField = DataObject\Service::getVersionDependentDatabaseColumnName('id');
+                    $idField = 'id';
                     $enrichment = Db::get()->fetchOne("SELECT EXISTS (SELECT * FROM object_classificationstore_groups_{$class->getId()} WHERE `{$idField}` = '{$targetObjectId}')");
                     if ($enrichment) {
                         DataObject\Service::enrichLayoutDefinition($result['objectColumns']['children'][0], $targetObject);
