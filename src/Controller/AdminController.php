@@ -387,6 +387,7 @@ class AdminController extends UserAwareController
 
     /**
      * @param Request $request
+     *
      * @return JsonResponse
      */
     #[Route('/get-field-definition')]
@@ -406,6 +407,7 @@ class AdminController extends UserAwareController
 
     /**
      * @param Request $request
+     *
      * @return JsonResponse
      */
     #[Route('/save-output-config')]
