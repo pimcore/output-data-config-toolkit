@@ -30,14 +30,13 @@ use Pimcore\Model\DataObject\Objectbrick\Definition;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class AdminController
- *
- * @Route("/admin")
  */
+#[Route('/admin')]
 class AdminController extends UserAwareController
 {
     use JsonHelperTrait;
@@ -67,9 +66,8 @@ class AdminController extends UserAwareController
      * @param Request $request
      *
      * @return JsonResponse
-     *
-     * @Route("/initialize")
      */
+    #[Route('/initialize')]
     public function initializeAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {
         $objectId = $request->query->getInt('id');
@@ -96,9 +94,8 @@ class AdminController extends UserAwareController
      * @param Request $request
      *
      * @return JsonResponse
-     *
-     * @Route("/get-output-configs")
      */
+    #[Route('/get-output-configs')]
     public function getOutputConfigsAction(Request $request)
     {
         Service::initChannelsForRootobject();
@@ -160,9 +157,8 @@ class AdminController extends UserAwareController
      * @param Request $request
      *
      * @return JsonResponse
-     *
-     * @Route("/reset-output-config")
      */
+    #[Route('/reset-output-config')]
     public function resetOutputConfigAction(Request $request)
     {
         try {
@@ -181,9 +177,8 @@ class AdminController extends UserAwareController
      * @param Request $request
      *
      * @return JsonResponse
-     *
-     * @Route("/get-output-config")
      */
+    #[Route('/get-output-config')]
     public function getOutputConfigAction(Request $request)
     {
         try {
@@ -207,9 +202,8 @@ class AdminController extends UserAwareController
      * @param Request $request
      *
      * @return JsonResponse
-     *
-     * @Route("/get-or-create-output-config")
      */
+    #[Route('/get-or-create-output-config')]
     public function getOrCreateOutputConfigAction(Request $request)
     {
         try {
@@ -307,9 +301,8 @@ class AdminController extends UserAwareController
      * @param Request $request
      *
      * @return JsonResponse
-     *
-     * @Route("/get-attribute-labels")
      */
+    #[Route('/get-attribute-labels')]
     public function getAttributeLabelsAction(Request $request)
     {
         $configration = json_decode($request->request->getString('configuration'));
@@ -394,10 +387,9 @@ class AdminController extends UserAwareController
 
     /**
      * @param Request $request
-     * @Route("/get-field-definition")
-     *
      * @return JsonResponse
      */
+    #[Route('/get-field-definition')]
     public function getFieldDefinitionAction(Request $request)
     {
         try {
@@ -414,10 +406,9 @@ class AdminController extends UserAwareController
 
     /**
      * @param Request $request
-     * @Route("/save-output-config")
-     *
      * @return JsonResponse
      */
+    #[Route('/save-output-config')]
     public function saveOutputConfigAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {
         try {
