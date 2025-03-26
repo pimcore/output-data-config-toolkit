@@ -26,7 +26,7 @@ use Pimcore\Model\DataObject\Classificationstore;
 use Pimcore\Model\FactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -46,14 +46,13 @@ class ClassController extends UserAwareController
     protected bool $classificationGroupedDisplay;
 
     /**
-     * @Route("/get-class-definition-for-column-config", methods={"GET"})
-     *
      * @param Request $request
      *
      * @return JsonResponse
      *
      * @throws \Exception
      */
+    #[Route('/get-class-definition-for-column-config', methods: ['GET'])]
     public function getClassDefinitionForColumnConfigAction(Request $request, EventDispatcherInterface $eventDispatcher, FactoryInterface $factory)
     {
         $classId = $request->query->getString('id');
