@@ -1,6 +1,6 @@
 {
   "name": "pimcore/output-data-config-toolkit-bundle",
-  "license": "Pimcore Open Core License (POCL)",
+  "license": "proprietary",
   "type": "pimcore-bundle",
   "prefer-stable": true,
   "minimum-stability": "dev",
