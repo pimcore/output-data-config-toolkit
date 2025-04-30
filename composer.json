@@ -1,6 +1,6 @@
 {
   "name": "pimcore/output-data-config-toolkit-bundle",
-  "license": "GPL-3.0+",
+  "license": "proprietary",
   "type": "pimcore-bundle",
   "prefer-stable": true,
   "minimum-stability": "dev",

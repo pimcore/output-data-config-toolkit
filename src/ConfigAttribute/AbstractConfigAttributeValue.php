@@ -1,16 +1,13 @@
 <?php
 
 /**
- * Pimcore
- *
- * This source file is available under two different licenses:
- * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Commercial License (PCL)
+ * This source file is available under the terms of the
+ * Pimcore Open Core License (POCL)
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- *  @license    http://www.pimcore.org/license     GPLv3 and PCL
+ *  @copyright  Copyright (c) Pimcore GmbH (https://www.pimcore.com)
+ *  @license    Pimcore Open Core License (POCL)
  */
 
 namespace OutputDataConfigToolkitBundle\ConfigAttribute;
@@ -24,16 +21,16 @@ use Pimcore\Model\DataObject\Classificationstore\KeyConfig;
  */
 abstract class AbstractConfigAttributeValue extends AbstractConfigAttribute
 {
-    /* @var string|null $attribute */
+    // @var string|null $attribute
     protected $attribute;
 
-    /* @var string|null $dataType */
+    // @var string|null $dataType
     protected $dataType;
 
-    /* @var string|null $icon */
+    // @var string|null $icon
     protected $icon;
 
-    /* @var string|null $text */
+    // @var string|null $text
     protected $text;
 
     /**
