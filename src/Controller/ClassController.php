@@ -12,6 +12,7 @@
 
 namespace OutputDataConfigToolkitBundle\Controller;
 
+use Pimcore\Helper\ParameterBagHelper;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use OutputDataConfigToolkitBundle\Constant\ColumnConfigDisplayMode;
 use OutputDataConfigToolkitBundle\Event;
@@ -54,7 +55,7 @@ class ClassController extends UserAwareController
     {
         $classId = $request->query->getString('id');
         $class = DataObject\ClassDefinition::getById($classId);
-        $objectId = $request->query->getInt('oid');
+        $objectId = ParameterBagHelper::getInt($request->query, 'oid');
 
         $filteredDefinitions = DataObject\Service::getCustomLayoutDefinitionForGridColumnConfig($class, $objectId);
 
@@ -128,7 +129,7 @@ class ClassController extends UserAwareController
         $enrichment = false;
         $grouped = $this->getClassificationGroupedDisplay();
         if ($displayMode == ColumnConfigDisplayMode::DATA_OBJECT || $displayMode == ColumnConfigDisplayMode::RELEVANT) {
-            $targetObjectId = $request->query->getInt('target_oid');
+            $targetObjectId = ParameterBagHelper::getInt($request->query, 'target_oid');
 
             if ($targetObject = DataObject\Concrete::getById($targetObjectId)) {
                 $class->setFieldDefinitions($fieldDefinitions);

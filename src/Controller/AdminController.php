@@ -12,6 +12,7 @@
 
 namespace OutputDataConfigToolkitBundle\Controller;
 
+use Pimcore\Helper\ParameterBagHelper;
 use OutputDataConfigToolkitBundle\Event\InitializeEvent;
 use OutputDataConfigToolkitBundle\Event\OutputDataConfigToolkitEvents;
 use OutputDataConfigToolkitBundle\Event\SaveConfigEvent;
@@ -67,7 +68,7 @@ class AdminController extends UserAwareController
     #[Route('/initialize')]
     public function initializeAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {
-        $objectId = $request->query->getInt('id');
+        $objectId = ParameterBagHelper::getInt($request->query, 'id');
         $object = AbstractObject::getById($objectId);
 
         if (!$object) {
@@ -98,7 +99,7 @@ class AdminController extends UserAwareController
         Service::initChannelsForRootobject();
         $channels = Service::getChannels();
 
-        $objectId = $request->request->getInt('object_id');
+        $objectId = ParameterBagHelper::getInt($request->request, 'object_id');
         $object = AbstractObject::getById($objectId);
 
         $classList = $this->getFilteredClassDefinitionList($request);
@@ -159,7 +160,7 @@ class AdminController extends UserAwareController
     public function resetOutputConfigAction(Request $request)
     {
         try {
-            $config = OutputDefinition::getById($request->query->getInt('config_id'));
+            $config = OutputDefinition::getById(ParameterBagHelper::getInt($request->query, 'config_id'));
             $config->delete();
 
             return $this->jsonResponse(['success' => true]);
@@ -179,7 +180,7 @@ class AdminController extends UserAwareController
     public function getOutputConfigAction(Request $request)
     {
         try {
-            $config = OutputDefinition::getById($request->query->getInt('config_id'));
+            $config = OutputDefinition::getById(ParameterBagHelper::getInt($request->query, 'config_id'));
 
             $objectClass = ClassDefinition::getById($config->getClassId());
             $configuration = json_decode($config->getConfiguration());
@@ -204,7 +205,7 @@ class AdminController extends UserAwareController
     public function getOrCreateOutputConfigAction(Request $request)
     {
         try {
-            $config = OutputDefinition::getById($request->query->getInt('config_id'));
+            $config = OutputDefinition::getById(ParameterBagHelper::getInt($request->query, 'config_id'));
             $class = null;
             if (!$config) {
                 if ($request->query->has('class_id')) {
@@ -214,7 +215,7 @@ class AdminController extends UserAwareController
                     throw new \Exception('Class ' . $request->query->getString('class_id') . ' not found.');
                 }
 
-                $config = OutputDefinition::getByObjectIdClassIdChannel($request->query->getInt('objectId'), $class->getId(), $request->query->getString('channel'));
+                $config = OutputDefinition::getByObjectIdClassIdChannel(ParameterBagHelper::getInt($request->query, 'objectId'), $class->getId(), $request->query->getString('channel'));
             }
 
             if ($config) {
@@ -228,7 +229,7 @@ class AdminController extends UserAwareController
                 $config = new OutputDefinition();
                 $config->setChannel($request->query->getString('channel'));
                 $config->setClassId($class->getId());
-                $config->setObjectId($request->query->getInt('objectId'));
+                $config->setObjectId(ParameterBagHelper::getInt($request->query, 'objectId'));
                 $config->save();
 
                 return $this->jsonResponse(['success' => true, 'outputConfig' => $config]);
@@ -412,13 +413,13 @@ class AdminController extends UserAwareController
     public function saveOutputConfigAction(Request $request, EventDispatcherInterface $eventDispatcher)
     {
         try {
-            $config = OutputDefinition::getById($request->request->getInt('config_id'));
+            $config = OutputDefinition::getById(ParameterBagHelper::getInt($request->request, 'config_id'));
 
-            $object = AbstractObject::getById($request->request->getInt('object_id'));
+            $object = AbstractObject::getById(ParameterBagHelper::getInt($request->request, 'object_id'));
             if (empty($object)) {
-                throw new \Exception('Data Object with ID' . $request->request->getInt('object_id') . ' not found.');
+                throw new \Exception('Data Object with ID' . ParameterBagHelper::getInt($request->request, 'object_id') . ' not found.');
             }
-            if ($config->getObjectId() != $request->request->getInt('object_id')) {
+            if ($config->getObjectId() != ParameterBagHelper::getInt($request->request, 'object_id')) {
                 $newConfig = new OutputDefinition();
                 $newConfig->setChannel($config->getChannel());
                 $newConfig->setClassId($config->getClassId());
