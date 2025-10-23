@@ -12,7 +12,6 @@
 
 namespace OutputDataConfigToolkitBundle\Controller;
 
-use Pimcore\Helper\ParameterBagHelper;
 use OutputDataConfigToolkitBundle\Event\InitializeEvent;
 use OutputDataConfigToolkitBundle\Event\OutputDataConfigToolkitEvents;
 use OutputDataConfigToolkitBundle\Event\SaveConfigEvent;
@@ -20,6 +19,7 @@ use OutputDataConfigToolkitBundle\OutputDefinition;
 use OutputDataConfigToolkitBundle\Service;
 use Pimcore\Controller\Traits\JsonHelperTrait;
 use Pimcore\Controller\UserAwareController;
+use Pimcore\Helper\ParameterBagHelper;
 use Pimcore\Logger;
 use Pimcore\Model\DataObject\AbstractObject;
 use Pimcore\Model\DataObject\ClassDefinition;

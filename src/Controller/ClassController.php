@@ -12,13 +12,13 @@
 
 namespace OutputDataConfigToolkitBundle\Controller;
 
-use Pimcore\Helper\ParameterBagHelper;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use OutputDataConfigToolkitBundle\Constant\ColumnConfigDisplayMode;
 use OutputDataConfigToolkitBundle\Event;
 use Pimcore\Controller\Traits\JsonHelperTrait;
 use Pimcore\Controller\UserAwareController;
 use Pimcore\Db;
+use Pimcore\Helper\ParameterBagHelper;
 use Pimcore\Model\DataObject;
 use Pimcore\Model\DataObject\Classificationstore;
 use Pimcore\Model\FactoryInterface;
