@@ -1,5 +1,8 @@
 # OutputDataConfigToolkit
 
+> [!WARNING]
+> This bundle won't be migrated to Pimcore Studio and therefore will be deprecated with 6.2.
+
 This toolkit provides an user interface to create output formats for data objects based on different output channels.
 So it is possible to define, which attributes of a data objects should be printed in a certain output channel.
 An output data configuration consists of
