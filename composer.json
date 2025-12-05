@@ -24,6 +24,9 @@
     }
   },
   "extra": {
+    "branch-alias": {
+      "dev-6.x": "6.2.x-dev"
+    },
     "pimcore": {
       "bundles": [
         "OutputDataConfigToolkitBundle\\OutputDataConfigToolkitBundle"
