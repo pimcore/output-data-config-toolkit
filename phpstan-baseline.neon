@@ -1,2 +1,5 @@
 parameters:
 	ignoreErrors:
+		-
+			message: '#Call to method (arrayNode|children|append|integerNode|scalarNode|booleanNode|enumNode|variableNode)\(\) on an unknown class#'
+			path: src/DependencyInjection/Configuration.php
