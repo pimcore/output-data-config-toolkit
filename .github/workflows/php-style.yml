@@ -1,6 +1,15 @@
 name: PHP Style
 
-on: [push]
+on:
+    push:
+        branches:
+            - "[0-9]+.[0-9]+"
+            - "[0-9]+.x"
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+    cancel-in-progress: true
+
 
 jobs:
     php-cs-fixer:
