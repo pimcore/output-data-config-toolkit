@@ -7,12 +7,18 @@ on:
   pull_request:
     types: [ opened, synchronize, reopened ]
     paths-ignore:
+      - 'assets/**'
+      - 'assets-customized/**'
       - 'doc/**'
+      - 'install/**'
       - 'src/Resources/public/**'
       - '**.md'
   push:
     paths-ignore:
+      - 'assets/**'
+      - 'assets-customized/**'
       - 'doc/**'
+      - 'install/**'
       - 'src/Resources/public/**'
       - '**.md'
     branches:
